@@ -1,3 +1,5 @@
+//This file stays for now cause i love my Hello World :)
+
 package com.example.Plant_tracker.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,4 +12,6 @@ public class HelloWorld {
     public String helloWorld() {
         return "Hello, World!";
     }
+
+    
 }

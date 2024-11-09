@@ -1,5 +1,6 @@
 package com.example.Plant_tracker.models;
 
+// import jakarta.persistence.*;
 import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,8 +12,10 @@ import lombok.AllArgsConstructor;
 @Setter
 @AllArgsConstructor
 public class User {
+    
     private int userId;
     private String name;
     private String password;
-    private ArrayList <UserPlant> userPlants;
+
+    private ArrayList<UserPlant> userPlants;  
 }

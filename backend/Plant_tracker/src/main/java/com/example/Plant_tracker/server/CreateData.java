@@ -5,6 +5,9 @@ import com.example.Plant_tracker.models.User;
 import com.example.Plant_tracker.models.UserPlant;
 import com.example.Plant_tracker.models.Species;
 import org.springframework.stereotype.Service;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,16 +18,16 @@ import java.util.HashMap;
 @Service
 public class CreateData {
 
-    public List<User> createUsersWithPlants() {
+    public ArrayList<User> createUsersWithPlants() {
 
-        Species aloe = new Species("001", "Aloe Vera");
-        Species cactus = new Species("002", "Cactus");
+        Species aloe = new Species(0, "Aloe Vera");
+        Species cactus = new Species(1, "Cactus");
 
         UserPlant plant1 = new UserPlant(0, "Aloe Vera Plant", aloe, LocalDateTime.now().minusDays(1),
-                LocalDateTime.now().minusMonths(3), new HashMap<>(), new HashMap<>());
+                LocalDateTime.now().minusMonths(3), new ArrayList<>(), new ArrayList<>());
         
-        UserPlant plant2 = new UserPlant(0, "Small Cactus", cactus, LocalDateTime.now().minusDays(3),
-                LocalDateTime.now().minusMonths(1), new HashMap<>(), new HashMap<>());
+        UserPlant plant2 = new UserPlant(1, "Small Cactus", cactus, LocalDateTime.now().minusDays(3),
+                LocalDateTime.now().minusMonths(1), new ArrayList<>(), new ArrayList<>());
 
         // Creating plants array for user
         ArrayList<UserPlant> userPlants = new ArrayList<>();

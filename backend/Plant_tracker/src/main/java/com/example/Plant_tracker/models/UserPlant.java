@@ -1,11 +1,13 @@
 package com.example.Plant_tracker.models;
 
+// import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.AllArgsConstructor;
 
+import java.util.List;
+import java.util.ArrayList;
 
 
 @Getter
@@ -13,12 +15,13 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UserPlant {
 
+   
     private int id_plant;
-    private String name;   
+    private String name; 
     private Species species;
     private LocalDateTime lastWatered;
     private LocalDateTime created;
-    private HashMap<String, Event> lastEvents;
-    private HashMap<String, Action> lastActions;
+    private ArrayList<Event> lastEvents;
+    private ArrayList<Action> lastActions;
 
 }

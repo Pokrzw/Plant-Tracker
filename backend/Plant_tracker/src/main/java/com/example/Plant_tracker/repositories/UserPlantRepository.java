@@ -1,8 +1,24 @@
-// package com.example.Plant_tracker.repositories;
+package com.example.Plant_tracker.repositories;
 
-// import com.example.Plant_tracker.models.UserPlant2;
-// import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.Plant_tracker.models.UserPlant;
+import com.example.Plant_tracker.models.Species;
 
-// public interface UserPlantRepository extends JpaRepository<UserPlant2, Long>  {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface UserPlantRepository extends JpaRepository<UserPlant, Long>  {
     
-// }
+    List<UserPlant> findByUserId(Long userId);
+
+    List<UserPlant> findAllByOrderByCreatedAsc(); 
+
+    List<UserPlant> findAllByOrderByCreatedDesc(); 
+
+    List<UserPlant> findAllByOrderByLastWateredAsc();
+
+    List<UserPlant> findAllByOrderByLastWateredDesc();
+
+    List<UserPlant> findByUserIdAndSpeciesIn(Long userId, List<Species> species);
+
+}

@@ -1,27 +1,42 @@
 package com.example.Plant_tracker.models;
 
-// import jakarta.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.ArrayList;
+
 
 
 @Getter
 @Setter
-@AllArgsConstructor
+@NoArgsConstructor
+@Entity
 public class UserPlant {
 
-   
-    private int id_plant;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  
+    private Long id;
     private String name; 
-    private Species species;
+    private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private AppUser user;
+
+    @ManyToOne 
+    @JoinColumn(name = "species_id", referencedColumnName = "id")  
+    private Species species;  
+
     private LocalDateTime lastWatered;
     private LocalDateTime created;
-    private ArrayList<Event> lastEvents;
-    private ArrayList<Action> lastActions;
+
+    @OneToMany(mappedBy = "plant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)  
+    private List<Event> lastEvents;
+
+    @OneToMany(mappedBy = "plant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Action> lastActions;
 
 }

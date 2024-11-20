@@ -27,21 +27,21 @@
 //     private UserPlantRepository userPlantRepository;
 
 
-//     @Autowired
-//     private JdbcTemplate jdbcTemplate;  // Wstrzykujemy JdbcTemplate
+//     // @Autowired
+//     // private JdbcTemplate jdbcTemplate;  // Wstrzykujemy JdbcTemplate
 
-//     public void showTables() {
-//         String sql = "SELECT table_name " +
-//                      "FROM information_schema.tables " +
-//                      "WHERE table_schema = 'public' " +
-//                      "AND table_type = 'BASE TABLE'";
+//     // public void showTables() {
+//     //     String sql = "SELECT table_name " +
+//     //                  "FROM information_schema.tables " +
+//     //                  "WHERE table_schema = 'public' " +
+//     //                  "AND table_type = 'BASE TABLE'";
 
-//         // Wykonanie zapytania SQL
-//         List<String> tables = jdbcTemplate.queryForList(sql, String.class);
+//     //     // Wykonanie zapytania SQL
+//     //     List<String> tables = jdbcTemplate.queryForList(sql, String.class);
 
-//         // Wyświetlanie nazw tabel
-//         tables.forEach(System.out::println);
-//     }
+//     //     // Wyświetlanie nazw tabel
+//     //     tables.forEach(System.out::println);
+//     //}
 
 
 // }

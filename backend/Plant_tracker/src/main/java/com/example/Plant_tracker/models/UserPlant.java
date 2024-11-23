@@ -1,5 +1,6 @@
 package com.example.Plant_tracker.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class UserPlant {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonIgnore
     private AppUser user;
 
     @ManyToOne 

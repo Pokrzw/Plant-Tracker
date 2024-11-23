@@ -6,7 +6,7 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 import java.util.List;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -19,6 +19,7 @@ public class Species {
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "species", cascade = CascadeType.ALL)  
+    @JsonIgnore
+    @OneToMany(mappedBy = "species", cascade = CascadeType.ALL, fetch = FetchType.LAZY) 
     private List<UserPlant> userPlants;  
 }

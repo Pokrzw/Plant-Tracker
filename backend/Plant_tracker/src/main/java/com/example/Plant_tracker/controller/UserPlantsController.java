@@ -51,6 +51,27 @@ public class UserPlantsController {
         return userPlantManager.getFilteredUserPlantsBySpecies(userId, speciesEntities);
     }
 
+    @GetMapping("/species")
+    public List<Species> getSpecies() {
+        return speciesManager.getSpecies();
+    }
+
+    //Nowa roślinka dla użytkownika
+    @PostMapping("/{userId}")
+    public ResponseEntity<String> getAllUserPlants(@PathVariable Long userId, @RequestBody UserPlant newPlant) {
+       // Znajdź użytkownika po ID
+        if (userPlantManager.addPlantForUser(userId, newPlant)) {
+            return ResponseEntity.status(HttpStatus.CREATED).body("Plant added successfully!");
+        };
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Plant not created!");
+        
+    }
+
+    
+
+
+
+
     // @GetMapping("/{id}")
     // public User getUserById(@PathVariable int id) {
     //     return users.get(id);

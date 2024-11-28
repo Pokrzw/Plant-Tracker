@@ -3,6 +3,9 @@
 package com.example.Plant_tracker.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +45,7 @@ public class UserPlantsController {
         return userPlantManager.getAllUserPlants(userId);
     }
 
-    //Przykład: http://localhost:8080/filter/123/1,2,3
+    //Przykład: http://localhost:8080/plants/filter/123/1,2,3
     @GetMapping("/filter/{userId}/{speciesNames}")
     public List<UserPlant> getFilteredUserPlants(
             @PathVariable Long userId,
@@ -58,7 +61,7 @@ public class UserPlantsController {
 
     //Nowa roślinka dla użytkownika
     @PostMapping("/{userId}")
-    public ResponseEntity<String> getAllUserPlants(@PathVariable Long userId, @RequestBody UserPlant newPlant) {
+    public ResponseEntity<String> addUserPlant(@PathVariable Long userId, @RequestBody UserPlant newPlant) {
        // Znajdź użytkownika po ID
         if (userPlantManager.addPlantForUser(userId, newPlant)) {
             return ResponseEntity.status(HttpStatus.CREATED).body("Plant added successfully!");
@@ -67,66 +70,51 @@ public class UserPlantsController {
         
     }
 
+    //http://localhost:8080/plants/{userId}/{plantId}
+    @DeleteMapping("/{userId}/{plantId}")
+    public ResponseEntity<String> deletePlant(@PathVariable Long userId, @PathVariable Long plantId){
+        String response = userPlantManager.deletePlant(userId, plantId);
+        if (response.equals("Plant not found")) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Plant not found");
+        }
+        if (response.equals("You are not authorized to delete this plant")) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to delete this plant");
+        }
+        return ResponseEntity.ok("Plant successfully deleted");
+    }
+
+
+    @PutMapping("/{userId}/{plantId}")
+    public ResponseEntity<String> updatePlant(
+        @PathVariable Long userId,
+        @PathVariable Long plantId,
+        @RequestBody UserPlant updatedPlantData
+        ) {
+        String response = userPlantManager.updatePlant(userId, plantId, updatedPlantData);
+        if (response.equals("Plant not found")) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Plant not found");
+        }
+        if (response.equals("You are not authorized to delete this plant")) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to delete this plant");
+        }
+        return ResponseEntity.ok("Plant updated successfully");
+        }
+
+    @GetMapping("/search/{userId}")
+    public List<UserPlant> getPlantsByNamePrefix(@PathVariable Long userId, @RequestParam String prefix) {
+        return userPlantManager.getPlantsByNameRegex(userId, prefix);
+    }
+
     
-
-
-
-
-    // @GetMapping("/{id}")
-    // public User getUserById(@PathVariable int id) {
-    //     return users.get(id);
-    // }
-
-
-
-    // @PutMapping("/{userId}/plants/{plantId}")
-    // public ResponseEntity<String> updateUserPlant(
-    //         @PathVariable int userId,
-    //         @PathVariable int plantId,
-    //         @RequestBody UserPlant updatedPlant) {
-
-    //     // Check if the user exists
-    //     if (userId < 0 || userId >= users.size()) {
-    //         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with ID " + userId + " not found.");
-    //     }
-
-    //     ArrayList<UserPlant> plants = users.get(userId).getUserPlants();
-    //     List<UserPlant> filteredPlant = plants.stream()
-    //             .filter(plant -> plant.getId_plant() == plantId)
-    //             .collect(Collectors.toList());
-
-    //     if (!filteredPlant.isEmpty()) {
-    //         UserPlant plant = filteredPlant.get(0);
-    //         plant.setName(updatedPlant.getName());
-    //         // plant.setSpecies(updatedPlant.getSpecies());
-    //         plant.setLastWatered(updatedPlant.getLastWatered());
-    //         plant.setCreated(updatedPlant.getCreated());
-    //         return ResponseEntity.ok("Plant with ID " + plantId + " updated for user with ID " + userId);
-    //     } else {
-    //         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Plant with ID " + plantId + " not found for user with ID " + userId);
-    //     }
-    // }
-
-
-    // @DeleteMapping("/{id}/plants/{plantId}")
-    // public ResponseEntity<String> deleteUserPlantById(@PathVariable int id,@PathVariable int plantId ) {
-    //     User user = users.get(id);
-    //     if (user != null) {
-    //         boolean removed = user.getUserPlants().removeIf(plant -> plant.getId_plant() == plantId);
-    //         if (removed) {
-    //             return ResponseEntity.ok("Plant with ID " + plantId + " deleted for user with ID " + id);
-    //         } 
-    //     }
-    //     return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with ID " + id + " not found.");    
-    // }
-
+    
 
 }
 
 // sortowanie po roślinach wymagających opieki
-// kiedy jest niepodlewana od ddawwna
-// szukanie pi gatunkach
-// szukanie po nazwie
+// kiedy jest niepodlewana od dawwna
 // moja roślinka ma sprawdzać, czy ostatnie podlanie było dawniej niż ww tej bazie danych
 
+
+// HSQLDB
+//pobrać hsql ze strony
 

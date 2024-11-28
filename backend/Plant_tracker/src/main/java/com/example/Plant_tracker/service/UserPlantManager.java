@@ -11,10 +11,11 @@ import com.example.Plant_tracker.repositories.AppUserRepository;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
-
-
+import java.util.Optional;
+import java.time.LocalDateTime;
 import java.util.List;
+
+
 @NoArgsConstructor
 @Service
 public class UserPlantManager {
@@ -56,7 +57,7 @@ public class UserPlantManager {
             .orElseThrow(() -> new RuntimeException("Species not found"));
             if (user != null && species != null) {            newPlant.setSpecies(species);
             newPlant.setUser(user);
-    
+            newPlant.setCreated(LocalDateTime.now());
             // Zapisz roślinę
             userPlantRepository.save(newPlant);
     
@@ -68,8 +69,57 @@ public class UserPlantManager {
         return false;
     }
     
+    //usuwanie roślinki
+    public String deletePlant(Long userId, Long plantId) {
+        Optional<UserPlant> optionalPlant = userPlantRepository.findById(plantId);
+        if (optionalPlant.isEmpty()) {
+            return "Plant not found";
+        }
+
+        UserPlant plant = optionalPlant.get();
+        //Walidacja, czy roślinka należy do usera
+        if (!plant.getUser().getId().equals(userId)) {
+            return "You are not authorized to delete this plant";
+        }
+
+        userPlantRepository.delete(plant);
+        return "Plant successfully deleted";
+    }
+
+    public String updatePlant(Long userId, Long plantId, UserPlant updatedPlantData) {
+        Optional<UserPlant> optionalPlant = userPlantRepository.findById(plantId);
+        if (optionalPlant.isEmpty()) {
+            return "Plant not found";
+        }
+        UserPlant plant = optionalPlant.get();
+
+        // Weryfikacja, czy roślinka należy do użytkownika
+        if (!plant.getUser().getId().equals(userId)) {
+            return "You are not authorized to update this plant";
+        }
+
+        // Aktualizacja pól roślinki
+        Optional.ofNullable(updatedPlantData.getName())
+        //Taki zapis skraca labmbdę .ifPresent(name -> plant.setName(name));
+            .ifPresent(plant::setName);
+
+        Optional.ofNullable(updatedPlantData.getDescription())
+            .ifPresent(plant::setDescription);
+
+        Optional.ofNullable(updatedPlantData.getLastWatered())
+            .ifPresent(plant::setLastWatered);
+
+        Optional.ofNullable(updatedPlantData.getSpecies())
+            .ifPresent(plant::setSpecies);
 
 
+        userPlantRepository.save(plant);
+        return "Plant updated successfully";
+    }
+
+    public List<UserPlant> getPlantsByNameRegex(Long userId, String prefix) {
+        return userPlantRepository.findByNameStartingWithIgnoreCaseAndUser_Id(prefix, userId);
+    }
 
     
     // public Species add(Species species) {

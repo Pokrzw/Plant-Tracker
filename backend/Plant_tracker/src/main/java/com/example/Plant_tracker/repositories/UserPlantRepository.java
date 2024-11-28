@@ -22,4 +22,6 @@ public interface UserPlantRepository extends JpaRepository<UserPlant, Long>  {
     List<UserPlant> findByUserIdAndSpeciesIn(Long userId, List<Species> species);
 
     boolean existsByName(String name);
+
+    List<UserPlant> findByNameStartingWithIgnoreCaseAndUser_Id(String prefix, Long userId);
 }

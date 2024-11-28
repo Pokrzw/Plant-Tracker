@@ -42,9 +42,9 @@ public class DataInitializer implements CommandLineRunner {
         String plantName1 = "Ficus Benjamin";
         String plantName2 = "Desert Cactus";
 
-        appUserRepository.deleteAll();   // Usunięcie wszystkich użytkowników
-        speciesRepository.deleteAll();   // Usunięcie wszystkich gatunków roślin
-        userPlantRepository.deleteAll(); // Usunięcie wszystkich 
+        appUserRepository.deleteAll();   
+        speciesRepository.deleteAll();   
+        userPlantRepository.deleteAll(); 
 
         // Sprawdzanie, czy użytkownik już istnieje
         Optional<AppUser> existingUser = appUserRepository.findByEmail(userEmail);
@@ -84,7 +84,7 @@ public class DataInitializer implements CommandLineRunner {
             plant1.setSpecies(species1);
             plant1.setLastWatered(LocalDateTime.now().minusDays(2));
             plant1.setCreated(LocalDateTime.now());
-            plant1.setUser(user); // Ustawienie użytkownika jako właściciela
+            plant1.setUser(user); 
             user.getUserPlants().add(plant1);
         }
 
@@ -97,7 +97,7 @@ public class DataInitializer implements CommandLineRunner {
             plant2.setSpecies(species2);
             plant2.setLastWatered(LocalDateTime.now().minusWeeks(1));
             plant2.setCreated(LocalDateTime.now());
-            plant2.setUser(user); // Ustawienie użytkownika jako właściciela
+            plant2.setUser(user); 
             user.getUserPlants().add(plant2);
         }
         

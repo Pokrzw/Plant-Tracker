@@ -30,7 +30,7 @@ fun PlantList(
             onClick = { onClickB() }
         ) {
             Text(
-                text = "B"
+                text = "Add new plant"
             )
         }
     }

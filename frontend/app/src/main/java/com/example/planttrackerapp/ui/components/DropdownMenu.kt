@@ -31,12 +31,12 @@ import com.example.planttrackerapp.ui.theme.PlantTrackerAppTheme
 fun DropDownWrapper(
     items: List<Species>,
     label: String,
+    onUpdateValue: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     var isExpanded by remember { mutableStateOf(false) }
-    var selectedSpecies by remember {  mutableStateOf(items[0]) }
+    var selectedSpecies by remember { mutableStateOf(items[0]) }
     val textFieldState = rememberTextFieldState(items[0].name)
-    val onChangeFunc: (String) -> Unit = {}
 
     Column(
         modifier = Modifier

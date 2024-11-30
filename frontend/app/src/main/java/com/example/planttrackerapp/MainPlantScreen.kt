@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
@@ -36,9 +37,9 @@ fun PlantAppBar(modifier: Modifier = Modifier){
 @Composable
 fun PlantApp(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    viewModel: ViewModel = viewModel()
 ) {
-//    PlantAppBar(modifier)
     Scaffold(
         topBar = {
             PlantAppBar()

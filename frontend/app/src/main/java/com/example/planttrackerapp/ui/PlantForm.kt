@@ -11,11 +11,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavHostController
-import com.example.planttrackerapp.PlantApp
-import com.example.planttrackerapp.PlantAppScreen
-import com.example.planttrackerapp.ui.components.DropDownDemo
-import com.example.planttrackerapp.ui.theme.PlantTrackerAppTheme
+import com.example.planttrackerapp.data.Datasource
+import com.example.planttrackerapp.ui.components.DropDownWrapper
 
 @Composable
 fun PlantForm(
@@ -57,7 +54,10 @@ fun FormBody(modifier: Modifier){
             label = {Text("Name of plant")}
         )
 
-        DropDownDemo()
+        DropDownWrapper(
+            items = Datasource.speciesList,
+            label = "Species"
+        )
 
     }
 }

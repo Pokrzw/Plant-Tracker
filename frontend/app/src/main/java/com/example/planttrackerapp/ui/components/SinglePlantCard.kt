@@ -5,7 +5,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.planttrackerapp.data.Datasource
 import com.example.planttrackerapp.model.Plant
 
 @Composable
@@ -34,4 +36,13 @@ fun SinglePlantCard(
             )
         }
     }
+}
+
+@Preview(showBackground=true)
+@Composable
+fun PreviewSingleCard(){
+    SinglePlantCard(
+        plant = Datasource.plantList[0],
+        onItemClick = {}
+    )
 }

@@ -51,8 +51,8 @@ fun PlantApp(
         ) {
             composable(route = PlantAppScreen.AllPlants.name) {
                 PlantList(
-                    onClickA = { navController.navigate(PlantAppScreen.PlantDetails.name) },
-                    onClickB = { navController.navigate(PlantAppScreen.Form.name) }
+                    onClickB = { navController.navigate(PlantAppScreen.Form.name) },
+                    onClick = { navController.navigate(PlantAppScreen.PlantDetails.name) }
                 )
             }
 

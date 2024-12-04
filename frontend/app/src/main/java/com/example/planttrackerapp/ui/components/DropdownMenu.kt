@@ -31,7 +31,7 @@ import com.example.planttrackerapp.ui.theme.PlantTrackerAppTheme
 fun DropDownWrapper(
     items: List<Species>,
     label: String,
-    onUpdateValue: () -> Unit = {},
+    onUpdateValue: (Species?) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     var isExpanded by remember { mutableStateOf(false) }
@@ -67,6 +67,7 @@ fun DropDownWrapper(
                             isExpanded = false
                             selectedSpecies = option
                             Log.d(TAG, "Current species: ${option.toString()}")
+                            onUpdateValue(selectedSpecies)
                         },
                         contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
                         )

@@ -19,6 +19,7 @@ import com.example.planttrackerapp.ui.PlantList
 import com.example.planttrackerapp.ui.SinglePlantView
 import com.example.planttrackerapp.ui.theme.PlantTrackerAppTheme
 import androidx.navigation.compose.composable
+import com.example.planttrackerapp.data.Datasource.plantList
 
 
 enum class PlantAppScreen(){
@@ -58,6 +59,8 @@ fun PlantApp(
 
             composable(route = PlantAppScreen.PlantDetails.name) {
                 SinglePlantView(
+                    // Placeholder Plant, zanim zostanie dodana poprawna nawigacja
+                    plant = plantList[1],
                     onGoBack = { onClickBack(navController) }
                 )
             }

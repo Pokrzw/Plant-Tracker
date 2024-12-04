@@ -23,8 +23,18 @@ public class SpeciesController {
     @Autowired
     SpeciesManager speciesManager;
 
-    @GetMapping("/species")
+    @GetMapping()
     public List<Species> getSpecies() {
         return speciesManager.getSpecies();
     }
+
+    @PostMapping()
+    public ResponseEntity<String> addSpecies(@PathVariable Long userId, @RequestBody Species newSpecies) {
+        // Znajdź użytkownika po ID
+         if (userPlantManager.addPlantForUser(userId, newSpecies)) {
+             return ResponseEntity.status(HttpStatus.CREATED).body("Species added successfully!");
+         };
+         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Species not created!");
+     }
+
 }

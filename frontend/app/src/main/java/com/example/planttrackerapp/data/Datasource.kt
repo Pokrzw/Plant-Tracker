@@ -13,7 +13,7 @@ object Datasource {
 
     val speciesList = listOf(agleonema, monstera, filodendron, hoya, dracena)
 
-    var idNumber = 5
+
 
     val plantList = listOf(
         Plant(

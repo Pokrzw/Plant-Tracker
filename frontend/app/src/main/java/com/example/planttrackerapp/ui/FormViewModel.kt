@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.planttrackerapp.TAG
 import com.example.planttrackerapp.data.Datasource
 import com.example.planttrackerapp.data.FormUiState
+import com.example.planttrackerapp.model.Plant
 import com.example.planttrackerapp.model.Species
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,11 +27,25 @@ class FormViewModel: ViewModel() {
     fun populateUiState(){
         val speciesList = Datasource.speciesList
         val plantList = Datasource.plantList
-        _formUiState.value = FormUiState(speciesList = speciesList, plantsList = plantList)
+        val baseId = plantList.size
+        _formUiState.value = FormUiState(id = baseId, speciesList = speciesList, plantsList = plantList)
     }
 
-    fun onClickAdd(name: String, species: Species?){
-        Log.d(TAG, "Name: ${name}, species: ${species}")
+    fun onClickAdd(){
+        val id = _formUiState.value.id
+        val name = _formUiState.value.name
+        val species = _formUiState.value.species
+        val lastWatered = Calendar.getInstance()
+        if(species!=null){
+            val plant = Plant(id, name, species, lastWatered, lastWatered)
+            _formUiState.update { currentState ->
+                currentState.copy(
+                    plantsList = currentState.plantsList.plus(plant)
+                )
+            }
+            resetForm()
+        }
+        Log.d(TAG, "Aktualne rosliny: ${_formUiState.value.plantsList.joinToString("\n") }}}")
     }
     fun saveNameOnUpdate(name: String?){
         val name = name ?: _formUiState.value.name
@@ -39,7 +54,7 @@ class FormViewModel: ViewModel() {
                 name = name
             )
         }
-        Log.d(TAG, "")
+//        Log.d(TAG, "")
     }
     fun saveSpeciesOnUpdate(species: Species?){
         _formUiState.update { currentState ->
@@ -47,18 +62,10 @@ class FormViewModel: ViewModel() {
                 species = species
             )
         }
-
-        Log.d(TAG, "Wywolano onUpdateSpecies z FormBody")
     }
 
-    fun setId(){
-        _formUiState.update { currentState ->
-            currentState.copy(
-                id = Datasource.idNumber
-            )
-        }
-        Datasource.idNumber++
-    }
+
+
     fun setName(name: String){
         _formUiState.update { currentState ->
             currentState.copy(
@@ -92,6 +99,12 @@ class FormViewModel: ViewModel() {
     }
 
     fun resetForm(){
-        _formUiState.value = FormUiState()
+        _formUiState.update { currentState ->
+            currentState.copy(
+                id = currentState.id.inc(),
+                name = "",
+                species = null
+            )
+        }
     }
 }

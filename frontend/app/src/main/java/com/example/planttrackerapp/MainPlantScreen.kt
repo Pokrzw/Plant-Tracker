@@ -72,7 +72,7 @@ fun PlantApp(
             composable(route = PlantAppScreen.Form.name) {
                 PlantForm(
                     speciesList = formUiState.speciesList,
-                    onClickAdd = { formViewModel.onClickAdd(formUiState.name, formUiState.species)},
+                    onClickAdd = formViewModel::onClickAdd,
                     onUpdateNameValue = formViewModel::saveNameOnUpdate,
                     onUpdateSpeciesValue = formViewModel::saveSpeciesOnUpdate,
                     onGoBack = { onClickBack(navController) }

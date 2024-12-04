@@ -36,7 +36,7 @@ fun DropDownWrapper(
 ) {
     var isExpanded by remember { mutableStateOf(false) }
     var selectedSpecies by remember { mutableStateOf(items[0]) }
-    val textFieldState = rememberTextFieldState(items[0].name)
+    val textFieldState = rememberTextFieldState("Select species")
 
     Column(
         modifier = Modifier

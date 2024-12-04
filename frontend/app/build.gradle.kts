@@ -62,6 +62,10 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.generativeai)
     implementation(libs.firebase.vertexai)
+    //do dropdown menu
+    implementation(libs.material3)
+    //do viewmodel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -69,4 +73,5 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
 }

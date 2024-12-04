@@ -24,6 +24,8 @@ import com.example.planttrackerapp.ui.SinglePlantView
 import com.example.planttrackerapp.ui.theme.PlantTrackerAppTheme
 import androidx.navigation.compose.composable
 import com.example.planttrackerapp.ui.FormViewModel
+import com.example.planttrackerapp.data.Datasource.plantList
+
 
 
 enum class PlantAppScreen(){
@@ -58,13 +60,15 @@ fun PlantApp(
         ) {
             composable(route = PlantAppScreen.AllPlants.name) {
                 PlantList(
-                    onClickA = { navController.navigate(PlantAppScreen.PlantDetails.name) },
-                    onClickB = { navController.navigate(PlantAppScreen.Form.name) }
+                    onClickB = { navController.navigate(PlantAppScreen.Form.name) },
+                    onClick = { navController.navigate(PlantAppScreen.PlantDetails.name) }
                 )
             }
 
             composable(route = PlantAppScreen.PlantDetails.name) {
                 SinglePlantView(
+                    // Placeholder Plant, zanim zostanie dodana poprawna nawigacja
+                    plant = plantList[1],
                     onGoBack = { onClickBack(navController) }
                 )
             }

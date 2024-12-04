@@ -45,8 +45,8 @@ fun PlantForm(
 
        FormBody(
            speciesList = speciesList,
-           onUpdateNameValue = { onUpdateNameValue("A moze to") },
-           onUpdateSpeciesValue = {  },
+           onUpdateNameValue = onUpdateNameValue,
+           onUpdateSpeciesValue = onUpdateSpeciesValue,
            modifier = modifier
        )
 
@@ -95,7 +95,7 @@ fun FormBody(
 
         DropDownWrapper(
             items = speciesList,
-            onUpdateValue = { onUpdateSpeciesValue},
+            onUpdateValue = onUpdateSpeciesValue,
             label = "Species"
         )
     }

@@ -74,7 +74,7 @@ fun PlantApp(
                     speciesList = formUiState.speciesList,
                     onClickAdd = { formViewModel.onClickAdd(formUiState.name, formUiState.species)},
                     onUpdateNameValue = formViewModel::saveNameOnUpdate,
-                    onUpdateSpeciesValue = {formViewModel.saveSpeciesOnUpdate(species = null)},
+                    onUpdateSpeciesValue = formViewModel::saveSpeciesOnUpdate,
                     onGoBack = { onClickBack(navController) }
                 )
             }

@@ -28,13 +28,13 @@ public class SpeciesController {
         return speciesManager.getSpecies();
     }
 
-    @PostMapping()
-    public ResponseEntity<String> addSpecies(@PathVariable Long userId, @RequestBody Species newSpecies) {
-        // Znajdź użytkownika po ID
-         if (userPlantManager.addPlantForUser(userId, newSpecies)) {
-             return ResponseEntity.status(HttpStatus.CREATED).body("Species added successfully!");
-         };
-         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Species not created!");
-     }
+    // @PostMapping()
+    // public ResponseEntity<String> addSpecies(@PathVariable Long userId, @RequestBody Species newSpecies) {
+    //     // Znajdź użytkownika po ID
+    //      if (userPlantManager.addPlantForUser(userId, newSpecies)) {
+    //          return ResponseEntity.status(HttpStatus.CREATED).body("Species added successfully!");
+    //      };
+    //      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Species not created!");
+    //  }
 
 }

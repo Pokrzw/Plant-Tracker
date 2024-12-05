@@ -31,7 +31,8 @@ import com.example.planttrackerapp.data.Datasource.plantList
 enum class PlantAppScreen(){
     Form,
     PlantDetails,
-    AllPlants
+    AllPlants,
+    FormEdit
 }
 @Composable
 fun PlantAppBar(modifier: Modifier = Modifier){
@@ -47,7 +48,10 @@ fun PlantApp(
     navController: NavHostController = rememberNavController(),
 ) {
     val formUiState by formViewModel.formUiState.collectAsState()
+    val currentPlantState by formViewModel.plantUiState.collectAsState()
 
+    Log.d(TAG, "INIT FormUiState: ${formUiState}")
+    Log.d(TAG, "INIT PlantUiState:${currentPlantState}")
     Scaffold(
         topBar = {
             PlantAppBar()
@@ -60,15 +64,18 @@ fun PlantApp(
         ) {
             composable(route = PlantAppScreen.AllPlants.name) {
                 PlantList(
-                    onClickB = { navController.navigate(PlantAppScreen.Form.name) },
-                    onClick = { navController.navigate(PlantAppScreen.PlantDetails.name) }
+                    plantList = formUiState.plantsList,
+                    onClickAddNewPlant = { navController.navigate(PlantAppScreen.Form.name) },
+                    onClickDetails = { navController.navigate(PlantAppScreen.PlantDetails.name) },
+                    setPlantOnClick = formViewModel::onSetPlant
                 )
             }
 
             composable(route = PlantAppScreen.PlantDetails.name) {
                 SinglePlantView(
                     // Placeholder Plant, zanim zostanie dodana poprawna nawigacja
-                    plant = plantList[1],
+                    plant = currentPlantState.currentlyEditedPlant,
+                    onGoToForm = { onGoToForm(navController) },
                     onGoBack = { onClickBack(navController) }
                 )
             }
@@ -82,6 +89,19 @@ fun PlantApp(
                     onGoBack = { onClickBack(navController) }
                 )
             }
+
+            composable(route = PlantAppScreen.FormEdit.name) {
+                PlantForm(
+                    currentPlantData = currentPlantState.currentlyEditedPlant,
+                    isEdit = true,
+                    speciesList = formUiState.speciesList,
+                    onClickAdd = formViewModel::onClickAdd,
+                    onUpdateNameValue = formViewModel::saveNameOnUpdate,
+                    onUpdateSpeciesValue = formViewModel::saveSpeciesOnUpdate,
+                    onGoBack = { onClickBack(navController) }
+                )
+            }
+
         }
     }
 
@@ -99,3 +119,8 @@ fun PlantAppPreview(modifier: Modifier = Modifier) {
 private fun onClickBack(navController: NavHostController){
     navController.navigate(PlantAppScreen.AllPlants.name)
 }
+
+private fun onGoToForm(navController: NavHostController){
+    navController.navigate(PlantAppScreen.FormEdit.name)
+}
+

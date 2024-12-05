@@ -17,11 +17,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.planttrackerapp.TAG
 import com.example.planttrackerapp.data.Datasource
+import com.example.planttrackerapp.model.Plant
 import com.example.planttrackerapp.model.Species
 import com.example.planttrackerapp.ui.components.DropDownWrapper
 
 @Composable
 fun PlantForm(
+    currentPlantData: Plant? = null,
     onClickAdd: () -> Unit = {},
     speciesList: List<Species> = emptyList(),
     onGoBack: () -> Unit = {},
@@ -30,8 +32,7 @@ fun PlantForm(
     isEdit: Boolean = false,
     modifier: Modifier = Modifier
 ){
-
-
+    Log.d(TAG, "Current Plant Data: ${currentPlantData}")
    Column {
        if (isEdit){
            Text(
@@ -44,6 +45,7 @@ fun PlantForm(
        }
 
        FormBody(
+           currentPlantData = currentPlantData,
            speciesList = speciesList,
            onUpdateNameValue = onUpdateNameValue,
            onUpdateSpeciesValue = onUpdateSpeciesValue,
@@ -77,12 +79,14 @@ fun PlantForm(
 
 @Composable
 fun FormBody(
+    currentPlantData: Plant? = null,
     speciesList: List<Species>,
     onUpdateNameValue: (String?) -> Unit = {},
     onUpdateSpeciesValue: (Species?) -> Unit = {},
     modifier: Modifier = Modifier
 ){
-    var plantName by remember { mutableStateOf("") }
+    val name = currentPlantData?.name ?: ""
+    var plantName by remember { mutableStateOf(name) }
     Column {
         TextField(
             value = plantName,

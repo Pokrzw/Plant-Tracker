@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.planttrackerapp.TAG
 import com.example.planttrackerapp.data.Datasource
 import com.example.planttrackerapp.data.FormUiState
+import com.example.planttrackerapp.data.PlantUiState
 import com.example.planttrackerapp.model.Plant
 import com.example.planttrackerapp.model.Species
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,6 +21,9 @@ class FormViewModel: ViewModel() {
     private val _formUiState = MutableStateFlow(FormUiState())
     val formUiState: StateFlow<FormUiState> = _formUiState.asStateFlow()
 
+    private val _plantUiState = MutableStateFlow(PlantUiState())
+    val plantUiState: StateFlow<PlantUiState> = _plantUiState.asStateFlow()
+
     init {
         populateUiState()
     }
@@ -29,6 +33,15 @@ class FormViewModel: ViewModel() {
         val plantList = Datasource.plantList
         val baseId = plantList.size
         _formUiState.value = FormUiState(id = baseId, speciesList = speciesList, plantsList = plantList)
+        _plantUiState.value = PlantUiState(currentlyEditedPlant = null)
+    }
+
+    fun onSetPlant(plant: Plant){
+        _plantUiState.update { currentState ->
+            currentState.copy(
+                currentlyEditedPlant = plant
+            )
+        }
     }
 
     fun onClickAdd(){

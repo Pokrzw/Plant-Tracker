@@ -73,7 +73,6 @@ fun PlantApp(
 
             composable(route = PlantAppScreen.PlantDetails.name) {
                 SinglePlantView(
-                    // Placeholder Plant, zanim zostanie dodana poprawna nawigacja
                     plant = currentPlantState.currentlyEditedPlant,
                     onGoToForm = { onGoToForm(navController) },
                     onGoBack = { onClickBack(navController) }
@@ -83,7 +82,10 @@ fun PlantApp(
             composable(route = PlantAppScreen.Form.name) {
                 PlantForm(
                     speciesList = formUiState.speciesList,
+                    onClickEdit = formViewModel::onClickUpdate,
                     onClickAdd = formViewModel::onClickAdd,
+                    onEditSpeciesValue = formViewModel::saveSpeciesOnUpdate,
+                    onEditNameValue = formViewModel::saveNameOnUpdate,
                     onUpdateNameValue = formViewModel::saveNameOnUpdate,
                     onUpdateSpeciesValue = formViewModel::saveSpeciesOnUpdate,
                     onGoBack = { onClickBack(navController) }
@@ -95,7 +97,10 @@ fun PlantApp(
                     currentPlantData = currentPlantState.currentlyEditedPlant,
                     isEdit = true,
                     speciesList = formUiState.speciesList,
+                    onClickEdit = formViewModel::onClickUpdate,
                     onClickAdd = formViewModel::onClickAdd,
+                    onEditSpeciesValue = formViewModel::saveSpeciesOnUpdate,
+                    onEditNameValue = formViewModel::saveNameOnUpdate,
                     onUpdateNameValue = formViewModel::saveNameOnUpdate,
                     onUpdateSpeciesValue = formViewModel::saveSpeciesOnUpdate,
                     onGoBack = { onClickBack(navController) }

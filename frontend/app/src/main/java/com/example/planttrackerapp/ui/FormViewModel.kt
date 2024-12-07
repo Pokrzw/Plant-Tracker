@@ -44,6 +44,43 @@ class FormViewModel: ViewModel() {
         }
     }
 
+    fun onClickUpdate(){
+        val id = _plantUiState.value.currentlyEditedPlant?.id ?: -1
+        val formName = _formUiState.value.name
+        val formSpecies = _formUiState.value.species
+        val plantName = _plantUiState.value.currentlyEditedPlant?.name ?: ""
+        val plantSpecies = _plantUiState.value.currentlyEditedPlant?.species
+
+        Log.d(TAG, "ONCLICKUPDATE id: ${id}")
+        val name =
+            if(formName.equals("") && !plantName.equals("")) plantName
+            else formName
+
+        //!!!! DO ZMIANY!!!!
+        val species =
+            if(plantSpecies!=null && formSpecies==null) plantSpecies
+            else if (formSpecies!= null) formSpecies
+            else Datasource.speciesList[0]
+
+        val plantList = _formUiState.value.plantsList
+        val searchedElement = plantList.filter { it.id == id}[0]
+        val searchedElementId = plantList.indexOf(searchedElement)
+        if (searchedElementId!=-1){
+            val searchedElementCopy = searchedElement.copy(name = name, species = species)
+            val copyOfPlantList = plantList.map {
+                if (it.id == searchedElementId) searchedElementCopy
+                else it
+            }
+            _formUiState.update { currentState ->
+                currentState.copy(
+                    plantsList = copyOfPlantList
+                )
+            }
+        }
+
+
+    }
+
     fun onClickAdd(){
         val id = _formUiState.value.id
         val name = _formUiState.value.name

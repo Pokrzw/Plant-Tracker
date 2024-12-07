@@ -18,7 +18,7 @@ fun SinglePlantCard(
     onItemClick: (Plant) -> Unit,
     onSetPlant: (Plant) -> Unit
 ) {
-    Log.d(TAG, "SinglePlantCard: ${plant}")
+//    Log.d(TAG, "SinglePlantCard: ${plant}")
     Card(
         modifier = Modifier
             .fillMaxWidth()

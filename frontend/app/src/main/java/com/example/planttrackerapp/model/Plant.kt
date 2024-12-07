@@ -6,6 +6,7 @@ package com.example.planttrackerapp.model
 import java.util.Calendar
 
 data class Plant(
+    val id: Int,
     val name: String,
     val species: Species,
     val lastWatered: Calendar,

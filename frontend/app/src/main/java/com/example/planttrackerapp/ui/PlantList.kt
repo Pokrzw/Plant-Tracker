@@ -36,7 +36,9 @@ fun PlantList(
             onClick = { onClickB() },
             modifier = Modifier.padding(8.dp)
         ) {
-            Text(text = "Add plant")
+            Text(
+                text = "Add new plant"
+            )
         }
     }
 }

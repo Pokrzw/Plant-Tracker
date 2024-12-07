@@ -13,32 +13,39 @@ object Datasource {
 
     val speciesList = listOf(agleonema, monstera, filodendron, hoya, dracena)
 
+
+
     val plantList = listOf(
         Plant(
+            id = 0,
             name = "Agleonema",
             species = agleonema,
             lastWatered = getDate(2024, 11, 25, 10, 0),
             created = getDate(2024, 11, 14, 9, 0)
         ),
         Plant(
+            id = 1,
             name = "Monstera",
             species = monstera,
             lastWatered = getDate(2024, 11, 24, 11, 30), // 2024-11-24 11:30 AM
             created = getDate(2024, 10, 28, 8, 15) // 2024-10-28 8:15 AM
         ),
         Plant(
+            id = 2,
             name = "Filodendron",
             species = filodendron,
             lastWatered = getDate(2024, 11, 23, 14, 45), // 2024-11-23 2:45 PM
             created = getDate(2024, 10, 15, 10, 30) // 2024-10-15 10:30 AM
         ),
         Plant(
+            id = 3,
             name = "Hoya",
             species = hoya,
             lastWatered = getDate(2024, 11, 14, 16, 0), // 2024-11-14 4:00 PM
             created = getDate(2023, 11, 14, 9, 0) // 2023-11-14 9:00 AM
         ),
         Plant(
+            id = 4,
             name = "Dracena",
             species = dracena,
             lastWatered = getDate(2024, 11, 14, 16, 0), // 2024-11-14 4:00 PM

@@ -17,21 +17,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.planttrackerapp.TAG
 import com.example.planttrackerapp.data.Datasource
+import com.example.planttrackerapp.model.Plant
 import com.example.planttrackerapp.model.Species
 import com.example.planttrackerapp.ui.components.DropDownWrapper
 
 @Composable
 fun PlantForm(
+    onClickEdit: () -> Unit,
+    currentPlantData: Plant? = null,
     onClickAdd: () -> Unit = {},
     speciesList: List<Species> = emptyList(),
     onGoBack: () -> Unit = {},
+    onEditNameValue: (String?) -> Unit,
+    onEditSpeciesValue: (Species?) -> Unit,
     onUpdateNameValue: (String?) -> Unit = {},
     onUpdateSpeciesValue: (Species?) -> Unit = {},
     isEdit: Boolean = false,
     modifier: Modifier = Modifier
 ){
-
-
+    Log.d(TAG, "Current Plant Data: ${currentPlantData}")
    Column {
        if (isEdit){
            Text(
@@ -44,7 +48,11 @@ fun PlantForm(
        }
 
        FormBody(
+           isEdit = isEdit,
+           currentPlantData = currentPlantData,
            speciesList = speciesList,
+           onEditSpeciesValue = onEditSpeciesValue,
+           onEditNameValue = onEditNameValue,
            onUpdateNameValue = onUpdateNameValue,
            onUpdateSpeciesValue = onUpdateSpeciesValue,
            modifier = modifier
@@ -60,42 +68,68 @@ fun PlantForm(
                    text = "<-"
                )
            }
-
-           Button(
-               onClick = {
-                   onClickAdd()
-                   onGoBack()
+           if(isEdit){
+               Button(
+                   onClick = {
+                       onClickEdit()
+                       onGoBack()
+                   }
+               ) {
+                   Text(
+                       text = "Edit"
+                   )
                }
-           ) {
-               Text(
-                   text = "Add"
-               )
+           } else {
+               Button(
+                   onClick = {
+                       onClickAdd()
+                       onGoBack()
+                   }
+               ) {
+                   Text(
+                       text = "Add"
+                   )
+               }
            }
+
        }
    }
 }
 
 @Composable
 fun FormBody(
+    isEdit: Boolean,
+    currentPlantData: Plant? = null,
     speciesList: List<Species>,
+    onEditNameValue: (String?) -> Unit,
+    onEditSpeciesValue: (Species?) -> Unit,
     onUpdateNameValue: (String?) -> Unit = {},
     onUpdateSpeciesValue: (Species?) -> Unit = {},
     modifier: Modifier = Modifier
 ){
-    var plantName by remember { mutableStateOf("") }
+    val name = currentPlantData?.name ?: ""
+    var plantName by remember { mutableStateOf(name) }
+    val funToBePassed =
+        if (isEdit) onEditSpeciesValue
+        else onUpdateSpeciesValue
+
     Column {
         TextField(
             value = plantName,
             onValueChange = {
                 plantName = it
-                onUpdateNameValue(it)
+                if (isEdit){
+                    onEditNameValue(it)
+                } else {
+                    onUpdateNameValue(it)
+                }
                             },
             label = {Text("Name of plant")}
         )
 
         DropDownWrapper(
             items = speciesList,
-            onUpdateValue = onUpdateSpeciesValue,
+            onUpdateValue = funToBePassed,
             label = "Species"
         )
     }
@@ -106,5 +140,5 @@ fun FormBody(
 @Preview(showBackground = true)
 @Composable
 fun FormPreview(modifier: Modifier = Modifier) {
-    PlantForm()
+    PlantForm(onEditSpeciesValue = {}, onEditNameValue = {}, onClickEdit = {})
 }

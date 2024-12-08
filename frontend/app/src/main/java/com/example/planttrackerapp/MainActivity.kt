@@ -13,12 +13,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.planttrackerapp.ui.theme.PlantTrackerAppTheme
 
+//logi w konsoli
+import android.util.Log
+
+//wstrzyuje dane
+import com.example.planttrackerapp.database.DatabaseSeeder;
+
 //Tag for logging
 const val TAG = "MainActivity"
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        DatabaseSeeder.seedDatabase(this)
         enableEdgeToEdge()
         setContent {
             PlantTrackerAppTheme {

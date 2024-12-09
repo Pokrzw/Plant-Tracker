@@ -44,6 +44,14 @@ class FormViewModel: ViewModel() {
         }
     }
 
+    fun onDeletePlant(id: Int){
+        val newPlantList = _formUiState.value.plantsList.filter { it.id != id }
+        _formUiState.update { currentState ->
+            currentState.copy(
+                plantsList = newPlantList
+            )
+        }
+    }
     fun onClickUpdate(){
         val id = _plantUiState.value.currentlyEditedPlant?.id ?: -1
         val formName = _formUiState.value.name

@@ -74,6 +74,7 @@ fun PlantApp(
             composable(route = PlantAppScreen.PlantDetails.name) {
                 SinglePlantView(
                     plant = currentPlantState.currentlyEditedPlant,
+                    onClickYes = formViewModel::onDeletePlant,
                     onGoToForm = { onGoToForm(navController) },
                     onGoBack = { onClickBack(navController) }
                 )

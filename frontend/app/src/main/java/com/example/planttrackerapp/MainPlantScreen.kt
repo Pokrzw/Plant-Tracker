@@ -1,44 +1,32 @@
 package com.example.planttrackerapp
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.Scaffold
 import android.util.Log
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.planttrackerapp.ui.PlantForm
 import com.example.planttrackerapp.ui.PlantList
 import com.example.planttrackerapp.ui.SinglePlantView
+import com.example.planttrackerapp.ui.components.TopBar
 import com.example.planttrackerapp.ui.theme.PlantTrackerAppTheme
-import androidx.navigation.compose.composable
 import com.example.planttrackerapp.ui.FormViewModel
-import com.example.planttrackerapp.data.Datasource.plantList
 
-
-
-enum class PlantAppScreen(){
+enum class PlantAppScreen {
     Form,
     PlantDetails,
     AllPlants,
     FormEdit
-}
-@Composable
-fun PlantAppBar(modifier: Modifier = Modifier){
-    Text(
-        text = "HEADER"
-    )
 }
 
 @Composable
@@ -50,11 +38,27 @@ fun PlantApp(
     val formUiState by formViewModel.formUiState.collectAsState()
     val currentPlantState by formViewModel.plantUiState.collectAsState()
 
-    Log.d(TAG, "INIT FormUiState: ${formUiState}")
-    Log.d(TAG, "INIT PlantUiState:${currentPlantState}")
+    // Observe currentBackStackEntry state
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = currentBackStackEntry?.destination?.route
+
+    Log.d(TAG, "INIT FormUiState: $formUiState")
+    Log.d(TAG, "INIT PlantUiState: $currentPlantState")
+
     Scaffold(
         topBar = {
-            PlantAppBar()
+            val canNavigateBack = currentRoute != PlantAppScreen.AllPlants.name
+            TopBar(
+                title = when (currentRoute) {
+                    PlantAppScreen.AllPlants.name -> "My Plants"
+                    PlantAppScreen.PlantDetails.name -> "Plant Details"
+                    PlantAppScreen.Form.name -> "Add A New Plant"
+                    PlantAppScreen.FormEdit.name -> "Edit Plant"
+                    else -> "Plant Tracker"
+                },
+                canNavigateBack = canNavigateBack,
+                navigateUp = { navController.popBackStack() }
+            )
         }
     ) { innerPadding ->
         NavHost(
@@ -76,7 +80,7 @@ fun PlantApp(
                     plant = currentPlantState.currentlyEditedPlant,
                     onClickYes = formViewModel::onDeletePlant,
                     onGoToForm = { onGoToForm(navController) },
-                    onGoBack = { onClickBack(navController) }
+                    onGoBack = { navController.popBackStack() }
                 )
             }
 
@@ -89,7 +93,7 @@ fun PlantApp(
                     onEditNameValue = formViewModel::saveNameOnUpdate,
                     onUpdateNameValue = formViewModel::saveNameOnUpdate,
                     onUpdateSpeciesValue = formViewModel::saveSpeciesOnUpdate,
-                    onGoBack = { onClickBack(navController) }
+                    onGoBack = { navController.popBackStack() }
                 )
             }
 
@@ -104,15 +108,12 @@ fun PlantApp(
                     onEditNameValue = formViewModel::saveNameOnUpdate,
                     onUpdateNameValue = formViewModel::saveNameOnUpdate,
                     onUpdateSpeciesValue = formViewModel::saveSpeciesOnUpdate,
-                    onGoBack = { onClickBack(navController) }
+                    onGoBack = { navController.popBackStack() }
                 )
             }
-
         }
     }
-
 }
-
 
 @Preview(showBackground = true)
 @Composable
@@ -122,11 +123,7 @@ fun PlantAppPreview(modifier: Modifier = Modifier) {
     }
 }
 
-private fun onClickBack(navController: NavHostController){
-    navController.navigate(PlantAppScreen.AllPlants.name)
-}
-
-private fun onGoToForm(navController: NavHostController){
+private fun onGoToForm(navController: NavHostController) {
     navController.navigate(PlantAppScreen.FormEdit.name)
 }
 

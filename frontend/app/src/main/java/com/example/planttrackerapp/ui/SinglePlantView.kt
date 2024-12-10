@@ -86,10 +86,6 @@ fun SinglePlantView(
         Spacer(modifier = Modifier.height(32.dp))
 
         Row {
-            Button(onClick = onGoBack) {
-                Text(text = "Back")
-            }
-
             Button(onClick = onGoToForm) {
                 Text(text = "Edit plant")
             }

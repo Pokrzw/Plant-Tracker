@@ -59,15 +59,6 @@ fun PlantForm(
        )
 
        Row{
-           Button(
-               onClick = {
-                   onGoBack()
-               }
-           ) {
-               Text(
-                   text = "<-"
-               )
-           }
            if(isEdit){
                Button(
                    onClick = {

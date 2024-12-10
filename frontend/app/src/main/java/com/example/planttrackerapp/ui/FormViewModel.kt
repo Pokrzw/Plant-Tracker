@@ -52,6 +52,7 @@ class FormViewModel: ViewModel() {
             )
         }
     }
+
     fun onClickUpdate(){
         val id = _plantUiState.value.currentlyEditedPlant?.id ?: -1
         val formName = _formUiState.value.name
@@ -83,6 +84,11 @@ class FormViewModel: ViewModel() {
                 currentState.copy(
                     plantsList = copyOfPlantList
                 )
+            }
+
+            // ustawienie currentlyEditedPlant na tę z nowyymi danymi
+            _plantUiState.update { currentState ->
+                currentState.copy(currentlyEditedPlant = searchedElementCopy)
             }
         }
 

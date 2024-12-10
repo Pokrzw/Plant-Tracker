@@ -2,12 +2,19 @@ package com.example.planttrackerapp.ui
 
 import android.icu.util.Calendar
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,6 +29,7 @@ import com.example.planttrackerapp.TAG
 import com.example.planttrackerapp.data.Datasource
 import com.example.planttrackerapp.model.Plant
 import com.example.planttrackerapp.ui.theme.PlantTrackerAppTheme
+import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.Locale
 import kotlin.math.log
@@ -37,7 +45,9 @@ fun SinglePlantView(
     modifier: Modifier = Modifier
 ) {
     var showPopUp by remember { mutableStateOf(false) }
+    var showWateredMessage by remember { mutableStateOf(false) }
     Log.d(TAG, "A single plant view")
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -67,14 +77,14 @@ fun SinglePlantView(
         val date = plant?.created
         val watered = plant?.waterHistory?.maxOrNull()
 
-        if(date != null) {
+        if (date != null) {
             Text(
                 text = "Created On: ${formatDate(date)}",
                 style = androidx.compose.material3.MaterialTheme.typography.bodyMedium
             )
             Spacer(modifier = Modifier.height(8.dp))
         }
-        if(watered != null) {
+        if (watered != null) {
             Text(
                 text = "Last Watered: ${formatDate(watered)}",
                 style = androidx.compose.material3.MaterialTheme.typography.bodyMedium
@@ -82,8 +92,34 @@ fun SinglePlantView(
         }
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = onWater) {
-            Text(text = "Water plant")
+        Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+            Button(onClick = {
+                showWateredMessage = true
+                onWater()
+            }) {
+                Text(text = "Water plant")
+            }
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            AnimatedVisibility(
+                visible = showWateredMessage,
+                enter = fadeIn() + slideInHorizontally(initialOffsetX = { -it / 8 }),
+                exit = fadeOut() + slideOutHorizontally(targetOffsetX = { -it / 8 })
+            ) {
+                Text(
+                    text = "Plant watered!",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.secondary,
+                )
+            }
+
+            if (showWateredMessage) {
+                LaunchedEffect(Unit) {
+                    delay(2000) // 2 seconds
+                    showWateredMessage = false
+                }
+            }
         }
 
         Button(onClick = onGoToJournal) {
@@ -94,13 +130,14 @@ fun SinglePlantView(
             Text(text = "Edit plant")
         }
 
-        Button(onClick = {showPopUp = !showPopUp}) {
+        Button(onClick = { showPopUp = !showPopUp }) {
             Text(text = "Delete plant")
         }
-        if (showPopUp){
+
+        if (showPopUp) {
             AlertDialog(
                 title = { Text(text = "Delete plant?") },
-                onDismissRequest = {showPopUp = false},
+                onDismissRequest = { showPopUp = false },
                 confirmButton = {
                     TextButton(
                         onClick = {
@@ -114,13 +151,14 @@ fun SinglePlantView(
                 },
                 dismissButton = {
                     TextButton(
-                        onClick = {showPopUp = false}
+                        onClick = { showPopUp = false }
                     ) { Text("No") }
                 }
             )
         }
     }
 }
+
 
 fun formatDate(calendar: java.util.Calendar): String {
     val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())

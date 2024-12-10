@@ -1,6 +1,7 @@
 package com.example.planttrackerapp.ui
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,10 +23,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.ui.unit.dp
 import com.example.planttrackerapp.model.Plant
 import com.example.planttrackerapp.ui.components.SinglePlantCard
+import androidx.compose.material.icons.filled.Add
 
 
 @Composable
@@ -40,44 +43,51 @@ fun PlantList(
     var searchedName by remember { mutableStateOf("") }
     var displayedPlants by remember { mutableStateOf(plantList) }
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        Row (
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            TextField(
-                value = searchedName,
-                onValueChange = {
-                    searchedName = it
-                    displayedPlants = filterNames(it, plantList)
-                },
-                label = { Text("Search by name") },
-                colors = TextFieldDefaults.colors(
-                    unfocusedIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent
-                ),
-                shape = RoundedCornerShape(16.dp),
-                leadingIcon = { Icon(Icons.Rounded.Search, contentDescription = null) }
-            )
-        }
-        LazyColumn(
-            modifier = Modifier.weight(1f)
-        ) {
-            items(displayedPlants.size) { index ->
-                SinglePlantCard(
-                    plant = displayedPlants[index],
-                    onItemClick = onClickDetails,
-                    onSetPlant = setPlantOnClick
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                TextField(
+                    value = searchedName,
+                    onValueChange = {
+                        searchedName = it
+                        displayedPlants = filterNames(it, plantList)
+                    },
+                    label = { Text("Search by name") },
+                    colors = TextFieldDefaults.colors(
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent
+                    ),
+                    shape = RoundedCornerShape(16.dp),
+                    leadingIcon = { Icon(Icons.Rounded.Search, contentDescription = null) }
                 )
             }
+            LazyColumn(
+                modifier = Modifier.weight(1f)
+            ) {
+                items(displayedPlants.size) { index ->
+                    SinglePlantCard(
+                        plant = displayedPlants[index],
+                        onItemClick = onClickDetails,
+                        onSetPlant = setPlantOnClick
+                    )
+                }
+            }
         }
-        Button(
+        FloatingActionButton(
             onClick = { onClickAddNewPlant() },
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp) // Padding for placement at the bottom-right
         ) {
-            Text(
-                text = "Add new plant"
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = "Add new plant"
             )
         }
     }

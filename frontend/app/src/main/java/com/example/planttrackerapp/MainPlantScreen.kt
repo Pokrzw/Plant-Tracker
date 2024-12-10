@@ -6,7 +6,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -29,6 +28,13 @@ enum class PlantAppScreen {
     AllPlants,
     FormEdit,
     PlantJournal
+}
+
+// Funkcja sprawdzająca czy w BackStack nie ma już aktualnego route'a
+fun NavHostController.navigateIfNotCurrent(route: String) {
+    if (this.currentBackStackEntry?.destination?.route != route) {
+        this.navigate(route)
+    }
 }
 
 @Composable
@@ -72,8 +78,8 @@ fun PlantApp(
             composable(route = PlantAppScreen.AllPlants.name) {
                 PlantList(
                     plantList = formUiState.plantsList,
-                    onClickAddNewPlant = { navController.navigate(PlantAppScreen.Form.name) },
-                    onClickDetails = { navController.navigate(PlantAppScreen.PlantDetails.name) },
+                    onClickAddNewPlant = { navController.navigateIfNotCurrent(PlantAppScreen.Form.name) },
+                    onClickDetails = { navController.navigateIfNotCurrent(PlantAppScreen.PlantDetails.name) },
                     setPlantOnClick = formViewModel::onSetPlant
                 )
             }
@@ -84,7 +90,7 @@ fun PlantApp(
                     onClickYes = formViewModel::onDeletePlant,
                     onWater = formViewModel::addWateringDate,
                     onGoToForm = { onGoToForm(navController) },
-                    onGoToJournal = { navController.navigate(PlantAppScreen.PlantJournal.name) },
+                    onGoToJournal = { navController.navigateIfNotCurrent(PlantAppScreen.PlantJournal.name) },
                     onGoBack = { navController.popBackStack() }
                 )
             }
@@ -135,6 +141,5 @@ fun PlantAppPreview(modifier: Modifier = Modifier) {
 }
 
 private fun onGoToForm(navController: NavHostController) {
-    navController.navigate(PlantAppScreen.FormEdit.name)
+    navController.navigateIfNotCurrent(PlantAppScreen.FormEdit.name)
 }
-

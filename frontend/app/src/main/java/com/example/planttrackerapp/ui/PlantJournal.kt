@@ -27,7 +27,10 @@ fun PlantJournal(
             text = plant?.name ?: "",
             style = MaterialTheme.typography.titleLarge
         )
-
+        Text(
+            text = "Watering History:",
+            style = MaterialTheme.typography.titleMedium
+        )
         Spacer(modifier = Modifier.height(16.dp))
 
         LazyColumn(modifier = Modifier.fillMaxWidth()) {

@@ -21,12 +21,14 @@ import com.example.planttrackerapp.ui.SinglePlantView
 import com.example.planttrackerapp.ui.components.TopBar
 import com.example.planttrackerapp.ui.theme.PlantTrackerAppTheme
 import com.example.planttrackerapp.ui.FormViewModel
+import com.example.planttrackerapp.ui.PlantJournal
 
 enum class PlantAppScreen {
     Form,
     PlantDetails,
     AllPlants,
-    FormEdit
+    FormEdit,
+    PlantJournal
 }
 
 @Composable
@@ -54,6 +56,7 @@ fun PlantApp(
                     PlantAppScreen.PlantDetails.name -> "Plant Details"
                     PlantAppScreen.Form.name -> "Add A New Plant"
                     PlantAppScreen.FormEdit.name -> "Edit Plant"
+                    PlantAppScreen.PlantJournal.name -> "Plant Journal"
                     else -> "Plant Tracker"
                 },
                 canNavigateBack = canNavigateBack,
@@ -79,7 +82,9 @@ fun PlantApp(
                 SinglePlantView(
                     plant = currentPlantState.currentlyEditedPlant,
                     onClickYes = formViewModel::onDeletePlant,
+                    onWater = formViewModel::addWateringDate,
                     onGoToForm = { onGoToForm(navController) },
+                    onGoToJournal = { navController.navigate(PlantAppScreen.PlantJournal.name) },
                     onGoBack = { navController.popBackStack() }
                 )
             }
@@ -109,6 +114,12 @@ fun PlantApp(
                     onUpdateNameValue = formViewModel::saveNameOnUpdate,
                     onUpdateSpeciesValue = formViewModel::saveSpeciesOnUpdate,
                     onGoBack = { navController.popBackStack() }
+                )
+            }
+
+            composable(route = PlantAppScreen.PlantJournal.name) {
+                PlantJournal(
+                    plant = currentPlantState.currentlyEditedPlant
                 )
             }
         }

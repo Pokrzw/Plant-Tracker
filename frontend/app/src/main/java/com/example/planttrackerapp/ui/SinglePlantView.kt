@@ -30,7 +30,9 @@ import kotlin.math.log
 fun SinglePlantView(
     plant: Plant?,
     onClickYes: (Int) -> Unit,
+    onWater: () -> Unit,
     onGoToForm: () -> Unit,
+    onGoToJournal: () -> Unit,
     onGoBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -63,36 +65,37 @@ fun SinglePlantView(
         Spacer(modifier = Modifier.height(8.dp))
 
         val date = plant?.created
-        val watered = plant?.lastWatered
+        val watered = plant?.waterHistory?.maxOrNull()
 
-        if(date != null && watered != null){
+        if(date != null) {
             Text(
                 text = "Created On: ${formatDate(date)}",
                 style = androidx.compose.material3.MaterialTheme.typography.bodyMedium
             )
             Spacer(modifier = Modifier.height(8.dp))
-
+        }
+        if(watered != null) {
             Text(
                 text = "Last Watered: ${formatDate(watered)}",
                 style = androidx.compose.material3.MaterialTheme.typography.bodyMedium
             )
         }
+        Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = {
-            // Tu będzie podlewanie
-        }) {
-            Text(text = "Water Plant")
+        Button(onClick = onWater) {
+            Text(text = "Water plant")
         }
-        Spacer(modifier = Modifier.height(32.dp))
 
-        Row {
-            Button(onClick = onGoToForm) {
-                Text(text = "Edit plant")
-            }
+        Button(onClick = onGoToJournal) {
+            Text(text = "Plant journal")
+        }
 
-            Button(onClick = {showPopUp = !showPopUp}) {
-                Text(text = "Delete plant")
-            }
+        Button(onClick = onGoToForm) {
+            Text(text = "Edit plant")
+        }
+
+        Button(onClick = {showPopUp = !showPopUp}) {
+            Text(text = "Delete plant")
         }
         if (showPopUp){
             AlertDialog(
@@ -128,6 +131,6 @@ fun formatDate(calendar: java.util.Calendar): String {
 @Composable
 fun SinglePlantPreview(modifier: Modifier = Modifier) {
     PlantTrackerAppTheme {
-        SinglePlantView(plant = Datasource.plantList[1], onGoBack = {}, onGoToForm = {}, onClickYes = {})
+        SinglePlantView(plant = Datasource.plantList[1], onGoBack = {}, onWater = {}, onGoToForm = {}, onGoToJournal = {}, onClickYes = {})
     }
 }

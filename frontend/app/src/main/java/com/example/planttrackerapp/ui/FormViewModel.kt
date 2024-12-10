@@ -95,13 +95,20 @@ class FormViewModel: ViewModel() {
 
     }
 
-    fun onClickAdd(){
+    fun onClickAdd() {
         val id = _formUiState.value.id
         val name = _formUiState.value.name
         val species = _formUiState.value.species
-        val lastWatered = Calendar.getInstance()
-        if(species!=null){
-            val plant = Plant(id, name, species, lastWatered, lastWatered)
+        val currentDate = Calendar.getInstance()
+
+        if (species != null) {
+            val plant = Plant(
+                id = id,
+                name = name,
+                species = species,
+                waterHistory = emptyList(),
+                created = currentDate
+            )
             _formUiState.update { currentState ->
                 currentState.copy(
                     plantsList = currentState.plantsList.plus(plant)
@@ -109,8 +116,10 @@ class FormViewModel: ViewModel() {
             }
             resetForm()
         }
-        Log.d(TAG, "Aktualne rosliny: ${_formUiState.value.plantsList.joinToString("\n") }}}")
+        Log.d(TAG, "Aktualne rośliny: ${_formUiState.value.plantsList.joinToString("\n")}")
     }
+
+
     fun saveNameOnUpdate(name: String?){
         val name = name ?: _formUiState.value.name
         _formUiState.update { currentState ->
@@ -120,6 +129,7 @@ class FormViewModel: ViewModel() {
         }
 //        Log.d(TAG, "")
     }
+
     fun saveSpeciesOnUpdate(species: Species?){
         _formUiState.update { currentState ->
             currentState.copy(
@@ -146,13 +156,40 @@ class FormViewModel: ViewModel() {
         }
     }
 
-    fun setLastWatered(date: Calendar){
-        _formUiState.update { currentState ->
-            currentState.copy(
-                lastWatered = date
+//    fun setLastWatered(date: Calendar){
+//        _formUiState.update { currentState ->
+//            currentState.copy(
+//                lastWatered = date
+//            )
+//        }
+//    }
+
+    // PODLEWANIE
+    fun addWateringDate() {
+        val currentlyEditedPlant = _plantUiState.value.currentlyEditedPlant
+
+        if (currentlyEditedPlant != null) {
+            val updatedPlant = currentlyEditedPlant.copy(
+                waterHistory = currentlyEditedPlant.waterHistory + Calendar.getInstance()
             )
+
+            val updatedPlantsList = _formUiState.value.plantsList.map {
+                if (it.id == updatedPlant.id) updatedPlant else it
+            }
+
+            _formUiState.update { currentState ->
+                currentState.copy(plantsList = updatedPlantsList)
+            }
+
+            _plantUiState.update { currentState ->
+                currentState.copy(currentlyEditedPlant = updatedPlant)
+            }
+        } else {
+            Log.d(TAG, "Brak edytowanej rośliny.")
         }
     }
+
+
 
     fun setCreated(date: Calendar){
         _formUiState.update { currentState ->

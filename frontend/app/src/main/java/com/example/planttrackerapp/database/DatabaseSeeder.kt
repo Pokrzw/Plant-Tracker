@@ -2,7 +2,6 @@ package com.example.planttrackerapp.database;
 
 import android.util.Log
 import com.example.planttrackerapp.domain.Species;
-import com.example.planttrackerapp.dao.*;
 import com.example.planttrackerapp.domain.UserPlant;
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

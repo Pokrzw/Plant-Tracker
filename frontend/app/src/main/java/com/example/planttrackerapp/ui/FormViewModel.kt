@@ -25,6 +25,9 @@ class FormViewModel: ViewModel() {
     val plantUiState: StateFlow<PlantUiState> = _plantUiState.asStateFlow()
 
     init {
+        //==============================DATABASE PART===============================================
+        val plantDao =
+        //==========================================================================================
         populateUiState()
     }
 

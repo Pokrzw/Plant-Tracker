@@ -2,6 +2,7 @@ package com.example.planttrackerapp.dao;
 
 import androidx.room.*
 import com.example.planttrackerapp.domain.UserPlant;
+import androidx.lifecycle.LiveData
 
 @Dao
 interface UserPlantDao {
@@ -11,9 +12,9 @@ interface UserPlantDao {
     @Query("SELECT * FROM user_plants WHERE id = :id")
     suspend fun getUserPlantById(id: String): UserPlant?
 
-    @Delete
-    suspend fun delete(userPlant: UserPlant)
-
     @Query("SELECT * FROM user_plants")
-    suspend fun getAll(): List<UserPlant>
+    fun getAll(): LiveData<List<UserPlant>>
+
+    @Delete
+    suspend fun delete(plant: UserPlant)
 }

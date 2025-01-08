@@ -1,19 +1,34 @@
 package com.example.planttrackerapp.ui
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.ui.unit.dp
-import com.example.planttrackerapp.data.Datasource
 import com.example.planttrackerapp.model.Plant
 import com.example.planttrackerapp.ui.components.SinglePlantCard
+import androidx.compose.material.icons.filled.Add
 
 
 @Composable
@@ -25,25 +40,61 @@ fun PlantList(
     modifier: Modifier = Modifier
 ) {
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        LazyColumn(
-            modifier = Modifier.weight(1f)
-        ) {
-            items(plantList.size) { index ->
-                SinglePlantCard(
-                    plant = plantList[index],
-                    onItemClick = onClickDetails,
-                    onSetPlant = setPlantOnClick
+    var searchedName by remember { mutableStateOf("") }
+    var displayedPlants by remember { mutableStateOf(plantList) }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                TextField(
+                    value = searchedName,
+                    onValueChange = {
+                        searchedName = it
+                        displayedPlants = filterNames(it, plantList)
+                    },
+                    label = { Text("Search by name") },
+                    colors = TextFieldDefaults.colors(
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent
+                    ),
+                    shape = RoundedCornerShape(16.dp),
+                    leadingIcon = { Icon(Icons.Rounded.Search, contentDescription = null) }
                 )
             }
+            LazyColumn(
+                modifier = Modifier.weight(1f)
+            ) {
+                items(displayedPlants.size) { index ->
+                    SinglePlantCard(
+                        plant = displayedPlants[index],
+                        onItemClick = onClickDetails,
+                        onSetPlant = setPlantOnClick
+                    )
+                }
+            }
         }
-        Button(
+        FloatingActionButton(
             onClick = { onClickAddNewPlant() },
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp) // Padding for placement at the bottom-right
         ) {
-            Text(
-                text = "Add new plant"
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = "Add new plant"
             )
         }
     }
+}
+
+fun filterNames(namePart: String, plantList: List<Plant>): List<Plant>{
+    val ignoreCasePart = namePart.toLowerCase()
+    val newList = plantList.filter { it.name.toLowerCase().contains(ignoreCasePart) }
+    return newList
 }

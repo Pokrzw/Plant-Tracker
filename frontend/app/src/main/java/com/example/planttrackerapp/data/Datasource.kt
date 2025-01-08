@@ -13,43 +13,71 @@ object Datasource {
 
     val speciesList = listOf(agleonema, monstera, filodendron, hoya, dracena)
 
-
-
     val plantList = listOf(
         Plant(
             id = 0,
             name = "Agleonema",
             species = agleonema,
-            lastWatered = getDate(2024, 11, 25, 10, 0),
+            waterHistory = listOf(
+                getDate(2024, 11, 25, 10, 0),
+                getDate(2024, 11, 20, 9, 0),
+                getDate(2024, 11, 15, 8, 0),
+                getDate(2024, 11, 10, 10, 30),
+                getDate(2024, 11, 5, 9, 45)
+            ),
             created = getDate(2024, 11, 14, 9, 0)
         ),
         Plant(
             id = 1,
             name = "Monstera",
             species = monstera,
-            lastWatered = getDate(2024, 11, 24, 11, 30), // 2024-11-24 11:30 AM
-            created = getDate(2024, 10, 28, 8, 15) // 2024-10-28 8:15 AM
+            waterHistory = listOf(
+                getDate(2024, 11, 24, 11, 30),
+                getDate(2024, 11, 19, 10, 0),
+                getDate(2024, 11, 14, 9, 15),
+                getDate(2024, 11, 9, 8, 45),
+                getDate(2024, 11, 4, 7, 30)
+            ),
+            created = getDate(2024, 10, 28, 8, 15)
         ),
         Plant(
             id = 2,
             name = "Filodendron",
             species = filodendron,
-            lastWatered = getDate(2024, 11, 23, 14, 45), // 2024-11-23 2:45 PM
-            created = getDate(2024, 10, 15, 10, 30) // 2024-10-15 10:30 AM
+            waterHistory = listOf(
+                getDate(2024, 11, 23, 14, 45),
+                getDate(2024, 11, 18, 13, 30),
+                getDate(2024, 11, 13, 12, 15),
+                getDate(2024, 11, 8, 11, 0),
+                getDate(2024, 11, 3, 10, 45)
+            ),
+            created = getDate(2024, 10, 15, 10, 30)
         ),
         Plant(
             id = 3,
             name = "Hoya",
             species = hoya,
-            lastWatered = getDate(2024, 11, 14, 16, 0), // 2024-11-14 4:00 PM
-            created = getDate(2023, 11, 14, 9, 0) // 2023-11-14 9:00 AM
+            waterHistory = listOf(
+                getDate(2024, 11, 14, 16, 0),
+                getDate(2024, 11, 9, 15, 30),
+                getDate(2024, 11, 4, 14, 45),
+                getDate(2024, 10, 30, 13, 0),
+                getDate(2024, 10, 25, 12, 15)
+            ),
+            created = getDate(2023, 11, 14, 9, 0)
         ),
         Plant(
             id = 4,
             name = "Dracena",
             species = dracena,
-            lastWatered = getDate(2024, 11, 14, 16, 0), // 2024-11-14 4:00 PM
-            created = getDate(2023, 11, 14, 9, 0) // 2023-11-14 9:00 AM
+            waterHistory = listOf(
+                getDate(2024, 11, 14, 16, 0),
+                getDate(2024, 11, 10, 15, 30),
+                getDate(2024, 11, 6, 14, 45),
+                getDate(2024, 11, 2, 13, 0),
+                getDate(2024, 10, 29, 12, 15)
+            ),
+            created = getDate(2023, 11, 14, 9, 0)
         )
     )
 

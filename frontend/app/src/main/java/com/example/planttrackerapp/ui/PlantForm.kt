@@ -3,17 +3,26 @@ package com.example.planttrackerapp.ui
 import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.planttrackerapp.TAG
 import com.example.planttrackerapp.data.Datasource
@@ -36,13 +45,22 @@ fun PlantForm(
     modifier: Modifier = Modifier
 ){
     Log.d(TAG, "Current Plant Data: ${currentPlantData}")
-   Column {
+   Column (
+       modifier = Modifier.fillMaxWidth(),
+       horizontalAlignment = Alignment.CenterHorizontally
+   ){
        if (isEdit){
            Text(
+               modifier = Modifier.padding(16.dp),
+               fontWeight = FontWeight.Bold,
+               fontSize = 24.sp,
                text = "Edit specimen"
            )
        } else{
            Text(
+               modifier = Modifier.padding(16.dp),
+               fontWeight = FontWeight.Bold,
+               fontSize = 24.sp,
                text = "Add specimen"
            )
        }
@@ -59,17 +77,9 @@ fun PlantForm(
        )
 
        Row{
-           Button(
-               onClick = {
-                   onGoBack()
-               }
-           ) {
-               Text(
-                   text = "<-"
-               )
-           }
            if(isEdit){
                Button(
+                   modifier = Modifier.padding(top = 16.dp),
                    onClick = {
                        onClickEdit()
                        onGoBack()
@@ -81,6 +91,7 @@ fun PlantForm(
                }
            } else {
                Button(
+                   modifier = Modifier.padding(top = 16.dp),
                    onClick = {
                        onClickAdd()
                        onGoBack()
@@ -113,7 +124,11 @@ fun FormBody(
         if (isEdit) onEditSpeciesValue
         else onUpdateSpeciesValue
 
-    Column {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+
+    ){
         TextField(
             value = plantName,
             onValueChange = {
@@ -124,7 +139,13 @@ fun FormBody(
                     onUpdateNameValue(it)
                 }
                             },
-            label = {Text("Name of plant")}
+            label = {Text("Name of plant")},
+            colors = TextFieldDefaults.colors(
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent
+            ),
+            shape = RoundedCornerShape(16.dp),
+            modifier = Modifier.padding(bottom = 8.dp)
         )
 
         DropDownWrapper(

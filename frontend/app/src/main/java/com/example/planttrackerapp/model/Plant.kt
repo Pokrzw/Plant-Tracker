@@ -9,6 +9,6 @@ data class Plant(
     val id: Int,
     val name: String,
     val species: Species,
-    val lastWatered: Calendar,
+    val waterHistory: List<Calendar>,
     val created: Calendar
 )

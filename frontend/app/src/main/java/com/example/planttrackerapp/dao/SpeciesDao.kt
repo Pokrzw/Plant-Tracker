@@ -1,7 +1,7 @@
 package com.example.planttrackerapp.dao;
 
 import androidx.room.*
-import com.example.planttrackerapp.domain.Species;
+import com.example.planttrackerapp.model.Species;
 
 @Dao
 interface SpeciesDao {

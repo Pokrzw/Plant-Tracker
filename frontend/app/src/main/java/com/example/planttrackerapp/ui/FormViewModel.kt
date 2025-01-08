@@ -26,7 +26,8 @@ class FormViewModel: ViewModel() {
 
     init {
         //==============================DATABASE PART===============================================
-        val plantDao =
+//        val plantDao =
+//        val plantRepository =
         //==========================================================================================
         populateUiState()
     }

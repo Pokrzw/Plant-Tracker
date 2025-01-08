@@ -1,6 +1,10 @@
 package com.example.planttrackerapp.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "species")
 data class Species(
-    val name: String,
+    @PrimaryKey val name: String,
     val soilMoisture: Int
 )

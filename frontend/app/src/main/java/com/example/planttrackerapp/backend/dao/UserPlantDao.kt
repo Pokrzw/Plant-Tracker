@@ -1,4 +1,4 @@
-package com.example.planttrackerapp.dao;
+package com.example.planttrackerapp.backend.dao;
 
 import androidx.room.*
 import com.example.planttrackerapp.model.Plant;
@@ -13,8 +13,13 @@ interface UserPlantDao {
     suspend fun getUserPlantById(id: String): Plant?
 
     @Query("SELECT * FROM user_plants")
-    fun getAll(): LiveData<List<Plant>>
+    fun getAll(): List<Plant>
 
-    @Delete
-    suspend fun delete(plant: Plant)
+    @Query("DELETE FROM user_plants WHERE id = :plantId")
+    suspend fun deleteById(plantId: String)
+
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(plants: List<Plant>)
 }
+

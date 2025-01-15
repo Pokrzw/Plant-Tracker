@@ -15,8 +15,9 @@ object Datasource {
 
     val plantList = listOf(
         Plant(
-            id = 0,
+            id = "0",
             name = "Agleonema",
+            speciesName = "Agleonema",
             species = agleonema,
             waterHistory = listOf(
                 getDate(2024, 11, 25, 10, 0),
@@ -28,8 +29,9 @@ object Datasource {
             created = getDate(2024, 11, 14, 9, 0)
         ),
         Plant(
-            id = 1,
+            id = "1",
             name = "Monstera",
+            speciesName = "Monstera",
             species = monstera,
             waterHistory = listOf(
                 getDate(2024, 11, 24, 11, 30),
@@ -41,8 +43,9 @@ object Datasource {
             created = getDate(2024, 10, 28, 8, 15)
         ),
         Plant(
-            id = 2,
+            id = "2",
             name = "Filodendron",
+            speciesName = "Filodendron",
             species = filodendron,
             waterHistory = listOf(
                 getDate(2024, 11, 23, 14, 45),
@@ -54,8 +57,9 @@ object Datasource {
             created = getDate(2024, 10, 15, 10, 30)
         ),
         Plant(
-            id = 3,
+            id = "3",
             name = "Hoya",
+            speciesName = "Hoya",
             species = hoya,
             waterHistory = listOf(
                 getDate(2024, 11, 14, 16, 0),
@@ -67,8 +71,9 @@ object Datasource {
             created = getDate(2023, 11, 14, 9, 0)
         ),
         Plant(
-            id = 4,
+            id = "4",
             name = "Dracena",
+            speciesName = "Dracena",
             species = dracena,
             waterHistory = listOf(
                 getDate(2024, 11, 14, 16, 0),

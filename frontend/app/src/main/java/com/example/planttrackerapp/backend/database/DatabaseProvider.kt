@@ -1,8 +1,9 @@
-package com.example.planttrackerapp.database;
+package com.example.planttrackerapp.backend.database;
 
 
 import android.content.Context
 import androidx.room.Room
+
 
 object DatabaseProvider {
     private var INSTANCE: AppDatabase? = null

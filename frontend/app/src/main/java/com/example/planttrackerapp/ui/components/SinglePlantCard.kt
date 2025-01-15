@@ -37,7 +37,7 @@ fun SinglePlantCard(
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "Species: ${plant.species.name}",
+                text = "Species: ${plant.species?.name ?: "unknown"}",
                 style = MaterialTheme.typography.bodyMedium,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis

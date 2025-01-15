@@ -1,12 +1,14 @@
 package com.example.planttrackerapp
 
 import android.util.Log
+
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -21,6 +23,12 @@ import com.example.planttrackerapp.ui.components.TopBar
 import com.example.planttrackerapp.ui.theme.PlantTrackerAppTheme
 import com.example.planttrackerapp.ui.FormViewModel
 import com.example.planttrackerapp.ui.PlantJournal
+import com.example.planttrackerapp.ui.FormViewModelFactory
+import com.example.planttrackerapp.backend.database.DatabaseProvider
+import com.example.planttrackerapp.backend.repositories.SpeciesRepository
+import com.example.planttrackerapp.backend.repositories.UserPlantRepository
+
+
 
 enum class PlantAppScreen {
     Form,
@@ -39,10 +47,20 @@ fun NavHostController.navigateIfNotCurrent(route: String) {
 
 @Composable
 fun PlantApp(
-    formViewModel: FormViewModel = viewModel(),
+//    formViewModel: FormViewModel = viewModel(),
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ) {
+    //================================================
+    val context = LocalContext.current
+    val database = DatabaseProvider.getDatabase(context)
+    val plantRepository = UserPlantRepository(database.userPlantDao())
+    val speciesRepository = SpeciesRepository(database.speciesDao())
+    val formViewModel: FormViewModel = viewModel(
+        factory = FormViewModelFactory(plantRepository, speciesRepository)
+    )
+    //===================================================
+
     val formUiState by formViewModel.formUiState.collectAsState()
     val currentPlantState by formViewModel.plantUiState.collectAsState()
 

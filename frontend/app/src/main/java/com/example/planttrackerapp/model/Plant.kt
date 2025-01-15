@@ -6,13 +6,14 @@ package com.example.planttrackerapp.model
 import java.util.Calendar
 import androidx.room.*
 import java.util.UUID
+import com.example.planttrackerapp.backend.database.Converters
 
 
 @Entity(
     tableName = "user_plants",
     foreignKeys = [
         ForeignKey(
-            entity = com.example.planttrackerapp.domain.Species::class,
+            entity = Species::class,
             parentColumns = ["name"],
             childColumns = ["species_name"],
             onDelete = ForeignKey.CASCADE
@@ -23,7 +24,9 @@ import java.util.UUID
 data class Plant(
     @PrimaryKey val id: String = UUID.randomUUID().toString(),
     val name: String,
-    @ColumnInfo(name = "species_name") val speciesId: String? = null,
-    val waterHistory: List<Calendar>,
+    @TypeConverters(Converters::class)
+    @ColumnInfo(name = "species_name") val speciesName: String,
+    @TypeConverters(Converters::class) val species: Species? = null,
+    @TypeConverters(Converters::class) val waterHistory: List<Calendar>,
     val created: Calendar
 )

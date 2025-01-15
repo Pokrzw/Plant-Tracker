@@ -12,12 +12,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.planttrackerapp.ui.theme.PlantTrackerAppTheme
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 //logi w konsoli
 import android.util.Log
 
 //wstrzyuje dane
-import com.example.planttrackerapp.database.DatabaseSeeder;
+import com.example.planttrackerapp.backend.database.DatabaseSeeder;
 
 //Tag for logging
 const val TAG = "MainActivity"
@@ -25,7 +27,9 @@ const val TAG = "MainActivity"
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        DatabaseSeeder.seedDatabase(this)
+        lifecycleScope.launch {
+            DatabaseSeeder.seedDatabase(this@MainActivity)
+        }
         enableEdgeToEdge()
         setContent {
             PlantTrackerAppTheme {

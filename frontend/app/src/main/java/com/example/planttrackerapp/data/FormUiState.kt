@@ -5,7 +5,7 @@ import com.example.planttrackerapp.model.Species
 import java.util.Calendar
 
 data class FormUiState(
-    val id: Int = 0,
+    val id: String = "",
     val name: String = "",
     val species: Species? = null,
     val waterHistory: List<Calendar>? = emptyList(),

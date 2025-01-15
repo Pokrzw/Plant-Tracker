@@ -1,4 +1,4 @@
-package com.example.planttrackerapp.dao;
+package com.example.planttrackerapp.backend.dao;
 
 import androidx.room.*
 import com.example.planttrackerapp.model.Species;
@@ -13,4 +13,13 @@ interface SpeciesDao {
 
     @Query("SELECT * FROM species")
     suspend fun getAll(): List<Species>
+
+    @Delete
+    suspend fun delete(species: Species)
+
+    @Query("DELETE FROM species")
+    suspend fun deleteAll()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(species: List<Species>)
 }

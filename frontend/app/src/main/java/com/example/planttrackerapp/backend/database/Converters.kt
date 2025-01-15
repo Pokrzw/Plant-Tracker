@@ -1,26 +1,28 @@
-package com.example.planttrackerapp.database;
+package com.example.planttrackerapp.backend.database;
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import androidx.room.TypeConverter
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.Calendar
+import com.example.planttrackerapp.model.Species
 
-class Converters {
-    private val formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
 
-    @TypeConverter
-    fun fromLocalDateTime(dateTime: LocalDateTime?): String? {
-        return dateTime?.format(formatter)
-    }
-
-    @TypeConverter
-    fun toLocalDateTime(dateTime: String?): LocalDateTime? {
-        return dateTime?.let { LocalDateTime.parse(it, formatter) }
-    }
+class Converters{
 
     private val gson = Gson()
+
+    @TypeConverter
+    fun fromSpecies(species: Species?): String? {
+        return species?.let { gson.toJson(it) }
+    }
+
+    // Konwertuje JSON do obiektu Species
+    @TypeConverter
+    fun toSpecies(data: String?): Species? {
+        return data?.let {
+            gson.fromJson(it, Species::class.java)
+        }
+    }
 
     // Konwersja List<Calendar> na String (JSON)
     @TypeConverter

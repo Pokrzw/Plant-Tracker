@@ -54,11 +54,12 @@ fun PlantApp(
     //================================================
     val context = LocalContext.current
     val database = DatabaseProvider.getDatabase(context)
-    val plantRepository = UserPlantRepository(database.userPlantDao())
+    val plantRepository = UserPlantRepository(database.userPlantDao(), database.speciesDao())
     val speciesRepository = SpeciesRepository(database.speciesDao())
     val formViewModel: FormViewModel = viewModel(
         factory = FormViewModelFactory(plantRepository, speciesRepository)
     )
+    Log.d("viewmodel", "formViewModel: $formViewModel")
     //===================================================
 
     val formUiState by formViewModel.formUiState.collectAsState()
@@ -117,7 +118,13 @@ fun PlantApp(
                 PlantForm(
                     speciesList = formUiState.speciesList,
                     onClickEdit = formViewModel::onClickUpdate,
-                    onClickAdd = formViewModel::onClickAdd,
+                    onClickAdd = {
+                        formViewModel.onClickAdd {
+                            Log.d("nav", "back")
+                            navController.popBackStack()
+                        }
+                    },
+                    formViewModel = formViewModel,
                     onEditSpeciesValue = formViewModel::saveSpeciesOnUpdate,
                     onEditNameValue = formViewModel::saveNameOnUpdate,
                     onUpdateNameValue = formViewModel::saveNameOnUpdate,
@@ -132,7 +139,12 @@ fun PlantApp(
                     isEdit = true,
                     speciesList = formUiState.speciesList,
                     onClickEdit = formViewModel::onClickUpdate,
-                    onClickAdd = formViewModel::onClickAdd,
+                    onClickAdd =  {
+                        formViewModel.onClickAdd {
+                            navController.popBackStack()
+                        }
+                    },
+
                     onEditSpeciesValue = formViewModel::saveSpeciesOnUpdate,
                     onEditNameValue = formViewModel::saveNameOnUpdate,
                     onUpdateNameValue = formViewModel::saveNameOnUpdate,

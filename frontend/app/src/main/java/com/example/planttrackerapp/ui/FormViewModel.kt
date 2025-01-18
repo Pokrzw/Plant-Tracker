@@ -97,6 +97,14 @@ class FormViewModel(
 //        val searchedElementId = plantList.indexOf(searchedElement)
 //        if (searchedElementId!=-1){
             val searchedElementCopy = searchedElement.copy(name = name, species = species)
+            viewModelScope.launch {
+                plantsRepository.updateById(searchedElementCopy.id, name, formSpecies?.name)
+                val plantList = withContext(Dispatchers.IO) { plantsRepository.allUserPlants() }
+
+                Log.d("after update", "${plantList}" )
+                Log.d("after update", "${searchedElementCopy.id}, ${name}, ${formSpecies?.name}" )
+
+            }
             val copyOfPlantList = plantList.map {
                 if (it.id == searchedElementId) searchedElementCopy
                 else it
@@ -116,7 +124,7 @@ class FormViewModel(
 
     }
 
-    fun onClickAdd() {
+    fun onClickAdd(onSuccess: () -> Unit) {
         val id = _formUiState.value.id
         val name = _formUiState.value.name
         val species = _formUiState.value.species
@@ -131,19 +139,23 @@ class FormViewModel(
                 waterHistory = emptyList(),
                 created = currentDate
             )
-            _formUiState.update { currentState ->
-                currentState.copy(
-                    plantsList = currentState.plantsList.plus(plant)
-                )
-            }
+
             viewModelScope.launch {
-                plantsRepository.insert(plant)
+                val insertedPlant = plantsRepository.insert(plant)
+                _formUiState.update { currentState ->
+                    currentState.copy(
+                        plantsList = currentState.plantsList.plus(insertedPlant)
+                    )
+                }
+                resetForm()
+                // Wywołaj callback po zakończeniu operacji
+                onSuccess()
             }
-            resetForm()
         }
 
         Log.d(TAG, "Aktualne rośliny: ${_formUiState.value.plantsList.joinToString("\n")}")
     }
+
 
 
     fun saveNameOnUpdate(name: String?){
@@ -201,6 +213,9 @@ class FormViewModel(
 
             val updatedPlantsList = _formUiState.value.plantsList.map {
                 if (it.id == updatedPlant.id) updatedPlant else it
+            }
+            viewModelScope.launch {
+                plantsRepository.updateWateringHistory(currentlyEditedPlant.id, updatedPlant.waterHistory)
             }
 
             _formUiState.update { currentState ->

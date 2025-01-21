@@ -14,9 +14,19 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import java.util.Calendar
-import java.util.Date
+import java.util.UUID
+import com.example.planttrackerapp.backend.repositories.UserPlantRepository
+import androidx.lifecycle.viewModelScope
+import com.example.planttrackerapp.backend.repositories.SpeciesRepository
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-class FormViewModel: ViewModel() {
+
+class FormViewModel(
+    private val plantsRepository: UserPlantRepository,
+    private val speciesRepository: SpeciesRepository
+    ): ViewModel() {
 
     private val _formUiState = MutableStateFlow(FormUiState())
     val formUiState: StateFlow<FormUiState> = _formUiState.asStateFlow()
@@ -24,16 +34,21 @@ class FormViewModel: ViewModel() {
     private val _plantUiState = MutableStateFlow(PlantUiState())
     val plantUiState: StateFlow<PlantUiState> = _plantUiState.asStateFlow()
 
+
     init {
+
         populateUiState()
     }
 
     fun populateUiState(){
-        val speciesList = Datasource.speciesList
-        val plantList = Datasource.plantList
-        val baseId = plantList.size
-        _formUiState.value = FormUiState(id = baseId, speciesList = speciesList, plantsList = plantList)
-        _plantUiState.value = PlantUiState(currentlyEditedPlant = null)
+        viewModelScope.launch {
+            val speciesList = withContext(Dispatchers.IO) { speciesRepository.getAllSpecies() }
+            val plantList = withContext(Dispatchers.IO) { plantsRepository.allUserPlants() }
+            val baseId = UUID.randomUUID().toString()
+            _formUiState.value = FormUiState(id = baseId, speciesList = speciesList, plantsList = plantList)
+            _plantUiState.value = PlantUiState(currentlyEditedPlant = null)
+            Log.d("List", "Plant List: ${_formUiState.value.plantsList}")
+        }
     }
 
     fun onSetPlant(plant: Plant){
@@ -44,13 +59,18 @@ class FormViewModel: ViewModel() {
         }
     }
 
-    fun onDeletePlant(id: Int){
+    fun onDeletePlant(id: String){
         val newPlantList = _formUiState.value.plantsList.filter { it.id != id }
         _formUiState.update { currentState ->
             currentState.copy(
                 plantsList = newPlantList
             )
         }
+
+        viewModelScope.launch {
+            plantsRepository.deleteById(id)
+        }
+
     }
 
     fun onClickUpdate(){
@@ -73,9 +93,18 @@ class FormViewModel: ViewModel() {
 
         val plantList = _formUiState.value.plantsList
         val searchedElement = plantList.filter { it.id == id}[0]
-        val searchedElementId = plantList.indexOf(searchedElement)
-        if (searchedElementId!=-1){
+        val searchedElementId = searchedElement.id
+//        val searchedElementId = plantList.indexOf(searchedElement)
+//        if (searchedElementId!=-1){
             val searchedElementCopy = searchedElement.copy(name = name, species = species)
+            viewModelScope.launch {
+                plantsRepository.updateById(searchedElementCopy.id, name, formSpecies?.name)
+                val plantList = withContext(Dispatchers.IO) { plantsRepository.allUserPlants() }
+
+                Log.d("after update", "${plantList}" )
+                Log.d("after update", "${searchedElementCopy.id}, ${name}, ${formSpecies?.name}" )
+
+            }
             val copyOfPlantList = plantList.map {
                 if (it.id == searchedElementId) searchedElementCopy
                 else it
@@ -90,12 +119,12 @@ class FormViewModel: ViewModel() {
             _plantUiState.update { currentState ->
                 currentState.copy(currentlyEditedPlant = searchedElementCopy)
             }
-        }
+//        }
 
 
     }
 
-    fun onClickAdd() {
+    fun onClickAdd(onSuccess: () -> Unit) {
         val id = _formUiState.value.id
         val name = _formUiState.value.name
         val species = _formUiState.value.species
@@ -105,19 +134,28 @@ class FormViewModel: ViewModel() {
             val plant = Plant(
                 id = id,
                 name = name,
+                speciesName = species.name,
                 species = species,
                 waterHistory = emptyList(),
                 created = currentDate
             )
-            _formUiState.update { currentState ->
-                currentState.copy(
-                    plantsList = currentState.plantsList.plus(plant)
-                )
+
+            viewModelScope.launch {
+                val insertedPlant = plantsRepository.insert(plant)
+                _formUiState.update { currentState ->
+                    currentState.copy(
+                        plantsList = currentState.plantsList.plus(insertedPlant)
+                    )
+                }
+                resetForm()
+                // Wywołaj callback po zakończeniu operacji
+                onSuccess()
             }
-            resetForm()
         }
+
         Log.d(TAG, "Aktualne rośliny: ${_formUiState.value.plantsList.joinToString("\n")}")
     }
+
 
 
     fun saveNameOnUpdate(name: String?){
@@ -176,6 +214,9 @@ class FormViewModel: ViewModel() {
             val updatedPlantsList = _formUiState.value.plantsList.map {
                 if (it.id == updatedPlant.id) updatedPlant else it
             }
+            viewModelScope.launch {
+                plantsRepository.updateWateringHistory(currentlyEditedPlant.id, updatedPlant.waterHistory)
+            }
 
             _formUiState.update { currentState ->
                 currentState.copy(plantsList = updatedPlantsList)
@@ -202,7 +243,8 @@ class FormViewModel: ViewModel() {
     fun resetForm(){
         _formUiState.update { currentState ->
             currentState.copy(
-                id = currentState.id.inc(),
+                id = "",
+//                id = currentState.id.inc(),
                 name = "",
                 species = null
             )

@@ -37,7 +37,7 @@ import kotlin.math.log
 @Composable
 fun SinglePlantView(
     plant: Plant?,
-    onClickYes: (Int) -> Unit,
+    onClickYes: (String) -> Unit,
     onWater: () -> Unit,
     onGoToForm: () -> Unit,
     onGoToJournal: () -> Unit,
@@ -141,7 +141,7 @@ fun SinglePlantView(
                 confirmButton = {
                     TextButton(
                         onClick = {
-                            val id = plant?.id ?: -1
+                            val id = plant?.id ?: "-1"
                             Log.d(TAG, "id: ${id}")
                             onClickYes(id)
                             showPopUp = false

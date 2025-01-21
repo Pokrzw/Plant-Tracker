@@ -4,11 +4,29 @@ package com.example.planttrackerapp.model
 // Może jeszcze zmienimy minimalne API na 26
 // import java.time.LocalDateTime
 import java.util.Calendar
+import androidx.room.*
+import java.util.UUID
+import com.example.planttrackerapp.backend.database.Converters
 
+
+@Entity(
+    tableName = "user_plants",
+    foreignKeys = [
+        ForeignKey(
+            entity = Species::class,
+            parentColumns = ["name"],
+            childColumns = ["species_name"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ],
+    indices = [Index(value = ["species_name"])]
+)
 data class Plant(
-    val id: Int,
+    @PrimaryKey val id: String = UUID.randomUUID().toString(),
     val name: String,
-    val species: Species,
-    val waterHistory: List<Calendar>,
+    @TypeConverters(Converters::class)
+    @ColumnInfo(name = "species_name") val speciesName: String,
+    @TypeConverters(Converters::class) val species: Species? = null,
+    @TypeConverters(Converters::class) val waterHistory: List<Calendar>,
     val created: Calendar
 )

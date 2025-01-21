@@ -29,9 +29,12 @@ import com.example.planttrackerapp.data.Datasource
 import com.example.planttrackerapp.model.Plant
 import com.example.planttrackerapp.model.Species
 import com.example.planttrackerapp.ui.components.DropDownWrapper
+import androidx.lifecycle.viewModelScope
+import com.example.planttrackerapp.ui.FormViewModel
 
 @Composable
 fun PlantForm(
+    formViewModel: FormViewModel? = null,
     onClickEdit: () -> Unit,
     currentPlantData: Plant? = null,
     onClickAdd: () -> Unit = {},
@@ -93,8 +96,11 @@ fun PlantForm(
                Button(
                    modifier = Modifier.padding(top = 16.dp),
                    onClick = {
-                       onClickAdd()
-                       onGoBack()
+                       Log.d("add", "formViewModel: $formViewModel")
+                       formViewModel?.onClickAdd {
+                           Log.d("add", "onadd")
+                           onGoBack()
+                       }
                    }
                ) {
                    Text(
@@ -163,3 +169,5 @@ fun FormBody(
 fun FormPreview(modifier: Modifier = Modifier) {
     PlantForm(onEditSpeciesValue = {}, onEditNameValue = {}, onClickEdit = {})
 }
+
+

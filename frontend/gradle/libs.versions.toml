@@ -13,6 +13,8 @@ navigationCompose = "2.8.4"
 generativeai = "0.9.0"
 firebaseVertexai = "16.0.2"
 uiTextGoogleFonts = "1.7.5"
+cameraLifecycle = "1.4.1"
+cameraView = "1.4.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -34,6 +36,8 @@ generativeai = { group = "com.google.ai.client.generativeai", name = "generative
 firebase-vertexai = { group = "com.google.firebase", name = "firebase-vertexai", version.ref = "firebaseVertexai" }
 material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 androidx-ui-text-google-fonts = { group = "androidx.compose.ui", name = "ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
+androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "cameraLifecycle" }
+androidx-camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "cameraView" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

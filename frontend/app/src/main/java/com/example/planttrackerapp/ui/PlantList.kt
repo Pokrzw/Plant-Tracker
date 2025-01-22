@@ -29,12 +29,14 @@ import androidx.compose.ui.unit.dp
 import com.example.planttrackerapp.model.Plant
 import com.example.planttrackerapp.ui.components.SinglePlantCard
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.QrCodeScanner
 
 
 @Composable
 fun PlantList(
     plantList: List<Plant>,
     onClickAddNewPlant: () -> Unit = {},
+    onClickOpenQRScanner: () -> Unit = {},
     onClickDetails: (Plant) -> Unit,
     setPlantOnClick: (Plant) -> Unit,
     modifier: Modifier = Modifier
@@ -79,17 +81,31 @@ fun PlantList(
                 }
             }
         }
-        FloatingActionButton(
-            onClick = { onClickAddNewPlant() },
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(16.dp) // Padding for placement at the bottom-right
+        Box(
+            modifier = Modifier.fillMaxSize()
         ) {
-            Icon(
-                imageVector = Icons.Default.Add,
-                contentDescription = "Add new plant"
-            )
+            Column(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                FloatingActionButton(
+                    onClick = { onClickOpenQRScanner() },
+                ) {
+                    Icon(Icons.Default.QrCodeScanner, contentDescription = "Scan QR Code")
+                }
+                FloatingActionButton(
+                    onClick = { onClickAddNewPlant() },
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Add new plant"
+                    )
+                }
+            }
         }
+
     }
 }
 

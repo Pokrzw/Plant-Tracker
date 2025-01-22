@@ -27,7 +27,7 @@ import com.example.planttrackerapp.ui.FormViewModelFactory
 import com.example.planttrackerapp.backend.database.DatabaseProvider
 import com.example.planttrackerapp.backend.repositories.SpeciesRepository
 import com.example.planttrackerapp.backend.repositories.UserPlantRepository
-
+import com.example.planttrackerapp.ui.QRCodeScanner
 
 
 enum class PlantAppScreen {
@@ -35,7 +35,8 @@ enum class PlantAppScreen {
     PlantDetails,
     AllPlants,
     FormEdit,
-    PlantJournal
+    PlantJournal,
+    QRScanner
 }
 
 // Funkcja sprawdzająca czy w BackStack nie ma już aktualnego route'a
@@ -99,7 +100,8 @@ fun PlantApp(
                     plantList = formUiState.plantsList,
                     onClickAddNewPlant = { navController.navigateIfNotCurrent(PlantAppScreen.Form.name) },
                     onClickDetails = { navController.navigateIfNotCurrent(PlantAppScreen.PlantDetails.name) },
-                    setPlantOnClick = formViewModel::onSetPlant
+                    setPlantOnClick = formViewModel::onSetPlant,
+                    onClickOpenQRScanner = { navController.navigateIfNotCurrent(PlantAppScreen.QRScanner.name) }
                 )
             }
 
@@ -152,6 +154,30 @@ fun PlantApp(
                     onGoBack = { navController.popBackStack() }
                 )
             }
+
+            composable(route = PlantAppScreen.QRScanner.name) {
+                QRCodeScanner(
+                    onScanResult = { scannedResult ->
+                        scannedResult?.let { plantId ->
+                            val plant = formViewModel.getPlantById(plantId)
+                            if (plant != null) {
+                                Log.d("QRCodeScanner", "Plant found: $plant")
+                                formViewModel.onSetPlant(plant)
+                                navController.navigateIfNotCurrent(PlantAppScreen.PlantDetails.name)
+                            } else {
+                                Log.d("QRCodeScanner", "No plant found with ID: $plantId")
+                                navController.navigateIfNotCurrent(PlantAppScreen.AllPlants.name)
+                            }
+
+                        } ?: navController.popBackStack()
+                    },
+                    onCancel = {
+                        navController.popBackStack()
+                    }
+                )
+            }
+
+
 
             composable(route = PlantAppScreen.PlantJournal.name) {
                 PlantJournal(

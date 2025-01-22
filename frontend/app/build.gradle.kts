@@ -52,6 +52,7 @@ android {
 dependencies {
     implementation("com.google.code.gson:gson:2.8.8")
 }
+
 dependencies {
 
     // Room dependencies
@@ -59,7 +60,10 @@ dependencies {
     implementation("androidx.room:room-runtime:$room_version")
     ksp("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:$room_version")
-    
+
+    implementation("com.journeyapps:zxing-android-embedded:4.1.0")
+    implementation("com.google.zxing:core:3.3.3")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

@@ -21,6 +21,7 @@ import com.example.planttrackerapp.backend.repositories.SpeciesRepository
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 
 class FormViewModel(
@@ -35,10 +36,20 @@ class FormViewModel(
     val plantUiState: StateFlow<PlantUiState> = _plantUiState.asStateFlow()
 
 
+    fun executeAfterDelay() {
+        GlobalScope.launch {
+            delay(5000)  // opóźnienie 3 sekundy (3000 ms)
+            populateUiState()
+        }
+    }
+
     init {
 
         populateUiState()
+        executeAfterDelay()
     }
+
+
 
     fun populateUiState(){
         viewModelScope.launch {
@@ -69,6 +80,7 @@ class FormViewModel(
 
         viewModelScope.launch {
             plantsRepository.deleteById(id)
+            populateUiState()
         }
 
     }
@@ -137,7 +149,8 @@ class FormViewModel(
                 speciesName = species.name,
                 species = species,
                 waterHistory = emptyList(),
-                created = currentDate
+                created = currentDate,
+
             )
 
             viewModelScope.launch {
@@ -150,6 +163,7 @@ class FormViewModel(
                 resetForm()
                 // Wywołaj callback po zakończeniu operacji
                 onSuccess()
+                populateUiState()
             }
         }
 

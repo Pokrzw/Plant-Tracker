@@ -7,6 +7,8 @@ import java.util.Calendar
 import androidx.room.*
 import java.util.UUID
 import com.example.planttrackerapp.backend.database.Converters
+import com.example.planttrackerapp.backend.database.generateQRCodeAsBase64
+import com.example.planttrackerapp.backend.database.generateQRCodeAsBase64
 
 
 @Entity(
@@ -28,5 +30,6 @@ data class Plant(
     @ColumnInfo(name = "species_name") val speciesName: String,
     @TypeConverters(Converters::class) val species: Species? = null,
     @TypeConverters(Converters::class) val waterHistory: List<Calendar>,
-    val created: Calendar
+    val created: Calendar,
+    val qrCodeImage: String? = generateQRCodeAsBase64(id)
 )

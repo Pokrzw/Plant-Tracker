@@ -33,7 +33,9 @@ object DatabaseSeeder {
                         Species("Monstera", 3),
                         Species("Filodendron", 3),
                         Species("Hoya", 1),
-                        Species("Dracena", 1)
+                        Species("Dracena", 1),
+                        Species("Sylvari", 2)
+
                     )
 
                     // Wstawienie danych do tabeli Species
@@ -70,6 +72,7 @@ object DatabaseSeeder {
                             getDate(2024, 11, 4, 7, 30)
                         ),
                         created = getDate(2024, 10, 28, 8, 15)
+
                     ),
                     Plant(
                         name = "Filodendron",
@@ -109,7 +112,8 @@ object DatabaseSeeder {
                             getDate(2024, 10, 29, 12, 15)
                         ),
                         created = getDate(2023, 11, 14, 9, 0)
-                    )
+                    ),
+
                 )
                     plantList.forEach { a ->
                         Log.d("plant", "${a.species}")

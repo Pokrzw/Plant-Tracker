@@ -52,15 +52,17 @@ android {
 dependencies {
     implementation("com.google.code.gson:gson:2.8.8")
 }
-
 dependencies {
 
-    // Room dependencies
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)// Room dependencies
     val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")
     ksp("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:$room_version")
 
+    // Barcode scanning
+    implementation("com.google.mlkit:barcode-scanning:17.3.0")
     implementation("com.journeyapps:zxing-android-embedded:4.1.0")
     implementation("com.google.zxing:core:3.3.3")
 

@@ -70,6 +70,10 @@ class FormViewModel(
         }
     }
 
+    fun getPlantById(id: String): Plant? {
+        return _formUiState.value.plantsList.find { it.id == id }
+    }
+
     fun onDeletePlant(id: String){
         val newPlantList = _formUiState.value.plantsList.filter { it.id != id }
         _formUiState.update { currentState ->

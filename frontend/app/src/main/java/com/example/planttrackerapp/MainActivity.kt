@@ -17,6 +17,7 @@ import com.example.planttrackerapp.ui.theme.PlantTrackerAppTheme
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 
+
 //logi w konsoli
 import android.util.Log
 
@@ -44,13 +45,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         // Sprawdzamy, czy dane zostały już załadowane
-        if (!isDataAlreadySeeded(this)) {
+//        if (!isDataAlreadySeeded(this)) {
+
             // Jeśli dane nie zostały załadowane, uruchamiamy Seeder
             lifecycleScope.launch {
                 DatabaseSeeder.seedDatabase(this@MainActivity)
                 // Zmieniamy stan na załadowane dane
                 markDataAsSeeded(this@MainActivity)
-            }
+//            }
         }
 
         enableEdgeToEdge()

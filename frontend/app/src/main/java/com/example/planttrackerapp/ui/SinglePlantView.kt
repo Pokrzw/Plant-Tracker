@@ -32,7 +32,18 @@ import com.example.planttrackerapp.ui.theme.PlantTrackerAppTheme
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.Locale
-import kotlin.math.log
+import com.example.planttrackerapp.backend.database.base64ToBitmap
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.graphicsLayer
+
+
+
 
 @Composable
 fun SinglePlantView(
@@ -91,6 +102,28 @@ fun SinglePlantView(
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
+
+        // QR Code section
+        plant?.qrCodeImage?.let { qrCodeBase64 ->
+            val qrBitmap = remember { base64ToBitmap(qrCodeBase64) }
+
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "QR Code:",
+                style = androidx.compose.material3.MaterialTheme.typography.bodyMedium
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Display the QR code bitmap
+            Image(
+                bitmap = qrBitmap.asImageBitmap(),
+                contentDescription = "QR Code for ${plant.name}",
+                modifier = Modifier
+                    .size(200.dp)
+
+            )
+        }
 
         Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
             Button(onClick = {

@@ -18,12 +18,24 @@ class UserPlantRepository(private val userPlantDao: UserPlantDao, private val sp
             userPlantDao.getAll()
         }
     }
-    suspend fun insert(plant: Plant): Plant{
+    suspend fun insert(plant: Plant): Plant? {
         return withContext(Dispatchers.IO) {
+            // Walidacja danych rośliny
+            if (plant.name.isNullOrEmpty()) {
+                return@withContext null // Zwraca null, jeśli dane są nieprawidłowe
+            }
+
+            // Sprawdzenie, czy roślina już istnieje w bazie
+            val existingPlant = userPlantDao.getUserPlantById(plant.id)
+            if (existingPlant != null) {
+                return@withContext null // Zwraca null, jeśli roślina już istnieje
+            }
+
             userPlantDao.insert(plant)
             userPlantDao.getUserPlantById(plant.id)
         }
     }
+
 
     suspend fun deleteById(plantId: String) {
         withContext(Dispatchers.IO) {

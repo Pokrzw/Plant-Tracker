@@ -41,8 +41,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
-
-
+import androidx.compose.ui.res.painterResource
+import com.example.planttrackerapp.R
 
 
 @Composable
@@ -64,6 +64,11 @@ fun SinglePlantView(
             .fillMaxSize()
             .padding(16.dp),
     ) {
+        val plantImage = painterResource(R.drawable.imgbig)
+        Image(
+            painter = plantImage,
+            contentDescription = null
+        )
         Text(
             text = plant?.name ?: "",
             style = androidx.compose.material3.MaterialTheme.typography.titleLarge

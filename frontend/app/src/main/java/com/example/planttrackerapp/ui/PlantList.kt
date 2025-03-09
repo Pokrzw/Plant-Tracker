@@ -110,7 +110,7 @@ fun PlantList(
 }
 
 fun filterNames(namePart: String, plantList: List<Plant>): List<Plant>{
-    val ignoreCasePart = namePart.toLowerCase()
-    val newList = plantList.filter { it.name.toLowerCase().contains(ignoreCasePart) }
+    val ignoreCasePart = namePart.lowercase()
+    val newList = plantList.filter { it.name.lowercase().contains(ignoreCasePart) }
     return newList
 }

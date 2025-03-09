@@ -159,11 +159,14 @@ class FormViewModel(
 
             viewModelScope.launch {
                 val insertedPlant = plantsRepository.insert(plant)
-                _formUiState.update { currentState ->
-                    currentState.copy(
-                        plantsList = currentState.plantsList.plus(insertedPlant)
-                    )
+                insertedPlant?.let {
+                    _formUiState.update { currentState ->
+                        currentState.copy(
+                            plantsList = currentState.plantsList.plus(insertedPlant)
+                        )
+                    }
                 }
+
                 resetForm()
                 // Wywołaj callback po zakończeniu operacji
                 onSuccess()

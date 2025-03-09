@@ -27,6 +27,7 @@ import java.util.Locale
 @Composable
 fun ActivityJournal(
     currentPlant: Plant? = null,
+    onGoBack: () -> Unit,
     modifier: Modifier = Modifier
 ){
 
@@ -90,6 +91,6 @@ fun ActivityJournal(
 @Preview(showBackground = true)
 @Composable
 fun ActivityJournalPreview(modifier: Modifier = Modifier){
-    ActivityJournal(currentPlant = Datasource.plantList[0])
+    ActivityJournal(currentPlant = Datasource.plantList[0], onGoBack = {})
 }
 

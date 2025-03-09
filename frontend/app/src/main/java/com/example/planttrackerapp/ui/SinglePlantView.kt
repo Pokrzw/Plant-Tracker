@@ -50,6 +50,7 @@ fun SinglePlantView(
     plant: Plant?,
     onClickYes: (String) -> Unit,
     onWater: () -> Unit,
+    onGoToActivityJournal: () -> Unit,
     onGoToForm: () -> Unit,
     onGoToJournal: () -> Unit,
     onGoBack: () -> Unit,
@@ -167,6 +168,9 @@ fun SinglePlantView(
         Button(onClick = onGoToForm) {
             Text(text = "Edit plant")
         }
+        Button(onClick = onGoToActivityJournal) {
+            Text(text = "See plant journal")
+        }
 
         Button(onClick = { showPopUp = !showPopUp }) {
             Text(text = "Delete plant")
@@ -207,6 +211,6 @@ fun formatDate(calendar: java.util.Calendar): String {
 @Composable
 fun SinglePlantPreview(modifier: Modifier = Modifier) {
     PlantTrackerAppTheme {
-        SinglePlantView(plant = Datasource.plantList[1], onGoBack = {}, onWater = {}, onGoToForm = {}, onGoToJournal = {}, onClickYes = {})
+        SinglePlantView(plant = Datasource.plantList[1], onGoBack = {}, onGoToActivityJournal = {},onWater = {}, onGoToForm = {}, onGoToJournal = {}, onClickYes = {})
     }
 }

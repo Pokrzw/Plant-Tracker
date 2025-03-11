@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 
 //logi w konsoli
 import android.util.Log
+import com.example.planttrackerapp.backend.database.AppDatabase
 
 //wstrzyuje dane
 import com.example.planttrackerapp.backend.database.DatabaseSeeder;
@@ -30,19 +31,25 @@ const val TAG = "MainActivity"
 // Funkcja pomocnicza do sprawdzania, czy dane zostały załadowane
 fun isDataAlreadySeeded(context: Context): Boolean {
     val sharedPreferences: SharedPreferences = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-    return sharedPreferences.getBoolean("is_data_seeded", false)
+    val savedVersion = sharedPreferences.getInt("database_version", 0)
+    Log.d("verS", "${savedVersion}")
+    return sharedPreferences.getBoolean("is_data_seeded", false) && AppDatabase.DATABASE_VERSION == savedVersion
 }
 
 // Funkcja do zapisania stanu, że dane zostały załadowane
 fun markDataAsSeeded(context: Context) {
     val sharedPreferences: SharedPreferences = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-    sharedPreferences.edit().putBoolean("is_data_seeded", true).apply()
+    sharedPreferences.edit()
+        .putBoolean("is_data_seeded", true)
+        .putInt("database_version", AppDatabase.DATABASE_VERSION)
+        .apply()
 }
 
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("MARKSEED", "${isDataAlreadySeeded(this)}")
 
         // Sprawdzamy, czy dane zostały już załadowane
         if (!isDataAlreadySeeded(this)) {

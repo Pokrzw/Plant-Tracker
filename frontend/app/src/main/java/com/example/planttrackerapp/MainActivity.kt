@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 
 //logi w konsoli
 import android.util.Log
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
 //wstrzyuje dane
 import com.example.planttrackerapp.backend.database.DatabaseSeeder;
@@ -42,6 +43,7 @@ fun markDataAsSeeded(context: Context) {
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
 
         // Sprawdzamy, czy dane zostały już załadowane

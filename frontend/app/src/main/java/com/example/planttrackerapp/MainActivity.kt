@@ -43,7 +43,7 @@ fun markDataAsSeeded(context: Context) {
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        Log.d("plantLIST", "${isDataAlreadySeeded(this)}")
         // Sprawdzamy, czy dane zostały już załadowane
         if (!isDataAlreadySeeded(this)) {
 
@@ -52,6 +52,7 @@ class MainActivity : ComponentActivity() {
                 DatabaseSeeder.seedDatabase(this@MainActivity)
                 // Zmieniamy stan na załadowane dane
                 markDataAsSeeded(this@MainActivity)
+
             }
         }
 

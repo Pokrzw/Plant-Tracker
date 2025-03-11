@@ -31,5 +31,9 @@ data class Plant(
     @TypeConverters(Converters::class) val species: Species? = null,
     @TypeConverters(Converters::class) val waterHistory: List<Calendar>,
     val created: Calendar,
+    @TypeConverters(Converters::class) val diseaseHistory: List<Calendar>,
+    @TypeConverters(Converters::class) val replantHistory: List<Calendar>,
+    @TypeConverters(Converters::class) val otherActivitiesHistory: List<Map<String,Calendar>>,
     val qrCodeImage: String? = generateQRCodeAsBase64(id)
+
 )

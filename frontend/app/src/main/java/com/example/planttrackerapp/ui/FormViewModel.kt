@@ -154,7 +154,9 @@ class FormViewModel(
                 species = species,
                 waterHistory = emptyList(),
                 created = currentDate,
-
+                diseaseHistory = emptyList(),
+                replantHistory = emptyList(),
+                otherActivitiesHistory = emptyList()
             )
 
             viewModelScope.launch {

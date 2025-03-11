@@ -58,5 +58,17 @@ class UserPlantRepository(private val userPlantDao: UserPlantDao, private val sp
         userPlantDao.updateWaterHistory(plantId, newWaterHistory)
     }
 
+    suspend fun updateDiseaseHistory(plantId: String, newDiseaseHistory: List<Calendar>) {
+        userPlantDao.updateDiseaseHistory(plantId, newDiseaseHistory)
+    }
+
+    suspend fun updateReplantHistory(plantId: String, newReplantHistory: List<Calendar>) {
+        userPlantDao.updateReplantHistory(plantId, newReplantHistory)
+    }
+
+    suspend fun updateOtherActivitiesHistory(plantId: String, newOtherActivitiesHistory: List<Map<String,Calendar>>) {
+        userPlantDao.updateOtherActivitiesHistory(plantId, newOtherActivitiesHistory)
+    }
+
 
 }

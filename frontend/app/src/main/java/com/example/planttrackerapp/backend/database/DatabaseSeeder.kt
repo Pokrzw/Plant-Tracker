@@ -230,14 +230,10 @@ object DatabaseSeeder {
                         Log.d("plant", "${a.species}")
                     }
 
-                    plantList.forEach { a ->
-                        Log.d("otherActivitiesHistory", "${a.otherActivitiesHistory}")
-                    }
 
 
                     // Wstawienie danych do tabeli Plant
                userPlantDao.insertAll(plantList)
-               Log.d("plantLIST", "${userPlantDao.getAll()}")
 
                     // Logowanie powodzenia
                     Log.d("DatabaseSeeder", "Baza danych została wypełniona!")

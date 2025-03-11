@@ -12,13 +12,12 @@ import com.example.planttrackerapp.model.*;
 
 @Database(
     entities = [Plant::class, Species::class],
-    version = 10,
+    version = 13,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userPlantDao(): UserPlantDao
     abstract fun speciesDao(): SpeciesDao
-//    abstract fun eventDao(): EventDao
-//    abstract fun actionDao(): ActionDao
+
 }

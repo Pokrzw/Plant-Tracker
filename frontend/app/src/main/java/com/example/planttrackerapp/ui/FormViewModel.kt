@@ -58,7 +58,6 @@ class FormViewModel(
             val baseId = UUID.randomUUID().toString()
             _formUiState.value = FormUiState(id = baseId, speciesList = speciesList, plantsList = plantList)
             _plantUiState.value = PlantUiState(currentlyEditedPlant = null)
-            Log.d("List", "Plant List: ${_formUiState.value.plantsList}")
         }
     }
 

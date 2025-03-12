@@ -36,13 +36,14 @@ fun wasMigrationPerformed(context: Context,): Boolean {
     val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     Log.d("1", "${prefs}!")
     val previousVersion = prefs.getInt("db_version", -1)
-    Log.d("1", "${previousVersion}!")
+
 
     val db = DatabaseProvider.getDatabase(context)
     val currentVersion = db.openHelper.readableDatabase.version
     prefs.edit().putInt("db_version", currentVersion).apply()
+    Log.d("prev", "${previousVersion}!")
 
-    return previousVersion != -1 && previousVersion != currentVersion
+    return previousVersion != currentVersion
 }
 
 class MainActivity : ComponentActivity() {

@@ -1,6 +1,7 @@
 package com.example.planttrackerapp.ui
 
 import android.icu.util.Calendar
+import android.net.Uri
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -44,6 +45,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
+import coil3.compose.AsyncImage
 import com.example.planttrackerapp.R
 
 
@@ -61,6 +63,7 @@ fun SinglePlantView(
     var showPopUp by remember { mutableStateOf(false) }
     var showWateredMessage by remember { mutableStateOf(false) }
     Log.d(TAG, "A single plant view")
+    Log.d(TAG, "obrazek: ${plant?.imageUri}")
 
     Column(
         modifier = Modifier
@@ -69,10 +72,19 @@ fun SinglePlantView(
             .verticalScroll(rememberScrollState())
     ) {
         val plantImage = painterResource(R.drawable.imgbig)
-        Image(
-            painter = plantImage,
-            contentDescription = null
-        )
+        if(plant?.imageUri != null){
+            AsyncImage(
+                model = Uri.parse(plant.imageUri),
+                contentDescription = plant.imageUri
+            )
+        }
+        else{
+            Image(
+                painter = plantImage,
+                contentDescription = null
+            )
+        }
+
         Text(
             text = plant?.name ?: "",
             style = androidx.compose.material3.MaterialTheme.typography.titleLarge

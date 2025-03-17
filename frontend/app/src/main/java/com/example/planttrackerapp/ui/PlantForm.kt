@@ -1,5 +1,6 @@
 package com.example.planttrackerapp.ui
 
+import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,6 +32,7 @@ import com.example.planttrackerapp.model.Species
 import com.example.planttrackerapp.ui.components.DropDownWrapper
 import androidx.lifecycle.viewModelScope
 import com.example.planttrackerapp.ui.FormViewModel
+import com.example.planttrackerapp.ui.components.ImageField
 
 @Composable
 fun PlantForm(
@@ -41,6 +43,7 @@ fun PlantForm(
     speciesList: List<Species> = emptyList(),
     onGoBack: () -> Unit = {},
     onEditNameValue: (String?) -> Unit,
+    onUploadImage: (Uri?) -> Unit,
     onEditSpeciesValue: (Species?) -> Unit,
     onUpdateNameValue: (String?) -> Unit = {},
     onUpdateSpeciesValue: (Species?) -> Unit = {},
@@ -73,6 +76,7 @@ fun PlantForm(
            currentPlantData = currentPlantData,
            speciesList = speciesList,
            onEditSpeciesValue = onEditSpeciesValue,
+           onUploadImage = onUploadImage,
            onEditNameValue = onEditNameValue,
            onUpdateNameValue = onUpdateNameValue,
            onUpdateSpeciesValue = onUpdateSpeciesValue,
@@ -120,6 +124,7 @@ fun FormBody(
     speciesList: List<Species>,
     onEditNameValue: (String?) -> Unit,
     onEditSpeciesValue: (Species?) -> Unit,
+    onUploadImage: (Uri?) -> Unit,
     onUpdateNameValue: (String?) -> Unit = {},
     onUpdateSpeciesValue: (Species?) -> Unit = {},
     modifier: Modifier = Modifier
@@ -135,6 +140,10 @@ fun FormBody(
         horizontalAlignment = Alignment.CenterHorizontally,
 
     ){
+        ImageField(
+            onUploadImage = onUploadImage,
+            plant = currentPlantData
+        )
         TextField(
             value = plantName,
             onValueChange = {
@@ -167,7 +176,7 @@ fun FormBody(
 @Preview(showBackground = true)
 @Composable
 fun FormPreview(modifier: Modifier = Modifier) {
-    PlantForm(onEditSpeciesValue = {}, onEditNameValue = {}, onClickEdit = {})
+    PlantForm(onEditSpeciesValue = {}, onEditNameValue = {}, onClickEdit = {}, onUploadImage = {})
 }
 
 

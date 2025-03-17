@@ -36,14 +36,14 @@ const val TAG = "MainActivity"
 
 fun wasMigrationPerformed(context: Context,): Boolean {
     val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-    Log.d("1", "${prefs}!")
+//    Log.d("1", "${prefs}!")
     val previousVersion = prefs.getInt("db_version", -1)
 
 
     val db = DatabaseProvider.getDatabase(context)
     val currentVersion = db.openHelper.readableDatabase.version
     prefs.edit().putInt("db_version", currentVersion).apply()
-    Log.d("prev", "${previousVersion}!")
+//    Log.d("prev", "${previousVersion}!")
 
     return previousVersion != currentVersion
 }
@@ -58,9 +58,9 @@ class MainActivity : ComponentActivity() {
             lifecycleScope.launch {
                 DatabaseSeeder.seedDatabase(this@MainActivity)
             }
-            Log.d("MigrationCheck", "Migracja była!")
+//            Log.d("MigrationCheck", "Migracja była!")
         } else {
-            Log.d("MigrationCheck", "No migration!")
+//            Log.d("MigrationCheck", "No migration!")
         }
 
 

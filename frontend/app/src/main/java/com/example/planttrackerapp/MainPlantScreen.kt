@@ -62,7 +62,7 @@ fun PlantApp(
     val formViewModel: FormViewModel = viewModel(
         factory = FormViewModelFactory(plantRepository, speciesRepository)
     )
-    Log.d("viewmodel", "formViewModel: $formViewModel")
+//    Log.d("viewmodel", "formViewModel: $formViewModel")
     //===================================================
 
     val formUiState by formViewModel.formUiState.collectAsState()
@@ -71,9 +71,9 @@ fun PlantApp(
     // Observe currentBackStackEntry state
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
-
-    Log.d(TAG, "INIT FormUiState: $formUiState")
-    Log.d(TAG, "INIT PlantUiState: $currentPlantState")
+//
+//    Log.d(TAG, "INIT FormUiState: $formUiState")
+//    Log.d(TAG, "INIT PlantUiState: $currentPlantState")
 
     Scaffold(
         topBar = {
@@ -138,6 +138,7 @@ fun PlantApp(
                         }
                     },
                     formViewModel = formViewModel,
+                    onUploadImage = formViewModel::saveUriOnUpdate,
                     onEditSpeciesValue = formViewModel::saveSpeciesOnUpdate,
                     onEditNameValue = formViewModel::saveNameOnUpdate,
                     onUpdateNameValue = formViewModel::saveNameOnUpdate,
@@ -160,6 +161,7 @@ fun PlantApp(
 
                     onEditSpeciesValue = formViewModel::saveSpeciesOnUpdate,
                     onEditNameValue = formViewModel::saveNameOnUpdate,
+                    onUploadImage = formViewModel::saveUriOnUpdate,
                     onUpdateNameValue = formViewModel::saveNameOnUpdate,
                     onUpdateSpeciesValue = formViewModel::saveSpeciesOnUpdate,
                     onGoBack = { navController.popBackStack() }

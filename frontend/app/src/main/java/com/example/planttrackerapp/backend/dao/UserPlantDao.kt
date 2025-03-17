@@ -52,5 +52,14 @@ interface UserPlantDao {
     @Query("UPDATE user_plants SET waterHistory = :newWaterHistory WHERE id = :plantId")
     suspend fun updateWaterHistory(plantId: String, newWaterHistory: List<Calendar>)
 
+    @Query("UPDATE user_plants SET diseaseHistory = :newDiseaseHistory WHERE id = :plantId")
+    suspend fun updateDiseaseHistory(plantId: String, newDiseaseHistory: List<Calendar>)
+
+    @Query("UPDATE user_plants SET replantHistory = :newReplantHistory WHERE id = :plantId")
+    suspend fun updateReplantHistory(plantId: String, newReplantHistory: List<Calendar>)
+
+    @Query("UPDATE user_plants SET otherActivitiesHistory = :newOtherActivitiesHistory WHERE id = :plantId")
+    suspend fun updateOtherActivitiesHistory(plantId: String, newOtherActivitiesHistory: List<Map<String,Calendar>>)
+
 }
 

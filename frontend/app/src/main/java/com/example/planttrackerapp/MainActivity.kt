@@ -18,6 +18,8 @@ import com.example.planttrackerapp.ui.theme.PlantTrackerAppTheme
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 
+//splash screen
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
 //logi w konsoli
 import android.util.Log
@@ -48,6 +50,7 @@ fun wasMigrationPerformed(context: Context,): Boolean {
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
 
 

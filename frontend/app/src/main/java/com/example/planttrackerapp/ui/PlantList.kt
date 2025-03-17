@@ -43,7 +43,11 @@ fun PlantList(
 ) {
 
     var searchedName by remember { mutableStateOf("") }
-    var displayedPlants by remember { mutableStateOf(plantList) }
+
+    val displayedPlants = remember(searchedName, plantList) {
+        if (searchedName.isEmpty()) plantList
+        else plantList.filter { it.name.contains(searchedName, ignoreCase = true) }
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
@@ -56,10 +60,7 @@ fun PlantList(
             ) {
                 TextField(
                     value = searchedName,
-                    onValueChange = {
-                        searchedName = it
-                        displayedPlants = filterNames(it, plantList)
-                    },
+                    onValueChange = { searchedName = it },
                     label = { Text("Search by name") },
                     colors = TextFieldDefaults.colors(
                         unfocusedIndicatorColor = Color.Transparent,
@@ -105,7 +106,6 @@ fun PlantList(
                 }
             }
         }
-
     }
 }
 

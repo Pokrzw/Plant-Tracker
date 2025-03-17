@@ -1,5 +1,6 @@
 package com.example.planttrackerapp
 
+import androidx.room.Room
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -17,45 +18,53 @@ import com.example.planttrackerapp.ui.theme.PlantTrackerAppTheme
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 
+//splash screen
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
 //logi w konsoli
 import android.util.Log
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.example.planttrackerapp.backend.database.AppDatabase
+import com.example.planttrackerapp.backend.database.DatabaseProvider
 
-//wstrzyuje dane
+//wstrzykuje dane
 import com.example.planttrackerapp.backend.database.DatabaseSeeder;
 
 //Tag for logging
 const val TAG = "MainActivity"
 
-// Funkcja pomocnicza do sprawdzania, czy dane zostały załadowane
-fun isDataAlreadySeeded(context: Context): Boolean {
-    val sharedPreferences: SharedPreferences = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-    return sharedPreferences.getBoolean("is_data_seeded", false)
-}
 
-// Funkcja do zapisania stanu, że dane zostały załadowane
-fun markDataAsSeeded(context: Context) {
-    val sharedPreferences: SharedPreferences = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-    sharedPreferences.edit().putBoolean("is_data_seeded", true).apply()
-}
 
+fun wasMigrationPerformed(context: Context,): Boolean {
+    val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+    Log.d("1", "${prefs}!")
+    val previousVersion = prefs.getInt("db_version", -1)
+
+
+    val db = DatabaseProvider.getDatabase(context)
+    val currentVersion = db.openHelper.readableDatabase.version
+    prefs.edit().putInt("db_version", currentVersion).apply()
+    Log.d("prev", "${previousVersion}!")
+
+    return previousVersion != currentVersion
+}
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
 
-        // Sprawdzamy, czy dane zostały już załadowane
-        if (!isDataAlreadySeeded(this)) {
 
-            // Jeśli dane nie zostały załadowane, uruchamiamy Seeder
+        if (wasMigrationPerformed(this)) {
             lifecycleScope.launch {
                 DatabaseSeeder.seedDatabase(this@MainActivity)
-                // Zmieniamy stan na załadowane dane
-                markDataAsSeeded(this@MainActivity)
             }
+            Log.d("MigrationCheck", "Migracja była!")
+        } else {
+            Log.d("MigrationCheck", "No migration!")
         }
+
+
+
 
         enableEdgeToEdge()
         setContent {
@@ -69,5 +78,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 
 

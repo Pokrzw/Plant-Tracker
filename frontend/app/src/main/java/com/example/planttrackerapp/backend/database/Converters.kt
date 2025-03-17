@@ -55,4 +55,27 @@ class Converters{
             }
         }
     }
+
+    @TypeConverter
+    fun fromMapList(mapList: List<Map<String, Calendar>>?): String? {
+        return mapList?.map { map ->
+            map.mapValues { it.value.timeInMillis } // Zamiana Calendar na Long
+        }?.let { gson.toJson(it) }
+    }
+
+    @TypeConverter
+    fun toMapList(data: String?): List<Map<String, Calendar>>? {
+        return data?.let {
+            val type = object : TypeToken<List<Map<String, Long>>>() {}.type
+            val listOfMaps: List<Map<String, Long>> = gson.fromJson(it, type)
+
+            // Konwersja Long -> Calendar
+            listOfMaps.map { map ->
+                map.mapValues { (_, timestamp) ->
+                    Calendar.getInstance().apply { timeInMillis = timestamp }
+                }
+            }
+        }
+    }
+
 }

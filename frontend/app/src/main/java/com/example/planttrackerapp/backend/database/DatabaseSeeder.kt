@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import android.util.Log
+import com.example.planttrackerapp.data.Datasource
 import kotlinx.coroutines.withContext
 
 object DatabaseSeeder {
@@ -46,7 +47,7 @@ object DatabaseSeeder {
 
                     Log.d("hi", "${speciesMap["Agleonema"]}")
 
-                val plantList = listOf(
+                    val plantList = listOf(
                     Plant(
                         name = "Agleonema",
                         speciesName = "Agleonema",
@@ -58,7 +59,28 @@ object DatabaseSeeder {
                             getDate(2024, 11, 10, 10, 30),
                             getDate(2024, 11, 5, 9, 45)
                         ),
-                        created = getDate(2024, 11, 14, 9, 0)
+                        created = getDate(2024, 11, 14, 9, 0),
+                        diseaseHistory = listOf(
+                            getDate(2024, 11, 25, 10, 0),
+                            getDate(2024, 11, 20, 9, 0),
+                            getDate(2024, 11, 15, 8, 0),
+                            getDate(2024, 11, 10, 10, 30),
+                            getDate(2024, 11, 5, 9, 45)
+                        ),
+                        replantHistory = listOf(
+                            getDate(2024, 11, 25, 10, 0),
+                            getDate(2024, 11, 20, 9, 0),
+                            getDate(2024, 11, 15, 8, 0),
+                            getDate(2024, 11, 10, 10, 30),
+                            getDate(2024, 11, 5, 9, 45)
+                        ),
+                        otherActivitiesHistory = listOf(
+                            mapOf("Przycinanie" to getDate(2024, 11, 25, 10, 0)),
+                            mapOf("Przeprowadzka" to getDate(2024, 11, 20, 9, 0)),
+                            mapOf("Nawożenie" to getDate(2024, 11, 15, 8, 0)),
+                            mapOf("Przycinanie" to getDate(2024, 11, 10, 10, 30)),
+                            mapOf("Oprysk" to getDate(2024, 11, 5, 9, 45))
+                    ),
                     ),
                     Plant(
                         name = "Monstera",
@@ -71,8 +93,30 @@ object DatabaseSeeder {
                             getDate(2024, 11, 9, 8, 45),
                             getDate(2024, 11, 4, 7, 30)
                         ),
-                        created = getDate(2024, 10, 28, 8, 15)
+                        created = getDate(2024, 10, 28, 8, 15),
+                        diseaseHistory = listOf(
+                            getDate(2024, 11, 25, 10, 0),
+                            getDate(2024, 11, 20, 9, 0),
+                            getDate(2024, 11, 15, 8, 0),
+                            getDate(2024, 11, 10, 10, 30),
+                            getDate(2024, 11, 5, 9, 45)
+                        ),
+                        replantHistory = listOf(
+                            getDate(2024, 11, 25, 10, 0),
+                            getDate(2024, 11, 20, 9, 0),
+                            getDate(2024, 11, 15, 8, 0),
+                            getDate(2024, 11, 10, 10, 30),
+                            getDate(2024, 11, 5, 9, 45)
+                        ),
+                        otherActivitiesHistory = listOf(
+                            mapOf("Przycinanie" to getDate(2024, 11, 25, 10, 0)),
+                            mapOf("Przeprowadzka" to getDate(2024, 11, 20, 9, 0)),
+                            mapOf("Nawożenie" to getDate(2024, 11, 15, 8, 0)),
+                            mapOf("Przycinanie" to getDate(2024, 11, 10, 10, 30)),
+                            mapOf("Oprysk" to getDate(2024, 11, 5, 9, 45))
 
+
+                        ),
                     ),
                     Plant(
                         name = "Filodendron",
@@ -85,7 +129,29 @@ object DatabaseSeeder {
                             getDate(2024, 11, 8, 11, 0),
                             getDate(2024, 11, 3, 10, 45)
                         ),
-                        created = getDate(2024, 10, 15, 10, 30)
+                        created = getDate(2024, 10, 15, 10, 30),
+                        diseaseHistory = listOf(
+                            getDate(2024, 11, 25, 10, 0),
+                            getDate(2024, 11, 20, 9, 0),
+                            getDate(2024, 11, 15, 8, 0),
+                            getDate(2024, 11, 10, 10, 30),
+                            getDate(2024, 11, 5, 9, 45)
+                        ),
+                        replantHistory = listOf(
+                            getDate(2024, 11, 25, 10, 0),
+                            getDate(2024, 11, 20, 9, 0),
+                            getDate(2024, 11, 15, 8, 0),
+                            getDate(2024, 11, 10, 10, 30),
+                            getDate(2024, 11, 5, 9, 45)
+                        ),
+                        otherActivitiesHistory = listOf(
+                            mapOf("Przycinanie" to getDate(2024, 11, 25, 10, 0)),
+                            mapOf("Przeprowadzka" to getDate(2024, 11, 20, 9, 0)),
+                            mapOf("Nawożenie" to getDate(2024, 11, 15, 8, 0)),
+                            mapOf("Przycinanie" to getDate(2024, 11, 10, 10, 30)),
+                            mapOf("Oprysk" to getDate(2024, 11, 5, 9, 45))
+
+                        ),
                     ),
                     Plant(
                         name = "Hoya",
@@ -98,7 +164,30 @@ object DatabaseSeeder {
                             getDate(2024, 10, 30, 13, 0),
                             getDate(2024, 10, 25, 12, 15)
                         ),
-                        created = getDate(2023, 11, 14, 9, 0)
+                        created = getDate(2023, 11, 14, 9, 0),
+                        diseaseHistory = listOf(
+                            getDate(2024, 11, 25, 10, 0),
+                            getDate(2024, 11, 20, 9, 0),
+                            getDate(2024, 11, 15, 8, 0),
+                            getDate(2024, 11, 10, 10, 30),
+                            getDate(2024, 11, 5, 9, 45)
+                        ),
+                        replantHistory = listOf(
+                            getDate(2024, 11, 25, 10, 0),
+                            getDate(2024, 11, 20, 9, 0),
+                            getDate(2024, 11, 15, 8, 0),
+                            getDate(2024, 11, 10, 10, 30),
+                            getDate(2024, 11, 5, 9, 45)
+                        ),
+                        otherActivitiesHistory = listOf(
+                            mapOf("Przycinanie" to getDate(2024, 11, 25, 10, 0)),
+                            mapOf("Przeprowadzka" to getDate(2024, 11, 20, 9, 0)),
+                            mapOf("Nawożenie" to getDate(2024, 11, 15, 8, 0)),
+                            mapOf("Przycinanie" to getDate(2024, 11, 10, 10, 30)),
+                            mapOf("Oprysk" to getDate(2024, 11, 5, 9, 45))
+
+                        ),
+
                     ),
                     Plant(
                         name = "Dracena",
@@ -111,7 +200,29 @@ object DatabaseSeeder {
                             getDate(2024, 11, 2, 13, 0),
                             getDate(2024, 10, 29, 12, 15)
                         ),
-                        created = getDate(2023, 11, 14, 9, 0)
+                        created = getDate(2023, 11, 14, 9, 0),
+                        diseaseHistory = listOf(
+                            getDate(2024, 11, 25, 10, 0),
+                            getDate(2024, 11, 20, 9, 0),
+                            getDate(2024, 11, 15, 8, 0),
+                            getDate(2024, 11, 10, 10, 30),
+                            getDate(2024, 11, 5, 9, 45)
+                        ),
+                        replantHistory = listOf(
+                            getDate(2024, 11, 25, 10, 0),
+                            getDate(2024, 11, 20, 9, 0),
+                            getDate(2024, 11, 15, 8, 0),
+                            getDate(2024, 11, 10, 10, 30),
+                            getDate(2024, 11, 5, 9, 45)
+                        ),
+                        otherActivitiesHistory = listOf(
+                            mapOf("Przycinanie" to getDate(2024, 11, 25, 10, 0)),
+                            mapOf("Przeprowadzka" to getDate(2024, 11, 20, 9, 0)),
+                            mapOf("Nawożenie" to getDate(2024, 11, 15, 8, 0)),
+                            mapOf("Przycinanie" to getDate(2024, 11, 10, 10, 30)),
+                            mapOf("Oprysk" to getDate(2024, 11, 5, 9, 45))
+
+                        ),
                     ),
 
                 )
@@ -120,9 +231,9 @@ object DatabaseSeeder {
                     }
 
 
+
                     // Wstawienie danych do tabeli Plant
                userPlantDao.insertAll(plantList)
-               Log.d("plantLIST", "${userPlantDao.getAll()}")
 
                     // Logowanie powodzenia
                     Log.d("DatabaseSeeder", "Baza danych została wypełniona!")

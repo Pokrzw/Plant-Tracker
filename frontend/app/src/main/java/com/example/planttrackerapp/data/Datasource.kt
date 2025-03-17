@@ -1,5 +1,6 @@
 package com.example.planttrackerapp.data
 
+import com.example.planttrackerapp.backend.database.DatabaseSeeder
 import com.example.planttrackerapp.model.Plant
 import com.example.planttrackerapp.model.Species
 import java.util.Calendar
@@ -26,7 +27,29 @@ object Datasource {
                 getDate(2024, 11, 10, 10, 30),
                 getDate(2024, 11, 5, 9, 45)
             ),
-            created = getDate(2024, 11, 14, 9, 0)
+            created = getDate(2024, 11, 14, 9, 0),
+            diseaseHistory = listOf(
+                getDate(2024, 11, 25, 10, 0),
+                getDate(2024, 11, 20, 9, 0),
+                getDate(2024, 11, 15, 8, 0),
+                getDate(2024, 11, 10, 10, 30),
+                getDate(2024, 11, 5, 9, 45)
+            ),
+            replantHistory = listOf(
+                getDate(2024, 11, 25, 10, 0),
+                getDate(2024, 11, 20, 9, 0),
+                getDate(2024, 11, 15, 8, 0),
+                getDate(2024, 11, 10, 10, 30),
+                getDate(2024, 11, 5, 9, 45)
+            ),
+            otherActivitiesHistory = listOf(
+                mapOf("Przycinanie" to getDate(2024, 11, 25, 10, 0)),
+                mapOf("Przeprowadzka" to getDate(2024, 11, 20, 9, 0)),
+                mapOf("Nawożenie" to getDate(2024, 11, 15, 8, 0)),
+                mapOf("Przycinanie" to getDate(2024, 11, 10, 10, 30)),
+                mapOf("Oprysk" to getDate(2024, 11, 5, 9, 45))
+
+            ),
         ),
         Plant(
             id = "1",
@@ -40,7 +63,30 @@ object Datasource {
                 getDate(2024, 11, 9, 8, 45),
                 getDate(2024, 11, 4, 7, 30)
             ),
-            created = getDate(2024, 10, 28, 8, 15)
+            created = getDate(2024, 10, 28, 8, 15),
+            diseaseHistory = listOf(
+                getDate(2024, 11, 25, 10, 0),
+                getDate(2024, 11, 20, 9, 0),
+                getDate(2024, 11, 15, 8, 0),
+                getDate(2024, 11, 10, 10, 30),
+                getDate(2024, 11, 5, 9, 45)
+            ),
+            replantHistory = listOf(
+                getDate(2024, 11, 25, 10, 0),
+                getDate(2024, 11, 20, 9, 0),
+                getDate(2024, 11, 15, 8, 0),
+                getDate(2024, 11, 10, 10, 30),
+                getDate(2024, 11, 5, 9, 45)
+            ),
+            otherActivitiesHistory = listOf(
+                mapOf("Przycinanie" to getDate(2024, 11, 25, 10, 0)),
+                mapOf("Przeprowadzka" to getDate(2024, 11, 20, 9, 0)),
+                mapOf("Nawożenie" to getDate(2024, 11, 15, 8, 0)),
+                mapOf("Przycinanie" to getDate(2024, 11, 10, 10, 30)),
+                mapOf("Oprysk" to getDate(2024, 11, 5, 9, 45))
+
+            ),
+
         ),
         Plant(
             id = "2",
@@ -54,7 +100,29 @@ object Datasource {
                 getDate(2024, 11, 8, 11, 0),
                 getDate(2024, 11, 3, 10, 45)
             ),
-            created = getDate(2024, 10, 15, 10, 30)
+            created = getDate(2024, 10, 15, 10, 30),
+            diseaseHistory = listOf(
+                getDate(2024, 11, 25, 10, 0),
+                getDate(2024, 11, 20, 9, 0),
+                getDate(2024, 11, 15, 8, 0),
+                getDate(2024, 11, 10, 10, 30),
+                getDate(2024, 11, 5, 9, 45)
+            ),
+            replantHistory = listOf(
+                getDate(2024, 11, 25, 10, 0),
+                getDate(2024, 11, 20, 9, 0),
+                getDate(2024, 11, 15, 8, 0),
+                getDate(2024, 11, 10, 10, 30),
+                getDate(2024, 11, 5, 9, 45)
+            ),
+            otherActivitiesHistory = listOf(
+                mapOf("Przycinanie" to getDate(2024, 11, 25, 10, 0)),
+                mapOf("Przeprowadzka" to getDate(2024, 11, 20, 9, 0)),
+                mapOf("Nawożenie" to getDate(2024, 11, 15, 8, 0)),
+                mapOf("Przycinanie" to getDate(2024, 11, 10, 10, 30)),
+                mapOf("Oprysk" to getDate(2024, 11, 5, 9, 45))
+
+            ),
         ),
         Plant(
             id = "3",
@@ -68,7 +136,29 @@ object Datasource {
                 getDate(2024, 10, 30, 13, 0),
                 getDate(2024, 10, 25, 12, 15)
             ),
-            created = getDate(2023, 11, 14, 9, 0)
+            created = getDate(2023, 11, 14, 9, 0),
+            diseaseHistory = listOf(
+                getDate(2024, 11, 25, 10, 0),
+                getDate(2024, 11, 20, 9, 0),
+                getDate(2024, 11, 15, 8, 0),
+                getDate(2024, 11, 10, 10, 30),
+                getDate(2024, 11, 5, 9, 45)
+            ),
+            replantHistory = listOf(
+                getDate(2024, 11, 25, 10, 0),
+                getDate(2024, 11, 20, 9, 0),
+                getDate(2024, 11, 15, 8, 0),
+                getDate(2024, 11, 10, 10, 30),
+                getDate(2024, 11, 5, 9, 45)
+            ),
+            otherActivitiesHistory = listOf(
+                mapOf("Przycinanie" to getDate(2024, 11, 25, 10, 0)),
+                mapOf("Przeprowadzka" to getDate(2024, 11, 20, 9, 0)),
+                mapOf("Nawożenie" to getDate(2024, 11, 15, 8, 0)),
+                mapOf("Przycinanie" to getDate(2024, 11, 10, 10, 30)),
+                mapOf("Oprysk" to getDate(2024, 11, 5, 9, 45))
+
+            ),
         ),
         Plant(
             id = "4",
@@ -82,7 +172,29 @@ object Datasource {
                 getDate(2024, 11, 2, 13, 0),
                 getDate(2024, 10, 29, 12, 15)
             ),
-            created = getDate(2023, 11, 14, 9, 0)
+            created = getDate(2023, 11, 14, 9, 0),
+            diseaseHistory = listOf(
+                getDate(2024, 11, 25, 10, 0),
+                getDate(2024, 11, 20, 9, 0),
+                getDate(2024, 11, 15, 8, 0),
+                getDate(2024, 11, 10, 10, 30),
+                getDate(2024, 11, 5, 9, 45)
+            ),
+            replantHistory = listOf(
+                getDate(2024, 11, 25, 10, 0),
+                getDate(2024, 11, 20, 9, 0),
+                getDate(2024, 11, 15, 8, 0),
+                getDate(2024, 11, 10, 10, 30),
+                getDate(2024, 11, 5, 9, 45)
+            ),
+            otherActivitiesHistory = listOf(
+                mapOf("Przycinanie" to getDate(2024, 11, 25, 10, 0)),
+                mapOf("Przeprowadzka" to getDate(2024, 11, 20, 9, 0)),
+                mapOf("Nawożenie" to getDate(2024, 11, 15, 8, 0)),
+                mapOf("Przycinanie" to getDate(2024, 11, 10, 10, 30)),
+                mapOf("Oprysk" to getDate(2024, 11, 5, 9, 45))
+
+            ),
         )
     )
 

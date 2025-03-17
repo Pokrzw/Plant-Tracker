@@ -35,7 +35,9 @@ import java.util.Locale
 import com.example.planttrackerapp.backend.database.base64ToBitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
@@ -63,7 +65,8 @@ fun SinglePlantView(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState())
     ) {
         val plantImage = painterResource(R.drawable.imgbig)
         Image(

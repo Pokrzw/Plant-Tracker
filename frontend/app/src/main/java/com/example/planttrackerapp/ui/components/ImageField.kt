@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -50,13 +51,23 @@ fun ImageField(
         )
 
 
-    Button(onClick = {
-        singleImagePickerLauncher.launch(
-            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-        )
-    }) {
-        Text("Choose image")
+    Row(modifier = Modifier){
+        Button(onClick = {
+            singleImagePickerLauncher.launch(
+                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+            )
+        }) {
+            Text("Choose image")
+        }
+
+        Button(onClick = {
+            selectedImageUri = null
+            onUploadImage(selectedImageUri)
+        }) {
+            Text("Clear image")
+        }
     }
+
 
 
 }

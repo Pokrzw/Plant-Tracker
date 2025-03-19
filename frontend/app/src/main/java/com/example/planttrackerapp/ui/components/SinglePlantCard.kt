@@ -31,23 +31,28 @@ fun SinglePlantCard(
             .padding(8.dp),
         elevation = CardDefaults.cardElevation(4.dp),
         onClick = {
-            Log.d(TAG,"I'M CLICKING!!!")
+            Log.d(TAG,"SinglePlantCard.kt: I'M CLICKING!!!")
             onSetPlant(plant)
             onItemClick(plant)
         }
     ) {
+        Log.d(TAG, "plant.imageUri: ${plant.imageUri}")
         Row(modifier = Modifier.padding(16.dp)){
             if(plant.imageUri != null){
+                Log.d(TAG, "name: ${plant.name}|IF (nie jest null) plant.imageUri: ${plant.imageUri}")
+
                 AsyncImage(
                     model = Uri.parse(plant.imageUri),
                     contentDescription = plant.imageUri,
                     modifier = Modifier.fillMaxWidth(0.1f)
                 )
             } else {
+                Log.d(TAG, "name: ${plant.name}|ELSE (jest null) plant.imageUri: ${plant.imageUri}")
                 Image(
                     painter = image,
                     contentDescription = null
                 )
+
             }
 
             Column(modifier = Modifier.padding(start = 4.dp)) {

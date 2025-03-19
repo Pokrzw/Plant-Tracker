@@ -45,9 +45,8 @@ class FormViewModel(
     }
 
     init {
-
         populateUiState()
-        executeAfterDelay()
+//        executeAfterDelay()
     }
 
 
@@ -103,11 +102,14 @@ class FormViewModel(
             if(formName.equals("") && !plantName.equals("")) plantName
             else formName
 
-        val uri =
-            if (plantUri != null && formUri==null) plantUri
-            else if (formUri!=null ) formUri.toString()
-            else null
+        Log.d(TAG, "ONCLICKUPDATE formUri: ${formUri}")
+        Log.d(TAG, "ONCLICKUPDATE plantUri: ${plantUri}")
+//        val uri =
+//            if (plantUri != null && formUri==null) plantUri
+//            else if (formUri!=null ) formUri.toString()
+//            else null
 
+        val uri = formUri
         //!!!! DO ZMIANY!!!!
         val species =
             if(plantSpecies!=null && formSpecies==null) plantSpecies
@@ -119,7 +121,7 @@ class FormViewModel(
         val searchedElementId = searchedElement.id
 //        val searchedElementId = plantList.indexOf(searchedElement)
 //        if (searchedElementId!=-1){
-            val searchedElementCopy = searchedElement.copy(name = name, species = species, imageUri = uri)
+            val searchedElementCopy = searchedElement.copy(name = name, species = species, imageUri = uri?.toString())
             viewModelScope.launch {
                 plantsRepository.updateById(searchedElementCopy.id, name, formSpecies?.name)
                 val plantList = withContext(Dispatchers.IO) { plantsRepository.allUserPlants() }
@@ -159,7 +161,7 @@ class FormViewModel(
                 id = id,
                 name = name,
                 speciesName = species.name,
-                imageUri = curImg.toString(),
+                imageUri = curImg?.toString(),
                 species = species,
                 waterHistory = emptyList(),
                 created = currentDate,
@@ -206,7 +208,7 @@ class FormViewModel(
     }
 
     fun saveUriOnUpdate(uri: Uri?){
-        Log.d(TAG, "We are in saveUriOnUpdate")
+        Log.d(TAG, "We are in saveUriOnUpdate. Value of uri: ${uri}")
         _formUiState.update { currentState ->
             currentState.copy(
                 imgUri = uri

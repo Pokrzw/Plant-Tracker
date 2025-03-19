@@ -45,8 +45,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import com.example.planttrackerapp.R
+import com.example.planttrackerapp.data.PlantUiState
 
 
 @Composable
@@ -60,17 +62,23 @@ fun SinglePlantView(
     onGoBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+
+    Log.d(TAG, "SinglePlantView.kt")
+
     var showPopUp by remember { mutableStateOf(false) }
     var showWateredMessage by remember { mutableStateOf(false) }
-    Log.d(TAG, "A single plant view")
-    Log.d(TAG, "obrazek: ${plant?.imageUri}")
-
+    Log.d(TAG, "Roślina: ${plant?.name}")
+    Log.d(TAG, "plant.imageUri: ${plant?.imageUri}")
+    if (plant == null){
+        Log.d(TAG, "Roślina nie ma danych")
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
+
         val plantImage = painterResource(R.drawable.imgbig)
         if(plant?.imageUri != null){
             AsyncImage(

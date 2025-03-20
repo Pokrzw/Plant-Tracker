@@ -1,6 +1,7 @@
 package com.example.planttrackerapp.ui
 
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.planttrackerapp.TAG
@@ -44,9 +45,8 @@ class FormViewModel(
     }
 
     init {
-
         populateUiState()
-        executeAfterDelay()
+//        executeAfterDelay()
     }
 
 
@@ -90,6 +90,8 @@ class FormViewModel(
 
     fun onClickUpdate(){
         val id = _plantUiState.value.currentlyEditedPlant?.id ?: -1
+        val formUri = _formUiState.value.imgUri
+        val plantUri = _plantUiState.value.currentlyEditedPlant?.imageUri
         val formName = _formUiState.value.name
         val formSpecies = _formUiState.value.species
         val plantName = _plantUiState.value.currentlyEditedPlant?.name ?: ""
@@ -100,6 +102,14 @@ class FormViewModel(
             if(formName.equals("") && !plantName.equals("")) plantName
             else formName
 
+        Log.d(TAG, "ONCLICKUPDATE formUri: ${formUri}")
+        Log.d(TAG, "ONCLICKUPDATE plantUri: ${plantUri}")
+//        val uri =
+//            if (plantUri != null && formUri==null) plantUri
+//            else if (formUri!=null ) formUri.toString()
+//            else null
+
+        val uri = formUri
         //!!!! DO ZMIANY!!!!
         val species =
             if(plantSpecies!=null && formSpecies==null) plantSpecies
@@ -111,7 +121,7 @@ class FormViewModel(
         val searchedElementId = searchedElement.id
 //        val searchedElementId = plantList.indexOf(searchedElement)
 //        if (searchedElementId!=-1){
-            val searchedElementCopy = searchedElement.copy(name = name, species = species)
+            val searchedElementCopy = searchedElement.copy(name = name, species = species, imageUri = uri?.toString())
             viewModelScope.launch {
                 plantsRepository.updateById(searchedElementCopy.id, name, formSpecies?.name)
                 val plantList = withContext(Dispatchers.IO) { plantsRepository.allUserPlants() }
@@ -144,12 +154,14 @@ class FormViewModel(
         val name = _formUiState.value.name
         val species = _formUiState.value.species
         val currentDate = Calendar.getInstance()
+        val curImg: Uri? = _formUiState.value.imgUri
 
         if (species != null) {
             val plant = Plant(
                 id = id,
                 name = name,
                 speciesName = species.name,
+                imageUri = curImg?.toString(),
                 species = species,
                 waterHistory = emptyList(),
                 created = currentDate,
@@ -191,6 +203,15 @@ class FormViewModel(
         _formUiState.update { currentState ->
             currentState.copy(
                 species = species
+            )
+        }
+    }
+
+    fun saveUriOnUpdate(uri: Uri?){
+        Log.d(TAG, "We are in saveUriOnUpdate. Value of uri: ${uri}")
+        _formUiState.update { currentState ->
+            currentState.copy(
+                imgUri = uri
             )
         }
     }

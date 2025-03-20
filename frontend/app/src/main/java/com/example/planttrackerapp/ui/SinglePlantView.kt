@@ -67,11 +67,7 @@ fun SinglePlantView(
 
     var showPopUp by remember { mutableStateOf(false) }
     var showWateredMessage by remember { mutableStateOf(false) }
-    Log.d(TAG, "Roślina: ${plant?.name}")
-    Log.d(TAG, "plant.imageUri: ${plant?.imageUri}")
-    if (plant == null){
-        Log.d(TAG, "Roślina nie ma danych")
-    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()

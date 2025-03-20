@@ -27,7 +27,6 @@ fun ImageField(
     modifier: Modifier = Modifier
 ){
 
-    Log.d(TAG, "Aktualna wartosc obrazka: ${plant?.imageUri}")
     var startingVal: Uri? = null
     if(plant?.imageUri != null){
         startingVal = Uri.parse(plant.imageUri)
@@ -44,7 +43,6 @@ fun ImageField(
             onUploadImage(uri)
         }
     )
-
         AsyncImage(
             model = selectedImageUri,
             contentDescription = ""

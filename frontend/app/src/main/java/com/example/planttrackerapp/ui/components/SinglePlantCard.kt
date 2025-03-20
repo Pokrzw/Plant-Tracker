@@ -23,7 +23,7 @@ fun SinglePlantCard(
     onItemClick: (Plant) -> Unit,
     onSetPlant: (Plant) -> Unit
 ) {
-//    Log.d(TAG, "SinglePlantCard: ${plant}")
+
     val image = painterResource(R.drawable.imgsmall)
     Card(
         modifier = Modifier
@@ -36,18 +36,14 @@ fun SinglePlantCard(
             onItemClick(plant)
         }
     ) {
-        Log.d(TAG, "plant.imageUri: ${plant.imageUri}")
         Row(modifier = Modifier.padding(16.dp)){
             if(plant.imageUri != null){
-                Log.d(TAG, "name: ${plant.name}|IF (nie jest null) plant.imageUri: ${plant.imageUri}")
-
                 AsyncImage(
                     model = Uri.parse(plant.imageUri),
                     contentDescription = plant.imageUri,
                     modifier = Modifier.fillMaxWidth(0.1f)
                 )
             } else {
-                Log.d(TAG, "name: ${plant.name}|ELSE (jest null) plant.imageUri: ${plant.imageUri}")
                 Image(
                     painter = image,
                     contentDescription = null

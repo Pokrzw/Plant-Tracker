@@ -28,6 +28,7 @@ import com.example.planttrackerapp.backend.database.DatabaseProvider
 import com.example.planttrackerapp.backend.repositories.SpeciesRepository
 import com.example.planttrackerapp.backend.repositories.UserPlantRepository
 import com.example.planttrackerapp.ui.ActivityJournal
+import com.example.planttrackerapp.ui.ChoosePlantsToSelect
 import com.example.planttrackerapp.ui.QRCodeScanner
 
 
@@ -38,7 +39,8 @@ enum class PlantAppScreen {
     AllPlants,
     FormEdit,
     PlantJournal,
-    QRScanner
+    QRScanner,
+    SelectPlants
 }
 
 // Funkcja sprawdzająca czy w BackStack nie ma już aktualnego route'a
@@ -103,6 +105,7 @@ fun PlantApp(
                     plantList = formUiState.plantsList,
                     onClickAddNewPlant = { navController.navigateIfNotCurrent(PlantAppScreen.Form.name) },
                     onClickDetails = { navController.navigateIfNotCurrent(PlantAppScreen.PlantDetails.name) },
+                    onClickSelectPlants = { navController.navigateIfNotCurrent(PlantAppScreen.SelectPlants.name) },
                     setPlantOnClick = formViewModel::onSetPlant,
                     onClickOpenQRScanner = { navController.navigateIfNotCurrent(PlantAppScreen.QRScanner.name) }
                 )
@@ -192,6 +195,10 @@ fun PlantApp(
                 PlantJournal(
                     plant = currentPlantState.currentlyEditedPlant
                 )
+            }
+
+            composable(route = PlantAppScreen.SelectPlants.name){
+                ChoosePlantsToSelect()
             }
         }
     }

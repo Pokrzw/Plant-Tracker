@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.example.planttrackerapp.model.Plant
 import com.example.planttrackerapp.ui.components.SinglePlantCard
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.DoneAll
 import androidx.compose.material.icons.filled.QrCodeScanner
 
 
@@ -37,6 +38,7 @@ fun PlantList(
     plantList: List<Plant>,
     onClickAddNewPlant: () -> Unit = {},
     onClickOpenQRScanner: () -> Unit = {},
+    onClickSelectPlants: () -> Unit = {},
     onClickDetails: (Plant) -> Unit,
     setPlantOnClick: (Plant) -> Unit,
     modifier: Modifier = Modifier
@@ -102,6 +104,14 @@ fun PlantList(
                     Icon(
                         imageVector = Icons.Default.Add,
                         contentDescription = "Add new plant"
+                    )
+                }
+                FloatingActionButton(
+                    onClick = { onClickSelectPlants() },
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.DoneAll,
+                        contentDescription = "Select plants"
                     )
                 }
             }

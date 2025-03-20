@@ -198,7 +198,9 @@ fun PlantApp(
             }
 
             composable(route = PlantAppScreen.SelectPlants.name){
-                ChoosePlantsToSelect()
+                ChoosePlantsToSelect(
+                    plantList = formUiState.plantsList
+                )
             }
         }
     }

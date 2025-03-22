@@ -73,21 +73,4 @@ fun QRCodeScanner(onQrCodeDetected: (String) -> Unit) {
         }
     )
 
-    // Show scanned QR code overlay
-    barcode?.let {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Black.copy(alpha = 0.5f)),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                it,
-                color = Color.White,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center
-            )
-        }
-    }
 }

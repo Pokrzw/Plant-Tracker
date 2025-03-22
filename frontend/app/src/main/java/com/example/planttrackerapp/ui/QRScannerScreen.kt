@@ -8,10 +8,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 
 import androidx.compose.runtime.mutableStateOf
@@ -21,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.font.FontWeight
@@ -31,14 +36,16 @@ import androidx.navigation.NavController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
+import kotlinx.coroutines.launch
 
 
-
-@OptIn(ExperimentalPermissionsApi::class)
+@OptIn(ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun QRScannerScreen(navController: NavController, onQrCodeDetected: (String) -> Unit) {
     var scannedValue by remember { mutableStateOf<String?>(null) }
     val permissionState = rememberPermissionState(Manifest.permission.CAMERA)
+    val sheetState = rememberModalBottomSheetState()
+    val coroutineScope = rememberCoroutineScope()
 
     Box(modifier = Modifier.fillMaxSize()) {
         if (permissionState.status.isGranted) {
@@ -66,23 +73,29 @@ fun QRScannerScreen(navController: NavController, onQrCodeDetected: (String) -> 
                 }
             }
         }
+    }
 
-        // Overlay displaying the scanned QR code
-        scannedValue?.let { qrCode ->
-            Box(
+    // Bottom sheet for scanned result
+    scannedValue?.let { qrCode ->
+        ModalBottomSheet(
+            onDismissRequest = { scannedValue = null },
+            sheetState = sheetState,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Black.copy(alpha = 0.7f)),
-                contentAlignment = Alignment.Center
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(qrCode, color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Button(onClick = { navController.popBackStack() }) {
-                        Text("Close Scanner")
-                    }
-                }
+                Text(
+                    text = qrCode,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                )
             }
         }
     }
 }
+

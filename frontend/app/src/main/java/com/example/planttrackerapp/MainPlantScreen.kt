@@ -184,7 +184,6 @@ fun PlantApp(
                 )
             }
 
-
             composable(route = PlantAppScreen.PlantJournal.name) {
                 PlantJournal(
                     plant = currentPlantState.currentlyEditedPlant

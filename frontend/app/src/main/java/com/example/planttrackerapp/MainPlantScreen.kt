@@ -169,20 +169,13 @@ fun PlantApp(
 
             composable(route = PlantAppScreen.QRScanner.name) {
                 QRScannerScreen(
-                    navController = navController,
-                    onQrCodeDetected = { scannedResult ->
-                        scannedResult?.let { plantId ->
-                            val plant = formViewModel.getPlantById(plantId)
-                            if (plant != null) {
-                                Log.d("QRCodeScanner", "Plant found: $plant")
-                                formViewModel.onSetPlant(plant)
-                            } else {
-                                Log.d("QRCodeScanner", "No plant found with ID: $plantId")
-                            }
-                        } ?: navController.popBackStack()
-                    }
+                    setPlantOnScan = formViewModel::onSetPlant,
+                    onWater = formViewModel::addWateringDate,
+                    onClickDetails = { navController.navigateIfNotCurrent(PlantAppScreen.PlantDetails.name) },
+                    formViewModel = formViewModel // Pass the ViewModel for plant lookup
                 )
             }
+
 
             composable(route = PlantAppScreen.PlantJournal.name) {
                 PlantJournal(

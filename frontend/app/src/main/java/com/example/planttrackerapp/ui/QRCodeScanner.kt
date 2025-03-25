@@ -31,46 +31,76 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.mlkit.vision.barcode.common.Barcode
 import kotlinx.coroutines.delay
 
 
 @Composable
-fun QRCodeScanner(onQrCodeDetected: (String) -> Unit) {
+fun QRCodeScanner(onQrCodeDetected: (String?) -> Unit) {  // Allow null as valid input
     var barcode by remember { mutableStateOf<String?>(null) }
+    var boundingBox by remember { mutableStateOf<Rect?>(null) }
     val context = LocalContext.current
     val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
     val cameraController = remember { LifecycleCameraController(context) }
 
-    AndroidView(
-        modifier = Modifier.fillMaxSize(),
-        factory = { ctx ->
-            PreviewView(ctx).apply {
-                val options = BarcodeScannerOptions.Builder()
-                    .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
-                    .build()
-                val barcodeScanner = BarcodeScanning.getClient(options)
+    Box(modifier = Modifier.fillMaxSize()) {
+        AndroidView(
+            modifier = Modifier.fillMaxSize(),
+            factory = { ctx ->
+                PreviewView(ctx).apply {
+                    val options = BarcodeScannerOptions.Builder()
+                        .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
+                        .build()
+                    val barcodeScanner = BarcodeScanning.getClient(options)
 
-                cameraController.setImageAnalysisAnalyzer(
-                    ContextCompat.getMainExecutor(ctx),
-                    MlKitAnalyzer(
-                        listOf(barcodeScanner),
-                        ImageAnalysis.COORDINATE_SYSTEM_VIEW_REFERENCED,
-                        ContextCompat.getMainExecutor(ctx)
-                    ) { result ->
-                        val barcodeResults = result?.getValue(barcodeScanner)
-                        if (!barcodeResults.isNullOrEmpty()) {
-                            barcode = barcodeResults.first().rawValue
-                            onQrCodeDetected(barcode ?: "")
+                    cameraController.setImageAnalysisAnalyzer(
+                        ContextCompat.getMainExecutor(ctx),
+                        MlKitAnalyzer(
+                            listOf(barcodeScanner),
+                            ImageAnalysis.COORDINATE_SYSTEM_VIEW_REFERENCED,
+                            ContextCompat.getMainExecutor(ctx)
+                        ) { result ->
+                            val barcodeResults = result?.getValue(barcodeScanner)
+                            if (!barcodeResults.isNullOrEmpty()) {
+                                val detectedBarcode = barcodeResults.first()
+                                barcode = detectedBarcode.rawValue
+                                boundingBox = detectedBarcode.boundingBox
+                                onQrCodeDetected(barcode)
+                            } else {
+                                barcode = null
+                                boundingBox = null
+                                onQrCodeDetected(null)
+                            }
                         }
-                    }
-                )
+                    )
 
-                cameraController.bindToLifecycle(lifecycleOwner)
-                this.controller = cameraController
+                    cameraController.bindToLifecycle(lifecycleOwner)
+                    this.controller = cameraController
+                }
+            }
+        )
+
+        // Overlay the bounding box on top of the camera preview
+        boundingBox?.let { box ->
+            Canvas(modifier = Modifier.fillMaxSize()) {
+                val scaleX = size.width / this.size.width
+                val scaleY = size.height / this.size.height
+
+                val left = box.left * scaleX
+                val top = box.top * scaleY
+                val right = box.right * scaleX
+                val bottom = box.bottom * scaleY
+
+                drawRect(
+                    color = Color.White,
+                    topLeft = Offset(left, top),
+                    size = Size(right - left, bottom - top),
+                    style = Stroke(width = 4.dp.toPx())
+                )
             }
         }
-    )
-
+    }
 }
+

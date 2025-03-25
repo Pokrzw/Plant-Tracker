@@ -3,6 +3,7 @@ package com.example.planttrackerapp.ui
 
 import android.Manifest
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -20,6 +21,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -51,7 +53,6 @@ import com.google.accompanist.permissions.rememberPermissionState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-
 @OptIn(ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun QRScannerScreen(
@@ -60,143 +61,140 @@ fun QRScannerScreen(
     onWater: () -> Unit,
     onClickDetails: (Plant) -> Unit
 ) {
+    val cameraPermission = Manifest.permission.CAMERA
+    val permissionState = rememberPermissionState(cameraPermission)
     var scannedPlant by remember { mutableStateOf<Plant?>(null) }
+    var scannedCode by remember { mutableStateOf<String?>(null) }
     var showNotFoundMessage by remember { mutableStateOf(false) }
-    var showWateredMessage by remember { mutableStateOf(false) }
-    val permissionState = rememberPermissionState(Manifest.permission.CAMERA)
-    val sheetState = rememberModalBottomSheetState()
+    var isBottomSheetVisible by remember { mutableStateOf(false) }
 
     LaunchedEffect(showNotFoundMessage) {
         if (showNotFoundMessage) {
-            delay(3000) // Show message for 3 seconds
+            delay(3000)
             showNotFoundMessage = false
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        if (permissionState.status.isGranted) {
+    if (permissionState.status.isGranted) {
+        Box(modifier = Modifier.fillMaxSize()) {
             QRCodeScanner { qrCode ->
-                val plant = formViewModel.getPlantById(qrCode)
-                if (plant != null) {
-                    scannedPlant = plant
-                    setPlantOnScan(plant)
-                } else {
-                    showNotFoundMessage = true
-                }
+                scannedCode = qrCode
             }
-        } else {
+
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Black)
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Bottom,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    "Camera permission is required to scan QR codes.",
-                    color = Color.White,
-                    textAlign = TextAlign.Center
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { permissionState.launchPermissionRequest() }) {
-                    Text("Grant Permission")
+                AnimatedVisibility(
+                    visible = showNotFoundMessage,
+                    enter = fadeIn(),
+                    exit = fadeOut()
+                ) {
+                    Text(
+                        text = "No plant found.",
+                        color = Color.Red,
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .align(Alignment.CenterHorizontally)
+                    )
+                }
+
+                Button(
+                    onClick = {
+                        scannedCode?.let { code ->
+                            val plant = formViewModel.getPlantById(code)
+                            if (plant != null) {
+                                scannedPlant = plant
+                                setPlantOnScan(plant)
+                                isBottomSheetVisible = true
+                            } else {
+                                showNotFoundMessage = true
+                            }
+                        }
+                    },
+                    enabled = scannedCode != null,
+                    modifier = Modifier
+                        .padding(16.dp)
+                ) {
+                    Text("Scan QR Code")
                 }
             }
         }
-
-        // Show "Plant not found" overlay if no plant is found
-        if (showNotFoundMessage) {
-            AnimatedVisibility(
-                visible = showNotFoundMessage,
-                exit = fadeOut(animationSpec = tween(durationMillis = 2000)) // Smooth fade-out in 2 sec
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        "Plant not found.",
-                        color = Color.White,
-                        fontSize = 18.sp
-                    )
-                }
+    } else {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("Camera permission is required to scan QR codes.")
+            Spacer(modifier = Modifier.height(8.dp))
+            Button(onClick = { permissionState.launchPermissionRequest() }) {
+                Text("Grant Permission")
             }
         }
     }
 
-// Bottom sheet to show plant details when a plant is found
-    scannedPlant?.let { plant ->
+    if (scannedPlant != null && isBottomSheetVisible) {
         ModalBottomSheet(
-            onDismissRequest = { scannedPlant = null },
-            sheetState = sheetState,
-            modifier = Modifier.fillMaxWidth()
+            onDismissRequest = { isBottomSheetVisible = false },
+            dragHandle = { BottomSheetDefaults.DragHandle() }
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = plant.name,
-                    fontSize = 18.sp
-                )
-                plant.species?.let {
-                    Text(
-                        text = "Species: ${it.name ?: ""}",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Button(
-                        onClick = {
-                            showWateredMessage = true
-                            onWater()
-                        }
-                    ) {
-                        Text(text = "Water plant")
-                    }
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    AnimatedVisibility(
-                        visible = showWateredMessage,
-                        enter = fadeIn() + slideInHorizontally(initialOffsetX = { -it / 8 }),
-                        exit = fadeOut() + slideOutHorizontally(targetOffsetX = { -it / 8 })
-                    ) {
-                        Text(
-                            text = "Plant watered!",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.secondary,
-                        )
-                    }
-
-                    if (showWateredMessage) {
-                        LaunchedEffect(Unit) {
-                            delay(2000) // 2 seconds
-                            showWateredMessage = false
-                        }
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Button(
-                    onClick = {
-                        onClickDetails(plant)
-                    }
-                ) {
-                    Text("Profile")
-                }
-            }
+            BottomSheetContent(scannedPlant!!, onWater, onClickDetails)
         }
     }
 }
 
+
+@Composable
+fun BottomSheetContent(plant: Plant, onWater: () -> Unit, onClickDetails: (Plant) -> Unit) {
+    var watered by remember { mutableStateOf(false) }
+    var showConfirmation by remember { mutableStateOf(false) }
+
+
+    LaunchedEffect(watered) {
+        if (watered) {
+            showConfirmation = true
+            delay(1500)
+            showConfirmation = false
+            watered = false
+        }
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = plant.name, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+        Text(text = "Species: ${plant.species?.name}", fontSize = 16.sp)
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = {
+                onWater()
+                watered = true
+            },
+            modifier = Modifier
+                .animateContentSize()
+        ) {
+            Text("Water plant")
+        }
+
+        // Display confirmation message briefly after watering
+        AnimatedVisibility(visible = showConfirmation) {
+            Text(
+                text = "Plant watered!",
+                modifier = Modifier.padding(top = 8.dp),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.secondary
+            )
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+        Button(onClick = { onClickDetails(plant) }) {
+            Text("Details")
+        }
+    }
+}

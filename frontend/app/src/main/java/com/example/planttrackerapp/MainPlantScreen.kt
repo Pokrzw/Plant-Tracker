@@ -29,6 +29,7 @@ import com.example.planttrackerapp.backend.repositories.SpeciesRepository
 import com.example.planttrackerapp.backend.repositories.UserPlantRepository
 import com.example.planttrackerapp.ui.ActivityJournal
 import com.example.planttrackerapp.ui.QRCodeScanner
+import com.example.planttrackerapp.ui.QRScannerScreen
 
 
 enum class PlantAppScreen {
@@ -167,26 +168,14 @@ fun PlantApp(
             }
 
             composable(route = PlantAppScreen.QRScanner.name) {
-                QRCodeScanner(
-                    onScanResult = { scannedResult ->
-                        scannedResult?.let { plantId ->
-                            val plant = formViewModel.getPlantById(plantId)
-                            if (plant != null) {
-                                Log.d("QRCodeScanner", "Plant found: $plant")
-                                formViewModel.onSetPlant(plant)
-                                navController.navigateIfNotCurrent(PlantAppScreen.PlantDetails.name)
-                            } else {
-                                Log.d("QRCodeScanner", "No plant found with ID: $plantId")
-                                navController.navigateIfNotCurrent(PlantAppScreen.AllPlants.name)
-                            }
-
-                        } ?: navController.popBackStack()
-                    },
-                    onCancel = {
-                        navController.popBackStack()
-                    }
+                QRScannerScreen(
+                    setPlantOnScan = formViewModel::onSetPlant,
+                    onWater = formViewModel::addWateringDate,
+                    onClickDetails = { navController.navigateIfNotCurrent(PlantAppScreen.PlantDetails.name) },
+                    formViewModel = formViewModel // Pass the ViewModel for plant lookup
                 )
             }
+
 
             composable(route = PlantAppScreen.PlantJournal.name) {
                 PlantJournal(

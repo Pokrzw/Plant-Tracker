@@ -53,6 +53,7 @@ fun DropDownWrapper(
             expanded = isExpanded,
             onExpandedChange = {isExpanded = !isExpanded}
         ) {
+
            TextField(
                modifier = Modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable),
                state = textFieldState,

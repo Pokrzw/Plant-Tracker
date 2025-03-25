@@ -79,7 +79,10 @@ fun SinglePlantView(
         if(plant?.imageUri != null){
             AsyncImage(
                 model = Uri.parse(plant.imageUri),
-                contentDescription = plant.imageUri
+                contentDescription = plant.imageUri,
+                modifier = Modifier
+                    .width(228.dp)
+                    .height(324.dp)
             )
         }
         else{

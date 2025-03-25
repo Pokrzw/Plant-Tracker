@@ -7,6 +7,8 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,6 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.planttrackerapp.model.Plant
 import com.example.planttrackerapp.TAG
@@ -45,7 +48,10 @@ fun ImageField(
     )
         AsyncImage(
             model = selectedImageUri,
-            contentDescription = ""
+            contentDescription = "",
+            modifier = Modifier
+                .width(228.dp)
+                .height(324.dp)
         )
 
 

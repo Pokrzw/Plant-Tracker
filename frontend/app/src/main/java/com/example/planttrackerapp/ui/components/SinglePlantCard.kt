@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,12 +43,17 @@ fun SinglePlantCard(
                 AsyncImage(
                     model = Uri.parse(plant.imageUri),
                     contentDescription = plant.imageUri,
-                    modifier = Modifier.fillMaxWidth(0.1f)
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .width(42.dp)
+                        .height(60.dp)
+
+
                 )
             } else {
                 Image(
                     painter = image,
-                    contentDescription = null
+                    contentDescription = null,
                 )
 
             }

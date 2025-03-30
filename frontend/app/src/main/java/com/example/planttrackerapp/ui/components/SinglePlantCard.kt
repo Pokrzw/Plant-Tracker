@@ -45,8 +45,8 @@ fun SinglePlantCard(
                     contentDescription = plant.imageUri,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .width(42.dp)
-                        .height(60.dp)
+                        .width(30.dp)
+                        .height(43.dp)
 
 
                 )

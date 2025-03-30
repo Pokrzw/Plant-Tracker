@@ -44,6 +44,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
@@ -80,9 +81,10 @@ fun SinglePlantView(
             AsyncImage(
                 model = Uri.parse(plant.imageUri),
                 contentDescription = plant.imageUri,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .width(228.dp)
-                    .height(324.dp)
+                    .width(82.dp)
+                    .height(117.dp)
             )
         }
         else{

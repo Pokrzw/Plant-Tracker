@@ -12,7 +12,7 @@ import com.example.planttrackerapp.model.*;
 
 @Database(
     entities = [Plant::class, Species::class],
-    version = 15,
+    version = 16,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

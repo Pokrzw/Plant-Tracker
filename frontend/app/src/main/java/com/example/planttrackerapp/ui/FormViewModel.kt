@@ -227,7 +227,7 @@ class FormViewModel(
 
         if (currentlyEditedPlant != null) {
             val updatedPlant = currentlyEditedPlant.copy(
-                waterHistory = currentlyEditedPlant.waterHistory + Calendar.getInstance()
+                waterHistory = currentlyEditedPlant.waterHistory + mapOf("watering info that should be given by user" to Calendar.getInstance())
             )
 
             val updatedPlantsList = _formUiState.value.plantsList.map {

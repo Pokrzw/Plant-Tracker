@@ -26,6 +26,7 @@ import com.example.planttrackerapp.backend.database.generateQRCodeAsBase64
 data class Plant(
     @PrimaryKey val id: String = UUID.randomUUID().toString(),
     val name: String,
+    val imageUri: String? = null,
     @TypeConverters(Converters::class)
     @ColumnInfo(name = "species_name") val speciesName: String,
     @TypeConverters(Converters::class) val species: Species? = null,

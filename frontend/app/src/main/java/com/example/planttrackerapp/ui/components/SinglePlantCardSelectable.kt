@@ -22,7 +22,7 @@ import com.example.planttrackerapp.model.Plant
 @Composable
 fun SinglePlantCardSelectable(
     plant: Plant,
-    onCheckPlant: (Boolean, Plant) -> Unit = { b: Boolean, plant: Plant -> }
+    onCheckPlant: (Boolean, Plant) -> Unit = { b: Boolean, plant: Plant -> {}}
 ) {
 
     var checked by remember { mutableStateOf(false) }
@@ -61,6 +61,7 @@ fun SinglePlantCardSelectable(
                     checked = checked,
                     onCheckedChange = {
                         checked = it
+                        onCheckPlant(checked, plant)
                     }
                 )
         }

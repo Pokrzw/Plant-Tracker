@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -25,8 +26,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.planttrackerapp.TAG
+import com.example.planttrackerapp.data.Datasource
 import com.example.planttrackerapp.model.Plant
 import com.example.planttrackerapp.ui.components.SinglePlantCardSelectable
 
@@ -82,6 +85,21 @@ fun ChoosePlantsToSelect(
                         )
                     }
                 }
+                Button(
+                    onClick = {
+                        Log.d(TAG, "lista roslin: ${selectedPlantList}")
+                    }
+                ) {
+                    Text("Select")
+                }
+
+                Button(
+                    onClick = {
+                        Log.d(TAG, "lista roslin: ${selectedPlantList}")
+                    }
+                ) {
+                    Text("Show plants")
+                }
             }
             Box(
                 modifier = Modifier.fillMaxSize()
@@ -95,7 +113,15 @@ fun ChoosePlantsToSelect(
 
                 }
             }
+
+
         }
     }
 
+
+@Preview(showBackground = true)
+@Composable
+fun ChoosePlantToSelectPreview(modifier: Modifier = Modifier){
+    ChoosePlantsToSelect(plantList = listOf(Datasource.plantList[0], Datasource.plantList[1]))
+}
 

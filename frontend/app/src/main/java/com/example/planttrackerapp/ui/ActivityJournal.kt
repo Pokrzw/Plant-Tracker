@@ -65,7 +65,9 @@ fun ActivityJournal(
                 }
                 LazyColumn {
                     items(currentPlant?.waterHistory?.size ?: 0){index ->
-                        val waterHistoryStringified = formatDate(dateGetter?.get(index) ?: Calendar.getInstance())
+//                        val waterHistoryStringified = formatDate(dateGetter?.get(index) ?: Calendar.getInstance())
+                        val calendar = dateGetter?.get(index)?.values?.firstOrNull() ?: Calendar.getInstance()
+                        val waterHistoryStringified = formatDate(calendar)
                         Text("${waterHistoryStringified}")
                     }
                 }

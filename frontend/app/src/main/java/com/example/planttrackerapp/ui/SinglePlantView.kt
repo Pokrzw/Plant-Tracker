@@ -116,7 +116,9 @@ fun SinglePlantView(
         Spacer(modifier = Modifier.height(8.dp))
 
         val date = plant?.created
-        val watered = plant?.waterHistory?.maxOrNull()
+        val watered = plant?.waterHistory
+            ?.flatMap { it.values }
+            ?.maxByOrNull { it.timeInMillis}
 
         if (date != null) {
             Text(

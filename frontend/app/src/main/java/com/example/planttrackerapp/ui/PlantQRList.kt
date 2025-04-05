@@ -65,33 +65,41 @@ fun PlantQRList(
 fun exportToPDF(
     context: Context,
     plantList: List<Plant>){
+    //samo page number - dziala
+    var pageNumber = 1
     val pdfDocument = PdfDocument()
-    val pageInfo = PdfDocument.PageInfo.Builder(595, 842, 1).create()
+    val pageInfo = PdfDocument.PageInfo.Builder(595, 842, pageNumber).create()
     val page = pdfDocument.startPage(pageInfo)
     val canvas = page.canvas
     val paint = Paint()
+    var curPage = page
 
     var curHeight = 20f
     var curWidth = 1f
     for (plant in plantList) {
         canvas.drawText(plant.name, curWidth, curHeight, paint)
-        curWidth+= 200f
-        if (curWidth>=600f){
-            curWidth = 1f
-            curHeight+=200f
-        }
-
+//        curWidth+= 200f
+//        if (curWidth>=600f){
+//            curWidth = 1f
+//            curHeight+=200f
+//        }
+        curHeight+=200f
 //        plant?.qrCodeImage?.let { qrCodeBase64 ->
 //            val qrBitmap = base64ToBitmap(qrCodeBase64)
 //            val scaledBitmap = qrBitmap.let {Bitmap.createScaledBitmap(qrBitmap, 200, 200, false) }
 //            canvas.drawBitmap(scaledBitmap, (canvas.width/2- 75).toFloat(), 250f, paint)
 //        }
+        if (curHeight >= 700){
+            pdfDocument.finishPage(curPage)
+            break
+        }
     }
+
 //    paint.textSize = 20f
 //    paint.textAlign = Paint.Align.CENTER
 //    paint.isFakeBoldText = false
 
-    pdfDocument.finishPage(page)
+//    pdfDocument.finishPage(page)
 
     val pdfFileName = "Plant_QR_Codes_${System.currentTimeMillis()}.pdf"
     val resolver = context.contentResolver

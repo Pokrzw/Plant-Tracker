@@ -37,6 +37,8 @@ import com.example.planttrackerapp.ui.components.SinglePlantCardSelectable
 @Composable
 fun ChoosePlantsToSelect(
     plantList: List<Plant>,
+    onSelectPlants: (List<Plant>) -> Unit,
+    onClickSelect: () -> Unit
 ){
     var selectedPlantList: ArrayList<Plant> = arrayListOf()
     var searchedName by remember { mutableStateOf("") }
@@ -87,7 +89,8 @@ fun ChoosePlantsToSelect(
                 }
                 Button(
                     onClick = {
-                        Log.d(TAG, "lista roslin: ${selectedPlantList}")
+                        onSelectPlants(selectedPlantList)
+                        onClickSelect()
                     }
                 ) {
                     Text("Select")
@@ -122,6 +125,6 @@ fun ChoosePlantsToSelect(
 @Preview(showBackground = true)
 @Composable
 fun ChoosePlantToSelectPreview(modifier: Modifier = Modifier){
-    ChoosePlantsToSelect(plantList = listOf(Datasource.plantList[0], Datasource.plantList[1]))
+    ChoosePlantsToSelect(plantList = listOf(Datasource.plantList[0], Datasource.plantList[1]), onSelectPlants = {}, onClickSelect = {})
 }
 

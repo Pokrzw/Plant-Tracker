@@ -1,5 +1,6 @@
 package com.example.planttrackerapp
 
+import android.content.Context
 import android.util.Log
 
 import androidx.compose.foundation.layout.padding
@@ -29,7 +30,9 @@ import com.example.planttrackerapp.backend.repositories.SpeciesRepository
 import com.example.planttrackerapp.backend.repositories.UserPlantRepository
 import com.example.planttrackerapp.ui.ActivityJournal
 import com.example.planttrackerapp.ui.ChoosePlantsToSelect
+import com.example.planttrackerapp.ui.PlantQRList
 import com.example.planttrackerapp.ui.QRCodeScanner
+import com.google.firebase.vertexai.type.content
 
 
 enum class PlantAppScreen {
@@ -40,7 +43,8 @@ enum class PlantAppScreen {
     FormEdit,
     PlantJournal,
     QRScanner,
-    SelectPlants
+    SelectPlants,
+    QRExport
 }
 
 // Funkcja sprawdzająca czy w BackStack nie ma już aktualnego route'a
@@ -53,6 +57,7 @@ fun NavHostController.navigateIfNotCurrent(route: String) {
 @Composable
 fun PlantApp(
 //    formViewModel: FormViewModel = viewModel(),
+    context: Context,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ) {
@@ -69,6 +74,7 @@ fun PlantApp(
 
     val formUiState by formViewModel.formUiState.collectAsState()
     val currentPlantState by formViewModel.plantUiState.collectAsState()
+    val selectedPlantsState by formViewModel.selectUiState.collectAsState()
 
     // Observe currentBackStackEntry state
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
@@ -118,6 +124,12 @@ fun PlantApp(
                 )
             }
 
+            composable(route = PlantAppScreen.QRExport.name) {
+                PlantQRList(
+                    context = context,
+                    plantList = selectedPlantsState.selectedPlantList
+                )
+            }
             composable(route = PlantAppScreen.PlantDetails.name) {
                 SinglePlantView(
                     plant = currentPlantState.currentlyEditedPlant,
@@ -199,20 +211,22 @@ fun PlantApp(
 
             composable(route = PlantAppScreen.SelectPlants.name){
                 ChoosePlantsToSelect(
-                    plantList = formUiState.plantsList
+                    plantList = formUiState.plantsList,
+                    onSelectPlants = formViewModel::saveSelection,
+                    onClickSelect = { navController.navigateIfNotCurrent(PlantAppScreen.QRExport.name)}
                 )
             }
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PlantAppPreview(modifier: Modifier = Modifier) {
-    PlantTrackerAppTheme {
-        PlantApp(modifier = Modifier)
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PlantAppPreview(modifier: Modifier = Modifier) {
+//    PlantTrackerAppTheme {
+//        PlantApp(modifier = Modifier, context = )
+//    }
+//}
 
 private fun onGoToForm(navController: NavHostController) {
     navController.navigateIfNotCurrent(PlantAppScreen.FormEdit.name)

@@ -39,6 +39,7 @@ fun PlantList(
     onClickAddNewPlant: () -> Unit = {},
     onClickOpenQRScanner: () -> Unit = {},
     onClickSelectPlants: () -> Unit = {},
+
     onClickDetails: (Plant) -> Unit,
     setPlantOnClick: (Plant) -> Unit,
     modifier: Modifier = Modifier

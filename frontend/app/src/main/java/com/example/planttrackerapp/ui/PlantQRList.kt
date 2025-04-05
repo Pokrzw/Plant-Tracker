@@ -61,45 +61,78 @@ fun PlantQRList(
 
             }
 }
-
-fun exportToPDF(
+fun exportToPdf2(
     context: Context,
-    plantList: List<Plant>){
-    //samo page number - dziala
+    plantList: List<Plant>
+){
     var pageNumber = 1
     val pdfDocument = PdfDocument()
-    val pageInfo = PdfDocument.PageInfo.Builder(595, 842, pageNumber).create()
-    val page = pdfDocument.startPage(pageInfo)
-    val canvas = page.canvas
     val paint = Paint()
+    val pageInfo = {
+        n : Int -> PdfDocument.PageInfo.Builder(595, 842, n).create()
+    }
+    val page = pdfDocument.startPage(pageInfo(pageNumber))
+    val canvas = page.canvas
+
+    var curHeight = 20f
+    var curWidth = 1f
+
+    for (plant in plantList){
+        canvas.drawText(plant.name, curWidth, curHeight, paint)
+
+    }
+}
+fun exportToPDF(
+    context: Context,
+    plantList: List<Plant>
+){
+    //samo page number - dziala
+    val PAGE_WIDTH = 595
+    val PAGE_HEIGHT = 842
+    var pageNumber = 1
+    val pdfDocument = PdfDocument()
+    val pageInfo = {
+            n : Int -> PdfDocument.PageInfo.Builder(PAGE_WIDTH, PAGE_HEIGHT, n).create()
+    }
+    val page = pdfDocument.startPage(pageInfo(pageNumber))
     var curPage = page
+//    var canvas = curPage.canvas
+    val paint = Paint()
+
+    var index = 0
 
     var curHeight = 20f
     var curWidth = 1f
     for (plant in plantList) {
-        canvas.drawText(plant.name, curWidth, curHeight, paint)
-//        curWidth+= 200f
-//        if (curWidth>=600f){
-//            curWidth = 1f
-//            curHeight+=200f
-//        }
-        curHeight+=200f
-//        plant?.qrCodeImage?.let { qrCodeBase64 ->
-//            val qrBitmap = base64ToBitmap(qrCodeBase64)
-//            val scaledBitmap = qrBitmap.let {Bitmap.createScaledBitmap(qrBitmap, 200, 200, false) }
-//            canvas.drawBitmap(scaledBitmap, (canvas.width/2- 75).toFloat(), 250f, paint)
-//        }
-        if (curHeight >= 700){
-            pdfDocument.finishPage(curPage)
-            break
-        }
-    }
 
-//    paint.textSize = 20f
+        curPage.canvas.drawText(plant.name, curWidth, curHeight, paint)
+        curWidth+= 225f
+        if (curWidth>=650f){
+            curWidth = 1f
+            curHeight+=225f
+        }
+        plant?.qrCodeImage?.let { qrCodeBase64 ->
+            val qrBitmap = base64ToBitmap(qrCodeBase64)
+            val scaledBitmap = qrBitmap.let {Bitmap.createScaledBitmap(qrBitmap, 200, 200, false) }
+            curPage.canvas.drawBitmap(scaledBitmap, curWidth, curHeight + 5f, paint)
+        }
+        if (curHeight >= 750){
+            pdfDocument.finishPage(curPage)
+            pageNumber = pageNumber + 1
+            curPage = pdfDocument.startPage(pageInfo(pageNumber))
+        }
+//        if(index < plantList.size - 1){
+//            pdfDocument.finishPage(curPage)
+//            pageNumber = pageNumber + 1
+//            curPage = pdfDocument.startPage(pageInfo(pageNumber))
+//        }
+//        index++
+    }
+    //    paint.textSize = 20f
 //    paint.textAlign = Paint.Align.CENTER
 //    paint.isFakeBoldText = false
 
-//    pdfDocument.finishPage(page)
+    pdfDocument.finishPage(curPage)
 
     val pdfFileName = "Plant_QR_Codes_${System.currentTimeMillis()}.pdf"
     val resolver = context.contentResolver
@@ -119,6 +152,11 @@ fun exportToPDF(
     }
 
     pdfDocument.close()
+}
+
+
+fun pdfHelper(page: PdfDocument.Page){
+
 }
 @Preview(showBackground=true)
 @Composable

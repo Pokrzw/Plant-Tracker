@@ -56,8 +56,6 @@ fun NavHostController.navigateIfNotCurrent(route: String) {
 
 @Composable
 fun PlantApp(
-//    formViewModel: FormViewModel = viewModel(),
-    context: Context,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ) {
@@ -123,8 +121,8 @@ fun PlantApp(
 
             composable(route = PlantAppScreen.QRExport.name) {
                 PlantQRList(
-                    context = context,
-                    plantList = selectedPlantsState.selectedPlantList
+                    plantList = selectedPlantsState.selectedPlantList,
+                    onGoBack = {navController.navigateIfNotCurrent(PlantAppScreen.AllPlants.name)}
                 )
             }
             composable(route = PlantAppScreen.PlantDetails.name) {
@@ -213,14 +211,6 @@ fun PlantApp(
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun PlantAppPreview(modifier: Modifier = Modifier) {
-//    PlantTrackerAppTheme {
-//        PlantApp(modifier = Modifier, context = )
-//    }
-//}
 
 private fun onGoToForm(navController: NavHostController) {
     navController.navigateIfNotCurrent(PlantAppScreen.FormEdit.name)

@@ -6,15 +6,15 @@ import android.content.Context
 import android.graphics.pdf.PdfDocument
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.currentCompositionLocalContext
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -22,7 +22,6 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.Bitmap
-import com.example.planttrackerapp.TAG
 import com.example.planttrackerapp.backend.database.base64ToBitmap
 import com.example.planttrackerapp.data.Datasource
 import com.example.planttrackerapp.model.Plant
@@ -31,8 +30,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun PlantQRList(
-    context: Context,
-    plantList: List<Plant>
+    plantList: List<Plant>,
+    onGoBack: () -> Unit
 ){
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
@@ -41,19 +40,29 @@ fun PlantQRList(
             Column(
                 modifier = Modifier.padding(16.dp)
             ) {
+                Row {
+                    Button(
+                        onClick = {
+                            coroutineScope.launch {
+                                exportToPDF(context, plantList)
+                                focusManager.clearFocus()
+                                onGoBack()
+                            }
 
-                Button(
-                    onClick = {
-                        coroutineScope.launch {
-                            exportToPDF(context, plantList)
-                            focusManager.clearFocus()
                         }
-
+                    ) {
+                        Text("Export")
                     }
-                ) {
-                    Text("Export")
+                    Button(
+                        onClick = {onGoBack()}
+                    ) {
+                        Text("Back to main page")
+                    }
                 }
-                LazyColumn  {
+
+                LazyVerticalGrid(
+                    columns = GridCells.Adaptive(100.dp)
+                )  {
                     items(plantList.size) { index ->
                         PlantQRComponent(
                             plant = plantList[index]
@@ -84,16 +93,12 @@ fun exportToPDF(
     var curWidth = 1f
     for (plant in plantList) {
 
-        Log.d(TAG, "Cur height: ${curHeight}")
-        Log.d(TAG, "Cur width: ${curWidth}")
-        Log.d(TAG, "Cur plant: ${plant.name}")
-
         curPage.canvas.drawText(plant.name, curWidth+15f, curHeight, paint)
         curPage.canvas.drawText(plant.speciesName, curWidth+15f, curHeight+15f, paint)
         plant?.qrCodeImage?.let { qrCodeBase64 ->
             val qrBitmap = base64ToBitmap(qrCodeBase64)
             val scaledBitmap = qrBitmap.let {Bitmap.createScaledBitmap(qrBitmap, QR_CODE_SIZE, QR_CODE_SIZE, false) }
-            curPage.canvas.drawBitmap(scaledBitmap, curWidth, curHeight + 15f, paint)
+            curPage.canvas.drawBitmap(scaledBitmap, curWidth, curHeight + 20f, paint)
         }
 
         curWidth+= 150f
@@ -104,8 +109,6 @@ fun exportToPDF(
 
 
         if (curHeight >= 600){
-            Log.d(TAG, "TWORZENIE NOWEJ STRONY")
-            Log.d(TAG, "${plant.name}")
             pdfDocument.finishPage(curPage)
             pageNumber = pageNumber + 1
             curPage = pdfDocument.startPage(pageInfo(pageNumber))
@@ -131,19 +134,14 @@ fun exportToPDF(
 
         }
     }
-
     pdfDocument.close()
 }
 
-
-fun pdfHelper(page: PdfDocument.Page){
-
-}
 @Preview(showBackground=true)
 @Composable
 fun PreviewPlantQRList(){
     PlantQRList(
         plantList = listOf(Datasource.plantList[0],Datasource.plantList[1]),
-        context = LocalContext.current
+        onGoBack = {}
     )
 }

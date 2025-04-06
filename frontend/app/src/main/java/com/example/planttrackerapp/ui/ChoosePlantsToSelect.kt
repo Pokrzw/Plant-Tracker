@@ -95,20 +95,6 @@ fun ChoosePlantsToSelect(
                     Text("Select")
                 }
             }
-            Box(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Column(
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-
-                }
-            }
-
-
         }
     }
 

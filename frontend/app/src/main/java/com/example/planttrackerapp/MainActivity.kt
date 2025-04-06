@@ -69,7 +69,6 @@ class MainActivity : ComponentActivity() {
             PlantTrackerAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     PlantApp(
-                        context = this,
                         modifier = Modifier.padding(innerPadding)
                     )
                 }

@@ -69,7 +69,6 @@ fun PlantApp(
     val formViewModel: FormViewModel = viewModel(
         factory = FormViewModelFactory(plantRepository, speciesRepository)
     )
-    Log.d("viewmodel", "formViewModel: $formViewModel")
     //===================================================
 
     val formUiState by formViewModel.formUiState.collectAsState()
@@ -80,8 +79,6 @@ fun PlantApp(
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
 
-    Log.d(TAG, "INIT FormUiState: $formUiState")
-    Log.d(TAG, "INIT PlantUiState: $currentPlantState")
 
     Scaffold(
         topBar = {
@@ -148,7 +145,6 @@ fun PlantApp(
                     onClickEdit = formViewModel::onClickUpdate,
                     onClickAdd = {
                         formViewModel.onClickAdd {
-                            Log.d("nav", "back")
                             navController.popBackStack()
                         }
                     },
@@ -187,11 +183,9 @@ fun PlantApp(
                         scannedResult?.let { plantId ->
                             val plant = formViewModel.getPlantById(plantId)
                             if (plant != null) {
-                                Log.d("QRCodeScanner", "Plant found: $plant")
                                 formViewModel.onSetPlant(plant)
                                 navController.navigateIfNotCurrent(PlantAppScreen.PlantDetails.name)
                             } else {
-                                Log.d("QRCodeScanner", "No plant found with ID: $plantId")
                                 navController.navigateIfNotCurrent(PlantAppScreen.AllPlants.name)
                             }
 

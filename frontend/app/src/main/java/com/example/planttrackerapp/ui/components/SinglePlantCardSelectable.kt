@@ -32,9 +32,6 @@ fun SinglePlantCardSelectable(
             .fillMaxWidth()
             .padding(8.dp),
         elevation = CardDefaults.cardElevation(4.dp),
-        onClick = {
-            Log.d(TAG,"I'M CLICKING!!!")
-        }
     ) {
         Row(modifier = Modifier.padding(16.dp)) {
             Row(modifier = Modifier.fillMaxWidth(0.8f)){

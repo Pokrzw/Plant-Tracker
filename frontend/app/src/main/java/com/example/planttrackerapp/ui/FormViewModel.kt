@@ -105,7 +105,6 @@ class FormViewModel(
         val plantName = _plantUiState.value.currentlyEditedPlant?.name ?: ""
         val plantSpecies = _plantUiState.value.currentlyEditedPlant?.species
 
-        Log.d(TAG, "ONCLICKUPDATE id: ${id}")
         val name =
             if(formName.equals("") && !plantName.equals("")) plantName
             else formName
@@ -125,10 +124,6 @@ class FormViewModel(
             viewModelScope.launch {
                 plantsRepository.updateById(searchedElementCopy.id, name, formSpecies?.name)
                 val plantList = withContext(Dispatchers.IO) { plantsRepository.allUserPlants() }
-
-                Log.d("after update", "${plantList}" )
-                Log.d("after update", "${searchedElementCopy.id}, ${name}, ${formSpecies?.name}" )
-
             }
             val copyOfPlantList = plantList.map {
                 if (it.id == searchedElementId) searchedElementCopy
@@ -182,7 +177,6 @@ class FormViewModel(
             }
         }
 
-        Log.d(TAG, "Aktualne rośliny: ${_formUiState.value.plantsList.joinToString("\n")}")
     }
 
 
@@ -194,7 +188,6 @@ class FormViewModel(
                 name = name
             )
         }
-//        Log.d(TAG, "")
     }
 
     fun saveSpeciesOnUpdate(species: Species?){

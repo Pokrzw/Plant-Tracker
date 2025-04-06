@@ -21,7 +21,6 @@ fun SinglePlantCard(
     onItemClick: (Plant) -> Unit,
     onSetPlant: (Plant) -> Unit
 ) {
-//    Log.d(TAG, "SinglePlantCard: ${plant}")
     val image = painterResource(R.drawable.imgsmall)
     Card(
         modifier = Modifier
@@ -29,7 +28,6 @@ fun SinglePlantCard(
             .padding(8.dp),
         elevation = CardDefaults.cardElevation(4.dp),
         onClick = {
-            Log.d(TAG,"I'M CLICKING!!!")
             onSetPlant(plant)
             onItemClick(plant)
         }

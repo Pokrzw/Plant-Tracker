@@ -76,7 +76,6 @@ fun DropDownWrapper(
                             textFieldState.setTextAndPlaceCursorAtEnd(option.name)
                             isExpanded = false
                             selectedSpecies = option
-                            Log.d(TAG, "Current species: ${option.toString()}")
                             onUpdateValue(selectedSpecies)
                         },
                         contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,

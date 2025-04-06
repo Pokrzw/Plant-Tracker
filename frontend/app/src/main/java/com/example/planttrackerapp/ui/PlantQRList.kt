@@ -6,6 +6,7 @@ import android.content.Context
 import android.graphics.pdf.PdfDocument
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -21,6 +22,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.Bitmap
+import com.example.planttrackerapp.TAG
 import com.example.planttrackerapp.backend.database.base64ToBitmap
 import com.example.planttrackerapp.data.Datasource
 import com.example.planttrackerapp.model.Plant
@@ -61,32 +63,12 @@ fun PlantQRList(
 
             }
 }
-fun exportToPdf2(
-    context: Context,
-    plantList: List<Plant>
-){
-    var pageNumber = 1
-    val pdfDocument = PdfDocument()
-    val paint = Paint()
-    val pageInfo = {
-        n : Int -> PdfDocument.PageInfo.Builder(595, 842, n).create()
-    }
-    val page = pdfDocument.startPage(pageInfo(pageNumber))
-    val canvas = page.canvas
 
-    var curHeight = 20f
-    var curWidth = 1f
-
-    for (plant in plantList){
-        canvas.drawText(plant.name, curWidth, curHeight, paint)
-
-    }
-}
 fun exportToPDF(
     context: Context,
     plantList: List<Plant>
 ){
-    //samo page number - dziala
+    val QR_CODE_SIZE = 150
     val PAGE_WIDTH = 595
     val PAGE_HEIGHT = 842
     var pageNumber = 1
@@ -96,42 +78,41 @@ fun exportToPDF(
     }
     val page = pdfDocument.startPage(pageInfo(pageNumber))
     var curPage = page
-//    var canvas = curPage.canvas
     val paint = Paint()
-
-    var index = 0
 
     var curHeight = 20f
     var curWidth = 1f
     for (plant in plantList) {
 
-        curPage.canvas.drawText(plant.name, curWidth, curHeight, paint)
-        curWidth+= 225f
-        if (curWidth>=650f){
-            curWidth = 1f
-            curHeight+=225f
-        }
+        Log.d(TAG, "Cur height: ${curHeight}")
+        Log.d(TAG, "Cur width: ${curWidth}")
+        Log.d(TAG, "Cur plant: ${plant.name}")
+
+        curPage.canvas.drawText(plant.name, curWidth+15f, curHeight, paint)
+        curPage.canvas.drawText(plant.speciesName, curWidth+15f, curHeight+15f, paint)
         plant?.qrCodeImage?.let { qrCodeBase64 ->
             val qrBitmap = base64ToBitmap(qrCodeBase64)
-            val scaledBitmap = qrBitmap.let {Bitmap.createScaledBitmap(qrBitmap, 200, 200, false) }
-            curPage.canvas.drawBitmap(scaledBitmap, curWidth, curHeight + 5f, paint)
+            val scaledBitmap = qrBitmap.let {Bitmap.createScaledBitmap(qrBitmap, QR_CODE_SIZE, QR_CODE_SIZE, false) }
+            curPage.canvas.drawBitmap(scaledBitmap, curWidth, curHeight + 15f, paint)
         }
-        if (curHeight >= 750){
+
+        curWidth+= 150f
+        if (curWidth>=460f){
+            curWidth = 1f
+            curHeight+=180f
+        }
+
+
+        if (curHeight >= 600){
+            Log.d(TAG, "TWORZENIE NOWEJ STRONY")
+            Log.d(TAG, "${plant.name}")
             pdfDocument.finishPage(curPage)
             pageNumber = pageNumber + 1
             curPage = pdfDocument.startPage(pageInfo(pageNumber))
+            curHeight = 20f
+            curWidth = 1f
         }
-//        if(index < plantList.size - 1){
-//            pdfDocument.finishPage(curPage)
-//            pageNumber = pageNumber + 1
-//            curPage = pdfDocument.startPage(pageInfo(pageNumber))
-//        }
-//        index++
-    }
-    //    paint.textSize = 20f
-//    paint.textAlign = Paint.Align.CENTER
-//    paint.isFakeBoldText = false
-
+}
     pdfDocument.finishPage(curPage)
 
     val pdfFileName = "Plant_QR_Codes_${System.currentTimeMillis()}.pdf"

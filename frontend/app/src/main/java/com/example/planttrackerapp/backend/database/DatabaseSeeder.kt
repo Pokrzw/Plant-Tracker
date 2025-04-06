@@ -45,7 +45,6 @@ object DatabaseSeeder {
                     // Pobranie zapisanych obiektów Species z bazy danych
                     val speciesMap = speciesDao.getAll().associateBy { it.name }
 
-                    Log.d("hi", "${speciesMap["Agleonema"]}")
 
                     val plantList = listOf(
                     Plant(
@@ -226,9 +225,7 @@ object DatabaseSeeder {
                     ),
 
                 )
-                    plantList.forEach { a ->
-                        Log.d("plant", "${a.species}")
-                    }
+
 
 
 

@@ -60,7 +60,6 @@ fun SinglePlantView(
 ) {
     var showPopUp by remember { mutableStateOf(false) }
     var showWateredMessage by remember { mutableStateOf(false) }
-    Log.d(TAG, "A single plant view")
 
     Column(
         modifier = Modifier
@@ -187,7 +186,6 @@ fun SinglePlantView(
                     TextButton(
                         onClick = {
                             val id = plant?.id ?: "-1"
-                            Log.d(TAG, "id: ${id}")
                             onClickYes(id)
                             showPopUp = false
                             onGoBack()

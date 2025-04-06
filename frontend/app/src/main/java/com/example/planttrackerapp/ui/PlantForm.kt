@@ -47,7 +47,6 @@ fun PlantForm(
     isEdit: Boolean = false,
     modifier: Modifier = Modifier
 ){
-    Log.d(TAG, "Current Plant Data: ${currentPlantData}")
    Column (
        modifier = Modifier.fillMaxWidth(),
        horizontalAlignment = Alignment.CenterHorizontally
@@ -96,9 +95,7 @@ fun PlantForm(
                Button(
                    modifier = Modifier.padding(top = 16.dp),
                    onClick = {
-                       Log.d("add", "formViewModel: $formViewModel")
                        formViewModel?.onClickAdd {
-                           Log.d("add", "onadd")
                            onGoBack()
                        }
                    }

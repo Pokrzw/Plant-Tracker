@@ -42,7 +42,6 @@ fun ChoosePlantsToSelect(
 ){
     var selectedPlantList: ArrayList<Plant> = arrayListOf()
     var searchedName by remember { mutableStateOf("") }
-    Log.d(TAG, "lista roslin: ${selectedPlantList}")
 
     val displayedPlants = remember(searchedName, plantList) {
         if (searchedName.isEmpty()) plantList
@@ -94,14 +93,6 @@ fun ChoosePlantsToSelect(
                     }
                 ) {
                     Text("Select")
-                }
-
-                Button(
-                    onClick = {
-                        Log.d(TAG, "lista roslin: ${selectedPlantList}")
-                    }
-                ) {
-                    Text("Show plants")
                 }
             }
             Box(

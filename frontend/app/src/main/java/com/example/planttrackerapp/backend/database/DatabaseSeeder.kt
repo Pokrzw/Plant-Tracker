@@ -52,26 +52,26 @@ object DatabaseSeeder {
                         speciesName = "Agleonema",
                         species = speciesMap["Agleonema"],
                         waterHistory = listOf(
-                            getDate(2024, 11, 25, 10, 0),
-                            getDate(2024, 11, 20, 9, 0),
-                            getDate(2024, 11, 15, 8, 0),
-                            getDate(2024, 11, 10, 10, 30),
-                            getDate(2024, 11, 5, 9, 45)
+                            mapOf("z nazwozem" to getDate(2024, 11, 25, 10, 0)),
+                            mapOf("bez nawozu" to getDate(2024, 11, 20, 9, 0)),
+                            mapOf("bez nawozu" to getDate(2024, 11, 15, 8, 0)),
+                            mapOf("z nazwozem" to getDate(2024, 11, 10, 10, 30)),
+                            mapOf("z nazwozem" to getDate(2024, 11, 5, 9, 45))
                         ),
                         created = getDate(2024, 11, 14, 9, 0),
                         diseaseHistory = listOf(
-                            getDate(2024, 11, 25, 10, 0),
-                            getDate(2024, 11, 20, 9, 0),
-                            getDate(2024, 11, 15, 8, 0),
-                            getDate(2024, 11, 10, 10, 30),
-                            getDate(2024, 11, 5, 9, 45)
+                            mapOf("Poczerniałe liście" to getDate(2024, 11, 25, 10, 0)),
+                            mapOf("Mszyce" to getDate(2024, 11, 20, 9, 0)),
+                            mapOf("Poczerniałe liście" to getDate(2024, 11, 15, 8, 0)),
+                            mapOf("Usychające liście" to getDate(2024, 11, 10, 10, 30)),
+                            mapOf("Ślimaki" to getDate(2024, 11, 5, 9, 45))
                         ),
                         replantHistory = listOf(
-                            getDate(2024, 11, 25, 10, 0),
-                            getDate(2024, 11, 20, 9, 0),
-                            getDate(2024, 11, 15, 8, 0),
-                            getDate(2024, 11, 10, 10, 30),
-                            getDate(2024, 11, 5, 9, 45)
+                            mapOf("Przesadzenie w większą doniczkę" to getDate(2024, 11, 25, 10, 0)),
+                            mapOf("Przesadzenie w ddoniczkę z 3 innymi kwiatkami" to getDate(2024, 11, 20, 9, 0)),
+                            mapOf("Przesadzenie w czarniejszą glebę" to getDate(2024, 11, 15, 8, 0)),
+                            mapOf("Przesadzenie w mniejszą doniczkę" to getDate(2024, 11, 10, 10, 30)),
+                            mapOf("Przesadzenie w większą doniczkę" to getDate(2024, 11, 5, 9, 45))
                         ),
                         otherActivitiesHistory = listOf(
                             mapOf("Przycinanie" to getDate(2024, 11, 25, 10, 0)),
@@ -86,26 +86,26 @@ object DatabaseSeeder {
                         speciesName = "Monstera",
                         species = speciesMap["Monstera"],
                         waterHistory = listOf(
-                            getDate(2024, 11, 24, 11, 30),
-                            getDate(2024, 11, 19, 10, 0),
-                            getDate(2024, 11, 14, 9, 15),
-                            getDate(2024, 11, 9, 8, 45),
-                            getDate(2024, 11, 4, 7, 30)
+                            mapOf("z nazwozem" to getDate(2024, 11, 25, 10, 0)),
+                            mapOf("bez nawozu" to getDate(2024, 11, 20, 9, 0)),
+                            mapOf("bez nawozu" to getDate(2024, 11, 15, 8, 0)),
+                            mapOf("z nazwozem" to getDate(2024, 11, 10, 10, 30)),
+                            mapOf("z nazwozem" to getDate(2024, 11, 5, 9, 45))
                         ),
                         created = getDate(2024, 10, 28, 8, 15),
                         diseaseHistory = listOf(
-                            getDate(2024, 11, 25, 10, 0),
-                            getDate(2024, 11, 20, 9, 0),
-                            getDate(2024, 11, 15, 8, 0),
-                            getDate(2024, 11, 10, 10, 30),
-                            getDate(2024, 11, 5, 9, 45)
+                            mapOf("Poczerniałe liście" to getDate(2024, 11, 25, 10, 0)),
+                            mapOf("Mszyce" to getDate(2024, 11, 20, 9, 0)),
+                            mapOf("Poczerniałe liście" to getDate(2024, 11, 15, 8, 0)),
+                            mapOf("Usychające liście" to getDate(2024, 11, 10, 10, 30)),
+                            mapOf("Ślimaki" to getDate(2024, 11, 5, 9, 45))
                         ),
                         replantHistory = listOf(
-                            getDate(2024, 11, 25, 10, 0),
-                            getDate(2024, 11, 20, 9, 0),
-                            getDate(2024, 11, 15, 8, 0),
-                            getDate(2024, 11, 10, 10, 30),
-                            getDate(2024, 11, 5, 9, 45)
+                            mapOf("Przesadzenie w większą doniczkę" to getDate(2024, 11, 25, 10, 0)),
+                            mapOf("Przesadzenie w ddoniczkę z 3 innymi kwiatkami" to getDate(2024, 11, 20, 9, 0)),
+                            mapOf("Przesadzenie w czarniejszą glebę" to getDate(2024, 11, 15, 8, 0)),
+                            mapOf("Przesadzenie w mniejszą doniczkę" to getDate(2024, 11, 10, 10, 30)),
+                            mapOf("Przesadzenie w większą doniczkę" to getDate(2024, 11, 5, 9, 45))
                         ),
                         otherActivitiesHistory = listOf(
                             mapOf("Przycinanie" to getDate(2024, 11, 25, 10, 0)),
@@ -122,26 +122,26 @@ object DatabaseSeeder {
                         speciesName = "Filodendron",
                         species = speciesMap["Filodendron"],
                         waterHistory = listOf(
-                            getDate(2024, 11, 23, 14, 45),
-                            getDate(2024, 11, 18, 13, 30),
-                            getDate(2024, 11, 13, 12, 15),
-                            getDate(2024, 11, 8, 11, 0),
-                            getDate(2024, 11, 3, 10, 45)
+                            mapOf("z nazwozem" to getDate(2024, 11, 25, 10, 0)),
+                            mapOf("bez nawozu" to getDate(2024, 11, 20, 9, 0)),
+                            mapOf("bez nawozu" to getDate(2024, 11, 15, 8, 0)),
+                            mapOf("z nazwozem" to getDate(2024, 11, 10, 10, 30)),
+                            mapOf("z nazwozem" to getDate(2024, 11, 5, 9, 45))
                         ),
                         created = getDate(2024, 10, 15, 10, 30),
                         diseaseHistory = listOf(
-                            getDate(2024, 11, 25, 10, 0),
-                            getDate(2024, 11, 20, 9, 0),
-                            getDate(2024, 11, 15, 8, 0),
-                            getDate(2024, 11, 10, 10, 30),
-                            getDate(2024, 11, 5, 9, 45)
+                            mapOf("Poczerniałe liście" to getDate(2024, 11, 25, 10, 0)),
+                            mapOf("Mszyce" to getDate(2024, 11, 20, 9, 0)),
+                            mapOf("Poczerniałe liście" to getDate(2024, 11, 15, 8, 0)),
+                            mapOf("Usychające liście" to getDate(2024, 11, 10, 10, 30)),
+                            mapOf("Ślimaki" to getDate(2024, 11, 5, 9, 45))
                         ),
                         replantHistory = listOf(
-                            getDate(2024, 11, 25, 10, 0),
-                            getDate(2024, 11, 20, 9, 0),
-                            getDate(2024, 11, 15, 8, 0),
-                            getDate(2024, 11, 10, 10, 30),
-                            getDate(2024, 11, 5, 9, 45)
+                            mapOf("Przesadzenie w większą doniczkę" to getDate(2024, 11, 25, 10, 0)),
+                            mapOf("Przesadzenie w ddoniczkę z 3 innymi kwiatkami" to getDate(2024, 11, 20, 9, 0)),
+                            mapOf("Przesadzenie w czarniejszą glebę" to getDate(2024, 11, 15, 8, 0)),
+                            mapOf("Przesadzenie w mniejszą doniczkę" to getDate(2024, 11, 10, 10, 30)),
+                            mapOf("Przesadzenie w większą doniczkę" to getDate(2024, 11, 5, 9, 45))
                         ),
                         otherActivitiesHistory = listOf(
                             mapOf("Przycinanie" to getDate(2024, 11, 25, 10, 0)),
@@ -157,26 +157,26 @@ object DatabaseSeeder {
                         speciesName = "Hoya",
                         species = speciesMap["Hoya"],
                         waterHistory = listOf(
-                            getDate(2024, 11, 14, 16, 0),
-                            getDate(2024, 11, 9, 15, 30),
-                            getDate(2024, 11, 4, 14, 45),
-                            getDate(2024, 10, 30, 13, 0),
-                            getDate(2024, 10, 25, 12, 15)
+                            mapOf("z nazwozem" to getDate(2024, 11, 25, 10, 0)),
+                            mapOf("bez nawozu" to getDate(2024, 11, 20, 9, 0)),
+                            mapOf("bez nawozu" to getDate(2024, 11, 15, 8, 0)),
+                            mapOf("z nazwozem" to getDate(2024, 11, 10, 10, 30)),
+                            mapOf("z nazwozem" to getDate(2024, 11, 5, 9, 45))
                         ),
                         created = getDate(2023, 11, 14, 9, 0),
                         diseaseHistory = listOf(
-                            getDate(2024, 11, 25, 10, 0),
-                            getDate(2024, 11, 20, 9, 0),
-                            getDate(2024, 11, 15, 8, 0),
-                            getDate(2024, 11, 10, 10, 30),
-                            getDate(2024, 11, 5, 9, 45)
+                            mapOf("Poczerniałe liście" to getDate(2024, 11, 25, 10, 0)),
+                            mapOf("Mszyce" to getDate(2024, 11, 20, 9, 0)),
+                            mapOf("Poczerniałe liście" to getDate(2024, 11, 15, 8, 0)),
+                            mapOf("Usychające liście" to getDate(2024, 11, 10, 10, 30)),
+                            mapOf("Ślimaki" to getDate(2024, 11, 5, 9, 45))
                         ),
                         replantHistory = listOf(
-                            getDate(2024, 11, 25, 10, 0),
-                            getDate(2024, 11, 20, 9, 0),
-                            getDate(2024, 11, 15, 8, 0),
-                            getDate(2024, 11, 10, 10, 30),
-                            getDate(2024, 11, 5, 9, 45)
+                            mapOf("Przesadzenie w większą doniczkę" to getDate(2024, 11, 25, 10, 0)),
+                            mapOf("Przesadzenie w ddoniczkę z 3 innymi kwiatkami" to getDate(2024, 11, 20, 9, 0)),
+                            mapOf("Przesadzenie w czarniejszą glebę" to getDate(2024, 11, 15, 8, 0)),
+                            mapOf("Przesadzenie w mniejszą doniczkę" to getDate(2024, 11, 10, 10, 30)),
+                            mapOf("Przesadzenie w większą doniczkę" to getDate(2024, 11, 5, 9, 45))
                         ),
                         otherActivitiesHistory = listOf(
                             mapOf("Przycinanie" to getDate(2024, 11, 25, 10, 0)),
@@ -193,26 +193,26 @@ object DatabaseSeeder {
                         speciesName = "Dracena",
                         species = speciesMap["Dracena"],
                         waterHistory = listOf(
-                            getDate(2024, 11, 14, 16, 0),
-                            getDate(2024, 11, 10, 15, 30),
-                            getDate(2024, 11, 6, 14, 45),
-                            getDate(2024, 11, 2, 13, 0),
-                            getDate(2024, 10, 29, 12, 15)
+                            mapOf("z nazwozem" to getDate(2024, 11, 25, 10, 0)),
+                            mapOf("bez nawozu" to getDate(2024, 11, 20, 9, 0)),
+                            mapOf("bez nawozu" to getDate(2024, 11, 15, 8, 0)),
+                            mapOf("z nazwozem" to getDate(2024, 11, 10, 10, 30)),
+                            mapOf("z nazwozem" to getDate(2024, 11, 5, 9, 45))
                         ),
                         created = getDate(2023, 11, 14, 9, 0),
                         diseaseHistory = listOf(
-                            getDate(2024, 11, 25, 10, 0),
-                            getDate(2024, 11, 20, 9, 0),
-                            getDate(2024, 11, 15, 8, 0),
-                            getDate(2024, 11, 10, 10, 30),
-                            getDate(2024, 11, 5, 9, 45)
+                            mapOf("Poczerniałe liście" to getDate(2024, 11, 25, 10, 0)),
+                            mapOf("Mszyce" to getDate(2024, 11, 20, 9, 0)),
+                            mapOf("Poczerniałe liście" to getDate(2024, 11, 15, 8, 0)),
+                            mapOf("Usychające liście" to getDate(2024, 11, 10, 10, 30)),
+                            mapOf("Ślimaki" to getDate(2024, 11, 5, 9, 45))
                         ),
                         replantHistory = listOf(
-                            getDate(2024, 11, 25, 10, 0),
-                            getDate(2024, 11, 20, 9, 0),
-                            getDate(2024, 11, 15, 8, 0),
-                            getDate(2024, 11, 10, 10, 30),
-                            getDate(2024, 11, 5, 9, 45)
+                            mapOf("Przesadzenie w większą doniczkę" to getDate(2024, 11, 25, 10, 0)),
+                            mapOf("Przesadzenie w ddoniczkę z 3 innymi kwiatkami" to getDate(2024, 11, 20, 9, 0)),
+                            mapOf("Przesadzenie w czarniejszą glebę" to getDate(2024, 11, 15, 8, 0)),
+                            mapOf("Przesadzenie w mniejszą doniczkę" to getDate(2024, 11, 10, 10, 30)),
+                            mapOf("Przesadzenie w większą doniczkę" to getDate(2024, 11, 5, 9, 45))
                         ),
                         otherActivitiesHistory = listOf(
                             mapOf("Przycinanie" to getDate(2024, 11, 25, 10, 0)),

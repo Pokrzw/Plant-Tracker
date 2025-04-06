@@ -54,15 +54,15 @@ class UserPlantRepository(private val userPlantDao: UserPlantDao, private val sp
         }
     }
 
-    suspend fun updateWateringHistory(plantId: String, newWaterHistory: List<Calendar>) {
+    suspend fun updateWateringHistory(plantId: String, newWaterHistory: List<Map<String,Calendar>>) {
         userPlantDao.updateWaterHistory(plantId, newWaterHistory)
     }
 
-    suspend fun updateDiseaseHistory(plantId: String, newDiseaseHistory: List<Calendar>) {
+    suspend fun updateDiseaseHistory(plantId: String, newDiseaseHistory: List<Map<String,Calendar>>) {
         userPlantDao.updateDiseaseHistory(plantId, newDiseaseHistory)
     }
 
-    suspend fun updateReplantHistory(plantId: String, newReplantHistory: List<Calendar>) {
+    suspend fun updateReplantHistory(plantId: String, newReplantHistory: List<Map<String,Calendar>>) {
         userPlantDao.updateReplantHistory(plantId, newReplantHistory)
     }
 

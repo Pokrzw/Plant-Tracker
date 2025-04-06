@@ -33,6 +33,7 @@ import com.example.planttrackerapp.ui.ChoosePlantsToSelect
 import com.example.planttrackerapp.ui.PlantQRList
 import com.example.planttrackerapp.ui.QRCodeScanner
 import com.google.firebase.vertexai.type.content
+import com.example.planttrackerapp.ui.QRScannerScreen
 
 
 enum class PlantAppScreen {
@@ -73,7 +74,6 @@ fun PlantApp(
     val currentPlantState by formViewModel.plantUiState.collectAsState()
     val selectedPlantsState by formViewModel.selectUiState.collectAsState()
 
-    // Observe currentBackStackEntry state
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
 
@@ -147,6 +147,7 @@ fun PlantApp(
                         }
                     },
                     formViewModel = formViewModel,
+                    onUploadImage = formViewModel::saveUriOnUpdate,
                     onEditSpeciesValue = formViewModel::saveSpeciesOnUpdate,
                     onEditNameValue = formViewModel::saveNameOnUpdate,
                     onUpdateNameValue = formViewModel::saveNameOnUpdate,
@@ -169,6 +170,7 @@ fun PlantApp(
 
                     onEditSpeciesValue = formViewModel::saveSpeciesOnUpdate,
                     onEditNameValue = formViewModel::saveNameOnUpdate,
+                    onUploadImage = formViewModel::saveUriOnUpdate,
                     onUpdateNameValue = formViewModel::saveNameOnUpdate,
                     onUpdateSpeciesValue = formViewModel::saveSpeciesOnUpdate,
                     onGoBack = { navController.popBackStack() }
@@ -176,24 +178,14 @@ fun PlantApp(
             }
 
             composable(route = PlantAppScreen.QRScanner.name) {
-                QRCodeScanner(
-                    onScanResult = { scannedResult ->
-                        scannedResult?.let { plantId ->
-                            val plant = formViewModel.getPlantById(plantId)
-                            if (plant != null) {
-                                formViewModel.onSetPlant(plant)
-                                navController.navigateIfNotCurrent(PlantAppScreen.PlantDetails.name)
-                            } else {
-                                navController.navigateIfNotCurrent(PlantAppScreen.AllPlants.name)
-                            }
-
-                        } ?: navController.popBackStack()
-                    },
-                    onCancel = {
-                        navController.popBackStack()
-                    }
+                QRScannerScreen(
+                    setPlantOnScan = formViewModel::onSetPlant,
+                    onWater = formViewModel::addWateringDate,
+                    onClickDetails = { navController.navigateIfNotCurrent(PlantAppScreen.PlantDetails.name) },
+                    formViewModel = formViewModel // Pass the ViewModel for plant lookup
                 )
             }
+
 
             composable(route = PlantAppScreen.PlantJournal.name) {
                 PlantJournal(

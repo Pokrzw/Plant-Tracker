@@ -1,10 +1,12 @@
 package com.example.planttrackerapp.ui
 
+import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -31,6 +33,7 @@ import com.example.planttrackerapp.model.Species
 import com.example.planttrackerapp.ui.components.DropDownWrapper
 import androidx.lifecycle.viewModelScope
 import com.example.planttrackerapp.ui.FormViewModel
+import com.example.planttrackerapp.ui.components.ImageField
 
 @Composable
 fun PlantForm(
@@ -41,72 +44,82 @@ fun PlantForm(
     speciesList: List<Species> = emptyList(),
     onGoBack: () -> Unit = {},
     onEditNameValue: (String?) -> Unit,
+    onUploadImage: (Uri?) -> Unit,
     onEditSpeciesValue: (Species?) -> Unit,
     onUpdateNameValue: (String?) -> Unit = {},
     onUpdateSpeciesValue: (Species?) -> Unit = {},
     isEdit: Boolean = false,
     modifier: Modifier = Modifier
 ){
-   Column (
+    Log.d(TAG, "Current Plant Data: ${currentPlantData}")
+   LazyColumn (
        modifier = Modifier.fillMaxWidth(),
        horizontalAlignment = Alignment.CenterHorizontally
    ){
-       if (isEdit){
-           Text(
-               modifier = Modifier.padding(16.dp),
-               fontWeight = FontWeight.Bold,
-               fontSize = 24.sp,
-               text = "Edit specimen"
-           )
-       } else{
-           Text(
-               modifier = Modifier.padding(16.dp),
-               fontWeight = FontWeight.Bold,
-               fontSize = 24.sp,
-               text = "Add specimen"
-           )
-       }
+    item {
+        if (isEdit){
+            Text(
+                modifier = Modifier.padding(16.dp),
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp,
+                text = "Edit specimen"
+            )
+        } else{
+            Text(
+                modifier = Modifier.padding(16.dp),
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp,
+                text = "Add specimen"
+            )
+        }
 
-       FormBody(
-           isEdit = isEdit,
-           currentPlantData = currentPlantData,
-           speciesList = speciesList,
-           onEditSpeciesValue = onEditSpeciesValue,
-           onEditNameValue = onEditNameValue,
-           onUpdateNameValue = onUpdateNameValue,
-           onUpdateSpeciesValue = onUpdateSpeciesValue,
-           modifier = modifier
-       )
 
-       Row{
-           if(isEdit){
-               Button(
-                   modifier = Modifier.padding(top = 16.dp),
-                   onClick = {
-                       onClickEdit()
-                       onGoBack()
-                   }
-               ) {
-                   Text(
-                       text = "Edit"
-                   )
-               }
-           } else {
-               Button(
-                   modifier = Modifier.padding(top = 16.dp),
-                   onClick = {
-                       formViewModel?.onClickAdd {
-                           onGoBack()
-                       }
-                   }
-               ) {
-                   Text(
-                       text = "Add"
-                   )
-               }
-           }
+        FormBody(
+            isEdit = isEdit,
+            currentPlantData = currentPlantData,
+            speciesList = speciesList,
+            onEditSpeciesValue = onEditSpeciesValue,
+            onUploadImage = onUploadImage,
+            onEditNameValue = onEditNameValue,
+            onUpdateNameValue = onUpdateNameValue,
+            onUpdateSpeciesValue = onUpdateSpeciesValue,
+            modifier = modifier
+        )
 
-       }
+        Row{
+            if(isEdit){
+                Button(
+                    modifier = Modifier.padding(top = 16.dp),
+                    onClick = {
+                        onClickEdit()
+                        onGoBack()
+                    }
+                ) {
+                    Text(
+                        text = "Edit"
+                    )
+                }
+            } else {
+                Button(
+                    modifier = Modifier.padding(top = 16.dp),
+                    onClick = {
+                        Log.d("add", "formViewModel: $formViewModel")
+                        formViewModel?.onClickAdd {
+                            Log.d("add", "onadd")
+                            onGoBack()
+                        }
+                    }
+                ) {
+                    Text(
+                        text = "Add"
+                    )
+                }
+            }
+
+        }
+    }
+
+
    }
 }
 
@@ -117,6 +130,7 @@ fun FormBody(
     speciesList: List<Species>,
     onEditNameValue: (String?) -> Unit,
     onEditSpeciesValue: (Species?) -> Unit,
+    onUploadImage: (Uri?) -> Unit,
     onUpdateNameValue: (String?) -> Unit = {},
     onUpdateSpeciesValue: (Species?) -> Unit = {},
     modifier: Modifier = Modifier
@@ -127,36 +141,41 @@ fun FormBody(
         if (isEdit) onEditSpeciesValue
         else onUpdateSpeciesValue
 
-    Column(
+    Column (
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
 
     ){
-        TextField(
-            value = plantName,
-            onValueChange = {
-                plantName = it
-                if (isEdit){
-                    onEditNameValue(it)
-                } else {
-                    onUpdateNameValue(it)
-                }
-                            },
-            label = {Text("Name of plant")},
-            colors = TextFieldDefaults.colors(
-                unfocusedIndicatorColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent
-            ),
-            shape = RoundedCornerShape(16.dp),
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
+            ImageField(
+                onUploadImage = onUploadImage,
+                plant = currentPlantData
+            )
+            TextField(
+                value = plantName,
+                onValueChange = {
+                    plantName = it
+                    if (isEdit){
+                        onEditNameValue(it)
+                    } else {
+                        onUpdateNameValue(it)
+                    }
+                },
+                label = {Text("Name of plant")},
+                colors = TextFieldDefaults.colors(
+                    unfocusedIndicatorColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent
+                ),
+                shape = RoundedCornerShape(16.dp),
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
 
-        DropDownWrapper(
-            items = speciesList,
-            onUpdateValue = funToBePassed,
-            label = "Species"
-        )
-    }
+            DropDownWrapper(
+                items = speciesList,
+                onUpdateValue = funToBePassed,
+                label = "Species"
+            )
+        }
+
 }
 
 
@@ -164,7 +183,7 @@ fun FormBody(
 @Preview(showBackground = true)
 @Composable
 fun FormPreview(modifier: Modifier = Modifier) {
-    PlantForm(onEditSpeciesValue = {}, onEditNameValue = {}, onClickEdit = {})
+    PlantForm(onEditSpeciesValue = {}, onEditNameValue = {}, onClickEdit = {}, onUploadImage = {})
 }
 
 

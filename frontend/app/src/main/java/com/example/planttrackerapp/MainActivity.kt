@@ -56,9 +56,6 @@ class MainActivity : ComponentActivity() {
             lifecycleScope.launch {
                 DatabaseSeeder.seedDatabase(this@MainActivity)
             }
-            Log.d("MigrationCheck", "Migracja była!")
-        } else {
-            Log.d("MigrationCheck", "No migration!")
         }
 
 

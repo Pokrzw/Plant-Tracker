@@ -5,7 +5,7 @@ import com.google.gson.reflect.TypeToken
 import androidx.room.TypeConverter
 import java.util.Calendar
 import com.example.planttrackerapp.model.Species
-
+import android.util.Log
 
 class Converters{
 
@@ -59,7 +59,7 @@ class Converters{
     @TypeConverter
     fun fromMapList(mapList: List<Map<String, Calendar>>?): String? {
         return mapList?.map { map ->
-            map.mapValues { it.value.timeInMillis } // Zamiana Calendar na Long
+            map.mapValues { it.value.timeInMillis }
         }?.let { gson.toJson(it) }
     }
 
@@ -68,8 +68,6 @@ class Converters{
         return data?.let {
             val type = object : TypeToken<List<Map<String, Long>>>() {}.type
             val listOfMaps: List<Map<String, Long>> = gson.fromJson(it, type)
-
-            // Konwersja Long -> Calendar
             listOfMaps.map { map ->
                 map.mapValues { (_, timestamp) ->
                     Calendar.getInstance().apply { timeInMillis = timestamp }

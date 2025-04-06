@@ -42,7 +42,10 @@ fun PlantJournal(
                     )
                 }
             } else {
-                plant?.waterHistory?.sortedDescending()?.forEach { date ->
+                plant?.waterHistory
+                    ?.flatMap { it.values }
+                    ?.sortedByDescending { it.timeInMillis }
+                    ?.forEach { date ->
                     item {
                         WateringDateRow(date = date)
                         Spacer(modifier = Modifier.height(8.dp))

@@ -35,7 +35,7 @@ object Datasource {
                 mapOf("Usychające liście" to getDate(2024, 11, 10, 10, 30)),
                 mapOf("Ślimaki" to getDate(2024, 11, 5, 9, 45))
             ),
-            replantHistory = listOf(
+            repotHistory = listOf(
                 mapOf("Przesadzenie w większą doniczkę" to getDate(
                     2024,
                     11,
@@ -106,7 +106,7 @@ object Datasource {
                 mapOf("Usychające liście" to getDate(2024, 11, 10, 10, 30)),
                 mapOf("Ślimaki" to getDate(2024, 11, 5, 9, 45))
             ),
-            replantHistory = listOf(
+            repotHistory = listOf(
                 mapOf("Przesadzenie w większą doniczkę" to getDate(
                     2024,
                     11,
@@ -178,7 +178,7 @@ object Datasource {
                 mapOf("Usychające liście" to getDate(2024, 11, 10, 10, 30)),
                 mapOf("Ślimaki" to getDate(2024, 11, 5, 9, 45))
             ),
-            replantHistory = listOf(
+            repotHistory = listOf(
                 mapOf("Przesadzenie w większą doniczkę" to getDate(
                     2024,
                     11,
@@ -249,7 +249,7 @@ object Datasource {
                 mapOf("Usychające liście" to getDate(2024, 11, 10, 10, 30)),
                 mapOf("Ślimaki" to getDate(2024, 11, 5, 9, 45))
             ),
-            replantHistory = listOf(
+            repotHistory = listOf(
                 mapOf("Przesadzenie w większą doniczkę" to getDate(
                     2024,
                     11,
@@ -320,7 +320,7 @@ object Datasource {
                 mapOf("Usychające liście" to getDate(2024, 11, 10, 10, 30)),
                 mapOf("Ślimaki" to getDate(2024, 11, 5, 9, 45))
             ),
-            replantHistory = listOf(
+            repotHistory = listOf(
                 mapOf("Przesadzenie w większą doniczkę" to getDate(
                     2024,
                     11,

@@ -22,7 +22,6 @@ import com.example.planttrackerapp.ui.SinglePlantView
 import com.example.planttrackerapp.ui.components.TopBar
 import com.example.planttrackerapp.ui.theme.PlantTrackerAppTheme
 import com.example.planttrackerapp.ui.FormViewModel
-import com.example.planttrackerapp.ui.PlantJournal
 import com.example.planttrackerapp.ui.FormViewModelFactory
 import com.example.planttrackerapp.backend.database.DatabaseProvider
 import com.example.planttrackerapp.backend.repositories.SpeciesRepository
@@ -171,12 +170,6 @@ fun PlantApp(
                 )
             }
 
-
-            composable(route = PlantAppScreen.PlantJournal.name) {
-                PlantJournal(
-                    plant = currentPlantState.currentlyEditedPlant
-                )
-            }
         }
     }
 }

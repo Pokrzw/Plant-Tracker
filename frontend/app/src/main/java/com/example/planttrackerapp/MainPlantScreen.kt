@@ -117,7 +117,6 @@ fun PlantApp(
                     onWater = formViewModel::addWateringDate,
                     onGoToActivityJournal = { onGoToToActivityJournal(navController) },
                     onGoToForm = { onGoToForm(navController) },
-                    onGoToJournal = { navController.navigateIfNotCurrent(PlantAppScreen.PlantJournal.name) },
                     onGoBack = { navController.popBackStack() }
                 )
             }

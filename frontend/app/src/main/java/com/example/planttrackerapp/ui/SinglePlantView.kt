@@ -210,7 +210,6 @@ fun SinglePlantView(
                     TextButton(
                         onClick = {
                             val id = plant?.id ?: "-1"
-                            Log.d(TAG, "id: ${id}")
                             onClickYes(id)
                             showPopUp = false
                             onGoBack()

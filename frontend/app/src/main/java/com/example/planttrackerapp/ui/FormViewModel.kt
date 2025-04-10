@@ -161,7 +161,7 @@ class FormViewModel(
         val currentDate = Calendar.getInstance()
         val curImg: Uri? = _formUiState.value.imgUri
 
-        if (species != null) {
+        if (species != null && name.trim().isNotEmpty()) {
             val plant = Plant(
                 id = id,
                 name = name,
@@ -179,6 +179,8 @@ class FormViewModel(
                 val insertedPlant = plantsRepository.insert(plant)
                 _formUiState.update { currentState ->
                     currentState.copy(
+                        name = "",
+                        species = null,
                         plantsList = currentState.plantsList.plus(insertedPlant)
                     )
                 }
@@ -191,7 +193,16 @@ class FormViewModel(
 
     }
 
-
+    fun resetFormState(){
+        viewModelScope.launch {
+            _formUiState.update { currentState ->
+                currentState.copy(
+                    name = "",
+                    species = null
+                )
+            }
+        }
+    }
 
     fun saveNameOnUpdate(name: String?){
         val name = name ?: _formUiState.value.name

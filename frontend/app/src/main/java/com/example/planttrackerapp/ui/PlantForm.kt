@@ -37,6 +37,7 @@ import com.example.planttrackerapp.ui.components.ImageField
 
 @Composable
 fun PlantForm(
+    resetForm: () -> Unit,
     formViewModel: FormViewModel? = null,
     onClickEdit: () -> Unit,
     currentPlantData: Plant? = null,
@@ -51,6 +52,7 @@ fun PlantForm(
     isEdit: Boolean = false,
     modifier: Modifier = Modifier
 ){
+    resetForm()
     Log.d(TAG, "Current Plant Data: ${currentPlantData}")
    LazyColumn (
        modifier = Modifier.fillMaxWidth(),
@@ -183,7 +185,7 @@ fun FormBody(
 @Preview(showBackground = true)
 @Composable
 fun FormPreview(modifier: Modifier = Modifier) {
-    PlantForm(onEditSpeciesValue = {}, onEditNameValue = {}, onClickEdit = {}, onUploadImage = {})
+    PlantForm(onEditSpeciesValue = {}, onEditNameValue = {}, onClickEdit = {}, resetForm = {}, onUploadImage = {})
 }
 
 

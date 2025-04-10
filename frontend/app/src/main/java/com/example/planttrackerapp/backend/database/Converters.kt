@@ -76,4 +76,25 @@ class Converters{
         }
     }
 
+    @TypeConverter
+    fun fromMapListWithNull(mapList: List<Map<String?, Calendar>>?): String? {
+        return mapList?.map { map ->
+            map.mapKeys { (key, _) -> key ?: "__NULL__" }
+                .mapValues { (_, value) -> value.timeInMillis }
+        }?.let { gson.toJson(it) }
+    }
+
+    @TypeConverter
+    fun toMapListWithNull(data: String?): List<Map<String?, Calendar>>? {
+        return data?.let {
+            val type = object : TypeToken<List<Map<String, Long>>>() {}.type
+            val listOfMaps: List<Map<String, Long>> = gson.fromJson(it, type)
+            listOfMaps.map { map ->
+                map.mapKeys { (key, _) -> if (key == "__NULL__") null else key }
+                    .mapValues { (_, timestamp) ->
+                        Calendar.getInstance().apply { timeInMillis = timestamp }
+                    }
+            }
+        }
+    }
 }

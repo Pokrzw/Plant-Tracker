@@ -95,7 +95,7 @@ object DatabaseSeeder {
                             mapOf("Usychające liście" to getDate(2024, 11, 10, 10, 30)),
                             mapOf("Ślimaki" to getDate(2024, 11, 5, 9, 45))
                         ),
-                        replantHistory = listOf(
+                        repotHistory = listOf(
                             mapOf("Przesadzenie w większą doniczkę" to getDate(2024, 11, 25, 10, 0)),
                             mapOf("Przesadzenie w ddoniczkę z 3 innymi kwiatkami" to getDate(2024, 11, 20, 9, 0)),
                             mapOf("Przesadzenie w czarniejszą glebę" to getDate(2024, 11, 15, 8, 0)),
@@ -129,7 +129,7 @@ object DatabaseSeeder {
                             mapOf("Usychające liście" to getDate(2024, 11, 10, 10, 30)),
                             mapOf("Ślimaki" to getDate(2024, 11, 5, 9, 45))
                         ),
-                        replantHistory = listOf(
+                        repotHistory = listOf(
                             mapOf("Przesadzenie w większą doniczkę" to getDate(2024, 11, 25, 10, 0)),
                             mapOf("Przesadzenie w ddoniczkę z 3 innymi kwiatkami" to getDate(2024, 11, 20, 9, 0)),
                             mapOf("Przesadzenie w czarniejszą glebę" to getDate(2024, 11, 15, 8, 0)),
@@ -165,7 +165,7 @@ object DatabaseSeeder {
                             mapOf("Usychające liście" to getDate(2024, 11, 10, 10, 30)),
                             mapOf("Ślimaki" to getDate(2024, 11, 5, 9, 45))
                         ),
-                        replantHistory = listOf(
+                        repotHistory = listOf(
                             mapOf("Przesadzenie w większą doniczkę" to getDate(2024, 11, 25, 10, 0)),
                             mapOf("Przesadzenie w ddoniczkę z 3 innymi kwiatkami" to getDate(2024, 11, 20, 9, 0)),
                             mapOf("Przesadzenie w czarniejszą glebę" to getDate(2024, 11, 15, 8, 0)),
@@ -200,7 +200,7 @@ object DatabaseSeeder {
                             mapOf("Usychające liście" to getDate(2024, 11, 10, 10, 30)),
                             mapOf("Ślimaki" to getDate(2024, 11, 5, 9, 45))
                         ),
-                        replantHistory = listOf(
+                        repotHistory = listOf(
                             mapOf("Przesadzenie w większą doniczkę" to getDate(2024, 11, 25, 10, 0)),
                             mapOf("Przesadzenie w ddoniczkę z 3 innymi kwiatkami" to getDate(2024, 11, 20, 9, 0)),
                             mapOf("Przesadzenie w czarniejszą glebę" to getDate(2024, 11, 15, 8, 0)),
@@ -236,7 +236,7 @@ object DatabaseSeeder {
                             mapOf("Usychające liście" to getDate(2024, 11, 10, 10, 30)),
                             mapOf("Ślimaki" to getDate(2024, 11, 5, 9, 45))
                         ),
-                        replantHistory = listOf(
+                        repotHistory = listOf(
                             mapOf("Przesadzenie w większą doniczkę" to getDate(2024, 11, 25, 10, 0)),
                             mapOf("Przesadzenie w ddoniczkę z 3 innymi kwiatkami" to getDate(2024, 11, 20, 9, 0)),
                             mapOf("Przesadzenie w czarniejszą glebę" to getDate(2024, 11, 15, 8, 0)),

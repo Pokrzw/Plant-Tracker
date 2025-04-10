@@ -171,7 +171,7 @@ class FormViewModel(
                 waterHistory = emptyList(),
                 created = currentDate,
                 diseaseHistory = emptyList(),
-                replantHistory = emptyList(),
+                repotHistory = emptyList(),
                 otherActivitiesHistory = emptyList()
             )
 

@@ -23,7 +23,6 @@ import com.example.planttrackerapp.ui.SinglePlantView
 import com.example.planttrackerapp.ui.components.TopBar
 import com.example.planttrackerapp.ui.theme.PlantTrackerAppTheme
 import com.example.planttrackerapp.ui.FormViewModel
-import com.example.planttrackerapp.ui.PlantJournal
 import com.example.planttrackerapp.ui.FormViewModelFactory
 import com.example.planttrackerapp.backend.database.DatabaseProvider
 import com.example.planttrackerapp.backend.repositories.SpeciesRepository
@@ -132,7 +131,6 @@ fun PlantApp(
                     onWater = formViewModel::addWateringDate,
                     onGoToActivityJournal = { onGoToToActivityJournal(navController) },
                     onGoToForm = { onGoToForm(navController) },
-                    onGoToJournal = { navController.navigateIfNotCurrent(PlantAppScreen.PlantJournal.name) },
                     onGoBack = { navController.popBackStack() }
                 )
             }
@@ -187,12 +185,6 @@ fun PlantApp(
             }
 
 
-            composable(route = PlantAppScreen.PlantJournal.name) {
-                PlantJournal(
-                    plant = currentPlantState.currentlyEditedPlant
-                )
-            }
-
             composable(route = PlantAppScreen.SelectPlants.name){
                 ChoosePlantsToSelect(
                     plantList = formUiState.plantsList,
@@ -203,6 +195,15 @@ fun PlantApp(
         }
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun PlantAppPreview(modifier: Modifier = Modifier) {
+    PlantTrackerAppTheme {
+        PlantApp(modifier = Modifier)
+    }
+}
+
 
 private fun onGoToForm(navController: NavHostController) {
     navController.navigateIfNotCurrent(PlantAppScreen.FormEdit.name)

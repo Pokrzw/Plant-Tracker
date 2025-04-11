@@ -185,12 +185,6 @@ fun PlantApp(
             }
 
 
-            composable(route = PlantAppScreen.PlantJournal.name) {
-                PlantJournal(
-                    plant = currentPlantState.currentlyEditedPlant
-                )
-            }
-
             composable(route = PlantAppScreen.SelectPlants.name){
                 ChoosePlantsToSelect(
                     plantList = formUiState.plantsList,

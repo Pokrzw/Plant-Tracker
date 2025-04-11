@@ -42,7 +42,7 @@ fun ActivityJournal(
 
     val dateGetter = when (curSection){
         "Watering" -> currentPlant?.waterHistory
-        "Repotting" -> currentPlant?.replantHistory
+        "Repotting" -> currentPlant?.repotHistory
         "Diseases" -> currentPlant?.diseaseHistory
         "Other" -> currentPlant?.otherActivitiesHistory
         else -> currentPlant?.waterHistory

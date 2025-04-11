@@ -35,8 +35,37 @@ object DatabaseSeeder {
                         Species("Filodendron", 3),
                         Species("Hoya", 1),
                         Species("Dracena", 1),
-                        Species("Sylvari", 2)
-
+                        Species("Sylvari", 2),
+                        Species("Croton", 3),
+                        Species("Sanseveria", 1),
+                        Species("Spiderwort", 1),
+                        Species("Rhipsalis", 2),
+                        Species("Ceropegia", 1),
+                        Species("Pilea", 3),
+                        Species("Spider plant", 3),
+                        Species("Fern", 4),
+                        Species("Epipremnum", 3),
+                        Species("Marantha", 4),
+                        Species("Orchidea", 3),
+                        Species("Aloe vera", 2),
+                        Species("Calatea", 4),
+                        Species("Peace lily", 3),
+                        Species("Banana", 3),
+                        Species("Zamioculcas", 1),
+                        Species("Stromanthe", 4),
+                        Species("Philodendron", 4),
+                        Species("Begonia", 4),
+                        Species("Ficus", 3),
+                        Species("Syngonium", 3),
+                        Species("Peperomia", 3),
+                        Species("Hoya", 2),
+                        Species("Bamboo", 4),
+                        Species("Palm", 3),
+                        Species("Scindapsus", 3),
+                        Species("Anturium", 3),
+                        Species("Yuca", 3),
+                        Species("Alocasia", 3),
+                        Species("Oxalis", 3)
                     )
 
                     // Wstawienie danych do tabeli Species
@@ -45,7 +74,6 @@ object DatabaseSeeder {
                     // Pobranie zapisanych obiektów Species z bazy danych
                     val speciesMap = speciesDao.getAll().associateBy { it.name }
 
-                    Log.d("hi", "${speciesMap["Agleonema"]}")
 
                     val plantList = listOf(
                     Plant(
@@ -67,7 +95,7 @@ object DatabaseSeeder {
                             mapOf("Usychające liście" to getDate(2024, 11, 10, 10, 30)),
                             mapOf("Ślimaki" to getDate(2024, 11, 5, 9, 45))
                         ),
-                        replantHistory = listOf(
+                        repotHistory = listOf(
                             mapOf("Przesadzenie w większą doniczkę" to getDate(2024, 11, 25, 10, 0)),
                             mapOf("Przesadzenie w ddoniczkę z 3 innymi kwiatkami" to getDate(2024, 11, 20, 9, 0)),
                             mapOf("Przesadzenie w czarniejszą glebę" to getDate(2024, 11, 15, 8, 0)),
@@ -101,7 +129,7 @@ object DatabaseSeeder {
                             mapOf("Usychające liście" to getDate(2024, 11, 10, 10, 30)),
                             mapOf("Ślimaki" to getDate(2024, 11, 5, 9, 45))
                         ),
-                        replantHistory = listOf(
+                        repotHistory = listOf(
                             mapOf("Przesadzenie w większą doniczkę" to getDate(2024, 11, 25, 10, 0)),
                             mapOf("Przesadzenie w ddoniczkę z 3 innymi kwiatkami" to getDate(2024, 11, 20, 9, 0)),
                             mapOf("Przesadzenie w czarniejszą glebę" to getDate(2024, 11, 15, 8, 0)),
@@ -137,7 +165,7 @@ object DatabaseSeeder {
                             mapOf("Usychające liście" to getDate(2024, 11, 10, 10, 30)),
                             mapOf("Ślimaki" to getDate(2024, 11, 5, 9, 45))
                         ),
-                        replantHistory = listOf(
+                        repotHistory = listOf(
                             mapOf("Przesadzenie w większą doniczkę" to getDate(2024, 11, 25, 10, 0)),
                             mapOf("Przesadzenie w ddoniczkę z 3 innymi kwiatkami" to getDate(2024, 11, 20, 9, 0)),
                             mapOf("Przesadzenie w czarniejszą glebę" to getDate(2024, 11, 15, 8, 0)),
@@ -172,7 +200,7 @@ object DatabaseSeeder {
                             mapOf("Usychające liście" to getDate(2024, 11, 10, 10, 30)),
                             mapOf("Ślimaki" to getDate(2024, 11, 5, 9, 45))
                         ),
-                        replantHistory = listOf(
+                        repotHistory = listOf(
                             mapOf("Przesadzenie w większą doniczkę" to getDate(2024, 11, 25, 10, 0)),
                             mapOf("Przesadzenie w ddoniczkę z 3 innymi kwiatkami" to getDate(2024, 11, 20, 9, 0)),
                             mapOf("Przesadzenie w czarniejszą glebę" to getDate(2024, 11, 15, 8, 0)),
@@ -208,7 +236,7 @@ object DatabaseSeeder {
                             mapOf("Usychające liście" to getDate(2024, 11, 10, 10, 30)),
                             mapOf("Ślimaki" to getDate(2024, 11, 5, 9, 45))
                         ),
-                        replantHistory = listOf(
+                        repotHistory = listOf(
                             mapOf("Przesadzenie w większą doniczkę" to getDate(2024, 11, 25, 10, 0)),
                             mapOf("Przesadzenie w ddoniczkę z 3 innymi kwiatkami" to getDate(2024, 11, 20, 9, 0)),
                             mapOf("Przesadzenie w czarniejszą glebę" to getDate(2024, 11, 15, 8, 0)),
@@ -226,9 +254,7 @@ object DatabaseSeeder {
                     ),
 
                 )
-                    plantList.forEach { a ->
-                        Log.d("plant", "${a.species}")
-                    }
+
 
 
 

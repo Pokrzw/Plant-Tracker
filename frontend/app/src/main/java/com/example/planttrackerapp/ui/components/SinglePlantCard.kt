@@ -33,7 +33,6 @@ fun SinglePlantCard(
             .padding(8.dp),
         elevation = CardDefaults.cardElevation(4.dp),
         onClick = {
-            Log.d(TAG,"SinglePlantCard.kt: I'M CLICKING!!!")
             onSetPlant(plant)
             onItemClick(plant)
         }

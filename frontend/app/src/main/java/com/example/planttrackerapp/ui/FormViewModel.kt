@@ -1,6 +1,7 @@
 package com.example.planttrackerapp.ui
 
 
+import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -19,6 +20,7 @@ import java.util.UUID
 import com.example.planttrackerapp.backend.repositories.UserPlantRepository
 import androidx.lifecycle.viewModelScope
 import com.example.planttrackerapp.backend.repositories.SpeciesRepository
+import com.example.planttrackerapp.data.SelectUiState
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -36,6 +38,8 @@ class FormViewModel(
     private val _plantUiState = MutableStateFlow(PlantUiState())
     val plantUiState: StateFlow<PlantUiState> = _plantUiState.asStateFlow()
 
+    private val _selectUiState = MutableStateFlow(SelectUiState())
+    val selectUiState: StateFlow<SelectUiState> = _selectUiState.asStateFlow()
 
     fun executeAfterDelay() {
         GlobalScope.launch {
@@ -49,7 +53,13 @@ class FormViewModel(
 //        executeAfterDelay()
     }
 
-
+    fun saveSelection(plantList: List<Plant>){
+        _selectUiState.update { currentState ->
+            currentState.copy(
+                selectedPlantList = plantList
+            )
+        }
+    }
 
     fun populateUiState(){
         viewModelScope.launch {
@@ -97,7 +107,6 @@ class FormViewModel(
         val plantName = _plantUiState.value.currentlyEditedPlant?.name ?: ""
         val plantSpecies = _plantUiState.value.currentlyEditedPlant?.species
 
-        Log.d(TAG, "ONCLICKUPDATE id: ${id}")
         val name =
             if(formName.equals("") && !plantName.equals("")) plantName
             else formName
@@ -125,10 +134,6 @@ class FormViewModel(
             viewModelScope.launch {
                 plantsRepository.updateById(searchedElementCopy.id, name, formSpecies?.name)
                 val plantList = withContext(Dispatchers.IO) { plantsRepository.allUserPlants() }
-
-                Log.d("after update", "${plantList}" )
-                Log.d("after update", "${searchedElementCopy.id}, ${name}, ${formSpecies?.name}" )
-
             }
             val copyOfPlantList = plantList.map {
                 if (it.id == searchedElementId) searchedElementCopy
@@ -166,7 +171,7 @@ class FormViewModel(
                 waterHistory = emptyList(),
                 created = currentDate,
                 diseaseHistory = emptyList(),
-                replantHistory = emptyList(),
+                repotHistory = emptyList(),
                 otherActivitiesHistory = emptyList()
             )
 
@@ -184,7 +189,6 @@ class FormViewModel(
             }
         }
 
-        Log.d(TAG, "Aktualne rośliny: ${_formUiState.value.plantsList.joinToString("\n")}")
     }
 
 
@@ -196,7 +200,6 @@ class FormViewModel(
                 name = name
             )
         }
-//        Log.d(TAG, "")
     }
 
     fun saveSpeciesOnUpdate(species: Species?){

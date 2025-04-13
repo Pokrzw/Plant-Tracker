@@ -76,7 +76,7 @@ fun PlantApp(
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
 
-
+    Log.d(TAG, "FormUiState: ${formUiState.name}, ${formUiState.species}")
     Scaffold(
         topBar = {
             val canNavigateBack = currentRoute != PlantAppScreen.AllPlants.name
@@ -137,12 +137,14 @@ fun PlantApp(
 
             composable(route = PlantAppScreen.Form.name) {
                 PlantForm(
+                    resetForm = formViewModel::resetForm,
                     speciesList = formUiState.speciesList,
                     onClickEdit = formViewModel::onClickUpdate,
                     onClickAdd = {
-                        formViewModel.onClickAdd {
+                        formViewModel.onClickAdd{
                             navController.popBackStack()
                         }
+
                     },
                     formViewModel = formViewModel,
                     onUploadImage = formViewModel::saveUriOnUpdate,
@@ -156,6 +158,7 @@ fun PlantApp(
 
             composable(route = PlantAppScreen.FormEdit.name) {
                 PlantForm(
+                    resetForm = formViewModel::resetForm,
                     currentPlantData = currentPlantState.currentlyEditedPlant,
                     isEdit = true,
                     speciesList = formUiState.speciesList,

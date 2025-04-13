@@ -27,6 +27,8 @@ import com.example.planttrackerapp.ui.FormViewModelFactory
 import com.example.planttrackerapp.backend.database.DatabaseProvider
 import com.example.planttrackerapp.backend.repositories.SpeciesRepository
 import com.example.planttrackerapp.backend.repositories.UserPlantRepository
+import com.example.planttrackerapp.data.Datasource
+import com.example.planttrackerapp.ui.ActionForm
 import com.example.planttrackerapp.ui.ActivityJournal
 import com.example.planttrackerapp.ui.ChoosePlantsToSelect
 import com.example.planttrackerapp.ui.PlantQRList
@@ -44,7 +46,10 @@ enum class PlantAppScreen {
     PlantJournal,
     QRScanner,
     SelectPlants,
-    QRExport
+    QRExport,
+    AddRepot,
+    AddDisease,
+    AddOther
 }
 
 // Funkcja sprawdzająca czy w BackStack nie ma już aktualnego route'a
@@ -100,6 +105,39 @@ fun PlantApp(
             startDestination = PlantAppScreen.AllPlants.name,
             modifier = Modifier.padding(innerPadding)
         ) {
+            composable(route = PlantAppScreen.AddRepot.name){
+                ActionForm(
+                    plant = currentPlantState.currentlyEditedPlant ?: Datasource.plantList.get(0),
+                    isRepot = true,
+                    isDisease = false,
+                    isOther = false,
+                    onRepot = {},
+                    onDisease = { },
+                    onOther = { }
+                )
+            }
+            composable(route = PlantAppScreen.AddDisease.name){
+                ActionForm(
+                    plant = currentPlantState.currentlyEditedPlant ?: Datasource.plantList.get(0),
+                    isRepot = false,
+                    isDisease = true,
+                    isOther = false,
+                    onRepot = {},
+                    onDisease = {},
+                    onOther = {}
+                )
+            }
+            composable(route = PlantAppScreen.AddOther.name){
+                ActionForm(
+                    plant = currentPlantState.currentlyEditedPlant ?: Datasource.plantList.get(0),
+                    isRepot = false,
+                    isDisease = false,
+                    isOther = true,
+                    onRepot = {},
+                    onDisease = {},
+                    onOther = {}
+                )
+            }
             composable(route = PlantAppScreen.AllPlants.name) {
                 PlantList(
                     plantList = formUiState.plantsList,
@@ -131,7 +169,11 @@ fun PlantApp(
                     onWater = formViewModel::addWateringDate,
                     onGoToActivityJournal = { onGoToToActivityJournal(navController) },
                     onGoToForm = { onGoToForm(navController) },
-                    onGoBack = { navController.popBackStack() }
+                    onGoBack = { navController.popBackStack() },
+                    onGoToRepot = { navController.navigateIfNotCurrent(PlantAppScreen.AddRepot.name) },
+                    onGoToDisease = { navController.navigateIfNotCurrent(PlantAppScreen.AddDisease.name) },
+                    onGoToOther = { navController.navigateIfNotCurrent(PlantAppScreen.AddOther.name) }
+
                 )
             }
 

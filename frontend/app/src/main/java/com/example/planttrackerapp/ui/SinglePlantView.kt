@@ -60,6 +60,9 @@ fun SinglePlantView(
     onGoToActivityJournal: () -> Unit,
     onGoToForm: () -> Unit,
     onGoBack: () -> Unit,
+    onGoToRepot: () -> Unit,
+    onGoToDisease: () -> Unit,
+    onGoToOther: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -98,6 +101,10 @@ fun SinglePlantView(
             style = androidx.compose.material3.MaterialTheme.typography.titleLarge
         )
 
+        Button(onClick = onGoToActivityJournal) {
+            Text(text = "See plant journal")
+        }
+
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
@@ -133,6 +140,54 @@ fun SinglePlantView(
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
+        Column {
+            Text("Actions:")
+            Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                Button(onClick = {
+                    showWateredMessage = true
+                    onWater()
+                }) {
+                    Text(text = "Water plant")
+                }
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                AnimatedVisibility(
+                    visible = showWateredMessage,
+                    enter = fadeIn() + slideInHorizontally(initialOffsetX = { -it / 8 }),
+                    exit = fadeOut() + slideOutHorizontally(targetOffsetX = { -it / 8 })
+                ) {
+                    Text(
+                        text = "Plant watered!",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.secondary,
+                    )
+                }
+
+                if (showWateredMessage) {
+                    LaunchedEffect(Unit) {
+                        delay(2000) // 2 seconds
+                        showWateredMessage = false
+                    }
+                }
+            }
+            Button(
+                onClick = {onGoToRepot()}
+            ) {
+                Text("Repot")
+            }
+            Button(
+                onClick = {onGoToDisease()}
+            ) {
+                Text("Disease")
+            }
+            Button(
+                onClick = {onGoToOther()}
+            ) {
+                Text("Other")
+            }
+        }
+        Spacer(modifier = Modifier.height(16.dp))
 
         // QR Code section
         plant?.qrCodeImage?.let { qrCodeBase64 ->
@@ -156,41 +211,10 @@ fun SinglePlantView(
             )
         }
 
-        Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
-            Button(onClick = {
-                showWateredMessage = true
-                onWater()
-            }) {
-                Text(text = "Water plant")
-            }
 
-            Spacer(modifier = Modifier.width(8.dp))
-
-            AnimatedVisibility(
-                visible = showWateredMessage,
-                enter = fadeIn() + slideInHorizontally(initialOffsetX = { -it / 8 }),
-                exit = fadeOut() + slideOutHorizontally(targetOffsetX = { -it / 8 })
-            ) {
-                Text(
-                    text = "Plant watered!",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.secondary,
-                )
-            }
-
-            if (showWateredMessage) {
-                LaunchedEffect(Unit) {
-                    delay(2000) // 2 seconds
-                    showWateredMessage = false
-                }
-            }
-        }
 
         Button(onClick = onGoToForm) {
             Text(text = "Edit plant")
-        }
-        Button(onClick = onGoToActivityJournal) {
-            Text(text = "See plant journal")
         }
 
         Button(onClick = { showPopUp = !showPopUp }) {
@@ -231,6 +255,6 @@ fun formatDate(calendar: java.util.Calendar): String {
 @Composable
 fun SinglePlantPreview(modifier: Modifier = Modifier) {
     PlantTrackerAppTheme {
-        SinglePlantView(plant = Datasource.plantList[1], onGoBack = {}, onGoToActivityJournal = {},onWater = {}, onGoToForm = {}, onClickYes = {})
+        SinglePlantView(plant = Datasource.plantList[1], onGoBack = {}, onGoToActivityJournal = {},onWater = {}, onGoToForm = {}, onClickYes = {}, onGoToRepot = {}, onGoToDisease = {}, onGoToOther = {})
     }
 }

@@ -53,6 +53,66 @@ class FormViewModel(
 //        executeAfterDelay()
     }
 
+    fun saveActionForm(action: String, option: String) {
+        val currentlyEditedPlant = _plantUiState.value.currentlyEditedPlant
+
+        val newMap = mapOf(action to Calendar.getInstance())
+
+        if (currentlyEditedPlant != null) {
+            val updatedPlant =  when(option){
+                "repot" -> {
+                    currentlyEditedPlant.copy(
+                        repotHistory =  currentlyEditedPlant.repotHistory + newMap
+                    )
+                }
+                "disease" -> {
+                    currentlyEditedPlant.copy(
+                        diseaseHistory =  currentlyEditedPlant.diseaseHistory + newMap
+                    )
+                }
+
+              else -> {
+                  currentlyEditedPlant.copy(
+                  otherActivitiesHistory =  currentlyEditedPlant.otherActivitiesHistory + newMap
+              )}
+          }
+
+
+            val updatedPlantsList = _formUiState.value.plantsList.map {
+                if (it.id == updatedPlant.id) updatedPlant else it
+            }
+
+            when(option){
+                "repot" -> {
+                    viewModelScope.launch {
+                        plantsRepository.updateRepotHistory(currentlyEditedPlant.id, updatedPlant.repotHistory)
+                    }
+                }
+                "disease" -> {
+                    viewModelScope.launch {
+                        plantsRepository.updateDiseaseHistory(currentlyEditedPlant.id, updatedPlant.repotHistory)
+                    }
+                }
+                else -> {
+                    viewModelScope.launch {
+                        plantsRepository.updateOtherActivitiesHistory(currentlyEditedPlant.id, updatedPlant.repotHistory)
+                    }
+                }
+            }
+
+
+            _formUiState.update { currentState ->
+                currentState.copy(plantsList = updatedPlantsList)
+            }
+
+            _plantUiState.update { currentState ->
+                currentState.copy(currentlyEditedPlant = updatedPlant)
+            }
+        } else {
+            Log.d(TAG, "Brak edytowanej rośliny.")
+        }
+    }
+
     fun saveSelection(plantList: List<Plant>){
         _selectUiState.update { currentState ->
             currentState.copy(

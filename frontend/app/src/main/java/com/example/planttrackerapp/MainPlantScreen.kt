@@ -1,6 +1,5 @@
 package com.example.planttrackerapp
 
-import android.content.Context
 import android.util.Log
 
 import androidx.compose.foundation.layout.padding
@@ -27,13 +26,10 @@ import com.example.planttrackerapp.ui.FormViewModelFactory
 import com.example.planttrackerapp.backend.database.DatabaseProvider
 import com.example.planttrackerapp.backend.repositories.SpeciesRepository
 import com.example.planttrackerapp.backend.repositories.UserPlantRepository
-import com.example.planttrackerapp.data.Datasource
 import com.example.planttrackerapp.ui.ActionForm
 import com.example.planttrackerapp.ui.ActivityJournal
 import com.example.planttrackerapp.ui.ChoosePlantsToSelect
 import com.example.planttrackerapp.ui.PlantQRList
-import com.example.planttrackerapp.ui.QRCodeScanner
-import com.google.firebase.vertexai.type.content
 import com.example.planttrackerapp.ui.QRScannerScreen
 
 
@@ -107,35 +103,26 @@ fun PlantApp(
         ) {
             composable(route = PlantAppScreen.AddRepot.name){
                 ActionForm(
-                    plant = currentPlantState.currentlyEditedPlant ?: Datasource.plantList.get(0),
                     isRepot = true,
                     isDisease = false,
-                    isOther = false,
-                    onRepot = {},
-                    onDisease = { },
-                    onOther = { }
+                    onSubmit = formViewModel::saveActionForm,
+                    onGoBack = { navController.popBackStack() }
                 )
             }
             composable(route = PlantAppScreen.AddDisease.name){
                 ActionForm(
-                    plant = currentPlantState.currentlyEditedPlant ?: Datasource.plantList.get(0),
                     isRepot = false,
                     isDisease = true,
-                    isOther = false,
-                    onRepot = {},
-                    onDisease = {},
-                    onOther = {}
+                    onSubmit = formViewModel::saveActionForm,
+                    onGoBack = { navController.popBackStack() }
                 )
             }
             composable(route = PlantAppScreen.AddOther.name){
                 ActionForm(
-                    plant = currentPlantState.currentlyEditedPlant ?: Datasource.plantList.get(0),
                     isRepot = false,
                     isDisease = false,
-                    isOther = true,
-                    onRepot = {},
-                    onDisease = {},
-                    onOther = {}
+                    onSubmit = formViewModel::saveActionForm,
+                    onGoBack = { navController.popBackStack() }
                 )
             }
             composable(route = PlantAppScreen.AllPlants.name) {

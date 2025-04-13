@@ -1,6 +1,5 @@
 package com.example.planttrackerapp
 
-import android.content.Context
 import android.util.Log
 
 import androidx.compose.foundation.layout.padding
@@ -30,8 +29,6 @@ import com.example.planttrackerapp.backend.repositories.UserPlantRepository
 import com.example.planttrackerapp.ui.ActivityJournal
 import com.example.planttrackerapp.ui.ChoosePlantsToSelect
 import com.example.planttrackerapp.ui.PlantQRList
-import com.example.planttrackerapp.ui.QRCodeScanner
-import com.google.firebase.vertexai.type.content
 import com.example.planttrackerapp.ui.QRScannerScreen
 
 

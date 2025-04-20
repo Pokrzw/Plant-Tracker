@@ -1,5 +1,6 @@
 package com.example.planttrackerapp.backend.dao;
 
+import android.util.Log
 import androidx.room.*
 import com.example.planttrackerapp.model.Plant;
 import androidx.lifecycle.LiveData
@@ -24,18 +25,20 @@ interface UserPlantDao {
     suspend fun insertAll(plants: List<Plant>)
 
     @Query("""
-    UPDATE user_plants 
-    SET 
-        name = :name,
-        species_name = :speciesName,
-        species = :species
+    UPDATE user_plants
+    SET
+    name = :name,
+    species_name = :speciesName,
+    species = :species,
+    imageUri = :imageUri
     WHERE id = :id
-""")
+    """)
     suspend fun updateById(
         id: String,
         name: String,
         speciesName: String?,
-        species: Species
+        species: Species,
+        imageUri: String?
     )
 
     @Query("""

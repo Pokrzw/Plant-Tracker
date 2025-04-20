@@ -1,6 +1,8 @@
 package com.example.planttrackerapp.ui.components
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -17,10 +19,30 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.planttrackerapp.model.Plant
 import com.example.planttrackerapp.TAG
+import java.io.File
+import java.io.FileOutputStream
+
+fun copyImageToInternalStorage(context: Context, sourceUri: Uri, filename: String): String? {
+
+    return try {
+        val inputStream = context.contentResolver.openInputStream(sourceUri)
+        val file = File(context.filesDir, filename)
+        val outputStream = FileOutputStream(file)
+        inputStream?.copyTo(outputStream)
+        inputStream?.close()
+        outputStream.close()
+        file.absolutePath
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
+}
+
 
 @SuppressLint("SuspiciousIndentation")
 @Composable
@@ -29,7 +51,7 @@ fun ImageField(
     plant: Plant? = null,
     modifier: Modifier = Modifier
 ){
-
+    val context = LocalContext.current
     var startingVal: Uri? = null
     if(plant?.imageUri != null){
         startingVal = Uri.parse(plant.imageUri)
@@ -41,13 +63,29 @@ fun ImageField(
     val singleImagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { uri ->
-            selectedImageUri = uri
-            Log.d(TAG, "URI: ${uri}")
-            onUploadImage(uri)
-        }
+            if (uri != null) {
+                selectedImageUri = uri
+                Log.d(TAG, "URI: ${uri}")
+
+                val pathToImage = copyImageToInternalStorage(
+                    context,
+                    uri,
+                    "plant_image_${System.currentTimeMillis()}.jpg")
+
+                if (pathToImage != null) {
+                    Log.d(TAG, "Obrazek skopiowany do ścieżki: ${pathToImage}")
+                    onUploadImage(Uri.fromFile(File(pathToImage)))
+                }
+                    selectedImageUri = Uri.fromFile(File(pathToImage))
+                } else {
+                    Log.e(TAG, "Nie udało się skopiować obrazka")
+                }
+            }
     )
         AsyncImage(
-            model = selectedImageUri,
+            model = selectedImageUri?.let { uri ->
+                if (uri.scheme == "file") File(uri.path) else uri
+            },
             contentDescription = "",
             modifier = Modifier
                 .width(228.dp)

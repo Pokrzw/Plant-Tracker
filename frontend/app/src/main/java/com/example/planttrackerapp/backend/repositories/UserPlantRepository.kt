@@ -37,18 +37,25 @@ class UserPlantRepository(private val userPlantDao: UserPlantDao, private val sp
         }
     }
 
-    suspend fun updateById(id: String, name: String, speciesName: String?) {
+    suspend fun updateById(id: String, name: String, speciesName: String?, imageUri: String?) {
         withContext(Dispatchers.IO) {
+            Log.d("CZY FUNKCJA DDZIAŁA?", "UPDATING ${name}")
             val species = speciesDao.getSpeciesByName(speciesName)
             if (species != null) {
-                userPlantDao.updateById(id, name, speciesName, species)
+                userPlantDao.updateById(id, name, speciesName, species, imageUri)
+            } else if (userPlantDao.getUserPlantById(id)?.speciesName?.let {
+                        speciesDao.getSpeciesByName(it) } != null) {
+                val plant = userPlantDao.getUserPlantById(id)
+                val plantSpecies = speciesDao.getSpeciesByName(plant.speciesName)
+                userPlantDao.updateById(id, name, plant.speciesName, plantSpecies, imageUri)
             } else {
-               Log.d("error-species", "spacies is null, updateById")
+                Log.d("error-species", "species is null, updateById")
             }
         }
     }
 
-    suspend fun updateNameById(id: String, name: String,) {
+
+            suspend fun updateNameById(id: String, name: String,) {
         withContext(Dispatchers.IO) {
             userPlantDao.updateNameById(id, name)
         }

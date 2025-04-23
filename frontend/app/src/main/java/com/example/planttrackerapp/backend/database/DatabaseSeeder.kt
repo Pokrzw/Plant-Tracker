@@ -15,7 +15,7 @@ object DatabaseSeeder {
 
     private fun getDate(year: Int, month: Int, day: Int, hour: Int, minute: Int): Calendar {
         return Calendar.getInstance().apply {
-            set(year, month - 1, day, hour, minute, 0) // Miesiące są 0-indeksowane
+            set(year, month - 1, day, hour, minute, 0) // Miesiące są od 0-indeksowane
             set(Calendar.MILLISECOND, 0)
         }
     }
@@ -68,12 +68,9 @@ object DatabaseSeeder {
                         Species("Oxalis", 3)
                     )
 
-                    // Wstawienie danych do tabeli Species
                     speciesDao.insertAll(speciesList)
 
-                    // Pobranie zapisanych obiektów Species z bazy danych
                     val speciesMap = speciesDao.getAll().associateBy { it.name }
-
 
                     val plantList = listOf(
                     Plant(
@@ -255,13 +252,8 @@ object DatabaseSeeder {
 
                 )
 
-
-
-
-                    // Wstawienie danych do tabeli Plant
                userPlantDao.insertAll(plantList)
 
-                    // Logowanie powodzenia
                     Log.d("DatabaseSeeder", "Baza danych została wypełniona!")
                 } catch (e: Exception) {
                     Log.e("DatabaseSeeder", "Błąd podczas wypełniania bazy danych: ${e.message}", e)

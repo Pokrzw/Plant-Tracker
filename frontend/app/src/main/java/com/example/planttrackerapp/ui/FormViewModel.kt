@@ -4,6 +4,7 @@ package com.example.planttrackerapp.ui
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import com.example.planttrackerapp.TAG
 import com.example.planttrackerapp.data.Datasource
@@ -25,6 +26,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.*
+import java.io.File
+import java.io.FileOutputStream
 
 
 class FormViewModel(
@@ -41,16 +44,9 @@ class FormViewModel(
     private val _selectUiState = MutableStateFlow(SelectUiState())
     val selectUiState: StateFlow<SelectUiState> = _selectUiState.asStateFlow()
 
-    fun executeAfterDelay() {
-        GlobalScope.launch {
-            delay(5000)  // opóźnienie 3 sekundy (3000 ms)
-            populateUiState()
-        }
-    }
 
     init {
         populateUiState()
-//        executeAfterDelay()
     }
 
     fun saveActionForm(action: String, option: String) {
@@ -191,9 +187,12 @@ class FormViewModel(
 //        val searchedElementId = plantList.indexOf(searchedElement)
 //        if (searchedElementId!=-1){
             val searchedElementCopy = searchedElement.copy(name = name, species = species, imageUri = uri?.toString())
+        
             viewModelScope.launch {
-                plantsRepository.updateById(searchedElementCopy.id, name, formSpecies?.name)
+                Log.d("BEFORE UPDATE IMAGE URI", "${searchedElementCopy.imageUri}, ${searchedElementCopy.id}")
+                plantsRepository.updateById(searchedElementCopy.id, name, formSpecies?.name, searchedElementCopy.imageUri)
                 val plantList = withContext(Dispatchers.IO) { plantsRepository.allUserPlants() }
+                plantList.forEach{plant -> Log.d("AFTER UPDATE IMAGE URI", "${plant.imageUri}")}
             }
             val copyOfPlantList = plantList.map {
                 if (it.id == searchedElementId) searchedElementCopy
@@ -364,4 +363,6 @@ class FormViewModel(
             )
         }
     }
+
+
 }

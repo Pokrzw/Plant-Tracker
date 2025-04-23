@@ -317,12 +317,12 @@ class FormViewModel(
 //    }
 
     // PODLEWANIE
-    fun addWateringDate() {
+    fun addWateringDate(fertilizer: String) {
         val currentlyEditedPlant = _plantUiState.value.currentlyEditedPlant
 
         if (currentlyEditedPlant != null) {
             val updatedPlant = currentlyEditedPlant.copy(
-                waterHistory = currentlyEditedPlant.waterHistory + mapOf("watering info that should be given by user" to Calendar.getInstance())
+                waterHistory = currentlyEditedPlant.waterHistory + mapOf(fertilizer to Calendar.getInstance())
             )
 
             val updatedPlantsList = _formUiState.value.plantsList.map {

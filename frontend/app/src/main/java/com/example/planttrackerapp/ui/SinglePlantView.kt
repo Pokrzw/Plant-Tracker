@@ -1,6 +1,5 @@
 package com.example.planttrackerapp.ui
 
-import android.icu.util.Calendar
 import android.net.Uri
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
@@ -23,9 +22,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import com.example.planttrackerapp.PlantApp
-import com.example.planttrackerapp.PlantAppScreen
 import com.example.planttrackerapp.TAG
 import com.example.planttrackerapp.data.Datasource
 import com.example.planttrackerapp.model.Plant
@@ -35,28 +31,25 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import com.example.planttrackerapp.backend.database.base64ToBitmap
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import com.example.planttrackerapp.R
-import com.example.planttrackerapp.data.PlantUiState
+import kotlin.reflect.KFunction1
 
 
 @Composable
 fun SinglePlantView(
     plant: Plant?,
     onClickYes: (String) -> Unit,
-    onWater: () -> Unit,
+    onWater: KFunction1<String, Unit>,
     onGoToActivityJournal: () -> Unit,
     onGoToForm: () -> Unit,
     onGoBack: () -> Unit,
@@ -68,6 +61,7 @@ fun SinglePlantView(
 
     Log.d(TAG, "SinglePlantView.kt")
 
+    var fertilizer by remember { mutableStateOf("") }
     var showPopUp by remember { mutableStateOf(false) }
     var showWateredMessage by remember { mutableStateOf(false) }
 
@@ -140,15 +134,52 @@ fun SinglePlantView(
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Column {
-            Text("Actions:")
-            Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
-                Button(onClick = {
-                    showWateredMessage = true
-                    onWater()
-                }) {
-                    Text(text = "Water plant")
-                }
+
+        // QR Code section
+        plant?.qrCodeImage?.let { qrCodeBase64 ->
+            val qrBitmap = remember { base64ToBitmap(qrCodeBase64) }
+
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "QR Code:",
+                style = androidx.compose.material3.MaterialTheme.typography.bodyMedium
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Display the QR code bitmap
+            Image(
+                bitmap = qrBitmap.asImageBitmap(),
+                contentDescription = "QR Code for ${plant.name}",
+                modifier = Modifier
+                    .size(200.dp)
+
+            )
+        }
+
+        Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+            TextField(
+                value = fertilizer,
+                onValueChange = {
+                    fertilizer = it
+                },
+                label = {Text("fertilizer")},
+                colors = TextFieldDefaults.colors(
+                    unfocusedIndicatorColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent
+                ),
+                shape = RoundedCornerShape(16.dp),
+                modifier = Modifier
+                    .padding(bottom = 8.dp)
+                    .fillMaxWidth(0.4f)
+            )
+            Button(onClick = {
+                showWateredMessage = true
+                onWater(fertilizer)
+                fertilizer = ""
+            }) {
+                Text(text = "Water plant")
+            }
 
                 Spacer(modifier = Modifier.width(8.dp))
 
@@ -251,10 +282,12 @@ fun formatDate(calendar: java.util.Calendar): String {
     return formatter.format(calendar.time)
 }
 
-@Preview(showBackground = true)
-@Composable
-fun SinglePlantPreview(modifier: Modifier = Modifier) {
-    PlantTrackerAppTheme {
-        SinglePlantView(plant = Datasource.plantList[1], onGoBack = {}, onGoToActivityJournal = {},onWater = {}, onGoToForm = {}, onClickYes = {}, onGoToRepot = {}, onGoToDisease = {}, onGoToOther = {})
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun SinglePlantPreview(modifier: Modifier = Modifier) {
+//    PlantTrackerAppTheme {
+//        SinglePlantView(
+//            plant = Datasource.plantList[1], onGoBack = {}, onGoToActivityJournal = {},
+//            onWater = , onGoToForm = {}, onClickYes = {})
+//    }
+//}

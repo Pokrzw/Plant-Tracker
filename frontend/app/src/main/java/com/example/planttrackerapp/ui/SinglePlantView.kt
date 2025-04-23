@@ -274,7 +274,7 @@ fun SinglePlantView(
             )
         }
     }
-}
+
 
 
 fun formatDate(calendar: java.util.Calendar): String {

@@ -170,7 +170,7 @@ fun SinglePlantView(
                 ),
                 shape = RoundedCornerShape(16.dp),
                 modifier = Modifier
-                    .padding(bottom = 8.dp)
+                    .padding(bottom = 8.dp, end = 4.dp, top = 8.dp)
                     .fillMaxWidth(0.4f)
             )
             Button(onClick = {
@@ -217,40 +217,20 @@ fun SinglePlantView(
             ) {
                 Text("Other")
             }
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // QR Code section
-        plant?.qrCodeImage?.let { qrCodeBase64 ->
-            val qrBitmap = remember { base64ToBitmap(qrCodeBase64) }
 
             Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "QR Code:",
-                style = androidx.compose.material3.MaterialTheme.typography.bodyMedium
-            )
 
-            Spacer(modifier = Modifier.height(8.dp))
 
-            // Display the QR code bitmap
-            Image(
-                bitmap = qrBitmap.asImageBitmap(),
-                contentDescription = "QR Code for ${plant.name}",
-                modifier = Modifier
-                    .size(200.dp)
+            Button(onClick = onGoToForm) {
+                Text(text = "Edit plant")
+            }
 
-            )
+            Button(onClick = { showPopUp = !showPopUp }) {
+                Text(text = "Delete plant")
+            }
         }
 
 
-
-        Button(onClick = onGoToForm) {
-            Text(text = "Edit plant")
-        }
-
-        Button(onClick = { showPopUp = !showPopUp }) {
-            Text(text = "Delete plant")
-        }
 
         if (showPopUp) {
             AlertDialog(

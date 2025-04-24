@@ -215,7 +215,6 @@ class FormViewModel(
     }
 
     fun onClickAdd(onSuccess: () -> Unit) {
-        val id = UUID.randomUUID().toString()
         val name = _formUiState.value.name
         val species = _formUiState.value.species
         val currentDate = Calendar.getInstance()
@@ -223,7 +222,6 @@ class FormViewModel(
 
         if (species != null && name.trim().isNotEmpty()) {
             val plant = Plant(
-                id = id,
                 name = name,
                 speciesName = species.name,
                 imageUri = curImg?.toString(),
@@ -233,7 +231,6 @@ class FormViewModel(
                 diseaseHistory = emptyList(),
                 repotHistory = emptyList(),
                 otherActivitiesHistory = emptyList(),
-                qrCodeImage = generateQRCodeAsBase64(id)
             )
 
             viewModelScope.launch {

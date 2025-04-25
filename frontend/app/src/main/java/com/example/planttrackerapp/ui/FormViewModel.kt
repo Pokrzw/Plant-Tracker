@@ -20,6 +20,7 @@ import java.util.Calendar
 import java.util.UUID
 import com.example.planttrackerapp.backend.repositories.UserPlantRepository
 import androidx.lifecycle.viewModelScope
+import com.example.planttrackerapp.backend.database.generateQRCodeAsBase64
 import com.example.planttrackerapp.backend.repositories.SpeciesRepository
 import com.example.planttrackerapp.data.SelectUiState
 import kotlinx.coroutines.launch
@@ -214,7 +215,7 @@ class FormViewModel(
     }
 
     fun onClickAdd(onSuccess: () -> Unit) {
-        val id = _formUiState.value.id
+        val id = UUID.randomUUID().toString()
         val name = _formUiState.value.name
         val species = _formUiState.value.species
         val currentDate = Calendar.getInstance()
@@ -231,7 +232,8 @@ class FormViewModel(
                 created = currentDate,
                 diseaseHistory = emptyList(),
                 repotHistory = emptyList(),
-                otherActivitiesHistory = emptyList()
+                otherActivitiesHistory = emptyList(),
+                qrCodeImage = generateQRCodeAsBase64(id)
             )
 
             viewModelScope.launch {

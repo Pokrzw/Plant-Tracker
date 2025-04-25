@@ -215,7 +215,6 @@ class FormViewModel(
     }
 
     fun onClickAdd(onSuccess: () -> Unit) {
-        val id = UUID.randomUUID().toString()
         val name = _formUiState.value.name
         val species = _formUiState.value.species
         val currentDate = Calendar.getInstance()
@@ -223,7 +222,6 @@ class FormViewModel(
 
         if (species != null && name.trim().isNotEmpty()) {
             val plant = Plant(
-                id = id,
                 name = name,
                 speciesName = species.name,
                 imageUri = curImg?.toString(),
@@ -232,18 +230,19 @@ class FormViewModel(
                 created = currentDate,
                 diseaseHistory = emptyList(),
                 repotHistory = emptyList(),
-                otherActivitiesHistory = emptyList(),
-                qrCodeImage = generateQRCodeAsBase64(id)
+                otherActivitiesHistory = emptyList()
             )
 
             viewModelScope.launch {
                 val insertedPlant = plantsRepository.insert(plant)
-                _formUiState.update { currentState ->
-                    currentState.copy(
-                        name = "",
-                        species = null,
-                        plantsList = currentState.plantsList.plus(insertedPlant)
-                    )
+                insertedPlant?.let {
+                    _formUiState.update { currentState ->
+                        currentState.copy(
+                            name = "",
+                            species = null,
+                            plantsList = currentState.plantsList + it
+                        )
+                    }
                 }
                 resetForm()
                 // Wywołaj callback po zakończeniu operacji

@@ -36,6 +36,4 @@ data class Plant(
     @TypeConverters(Converters::class) var repotHistory: List<Map<String,Calendar>>,
     @TypeConverters(Converters::class) val otherActivitiesHistory: List<Map<String,Calendar>>,
     val qrCodeImage: String? = generateQRCodeAsBase64(id),
-
-
     )

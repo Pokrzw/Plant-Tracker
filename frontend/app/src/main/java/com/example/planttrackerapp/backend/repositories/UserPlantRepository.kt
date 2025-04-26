@@ -18,11 +18,22 @@ class UserPlantRepository(private val userPlantDao: UserPlantDao, private val sp
             userPlantDao.getAll()
         }
     }
-    suspend fun insert(plant: Plant): Plant{
-        return withContext(Dispatchers.IO) {
-            userPlantDao.insert(plant)
-            userPlantDao.getUserPlantById(plant.id)
+    suspend fun insert(plant: Plant): Plant?{
+        try {
+            if (plant.id.isBlank())
+                throw IllegalStateException("Plant's id can't be empty")
+            val plantExists = userPlantDao.getUserPlantById(plant.id)
+            if (plantExists != null) {
+                throw IllegalStateException("Plant's id is already in database")
+            }
+            return withContext(Dispatchers.IO) {
+                userPlantDao.insert(plant)
+                userPlantDao.getUserPlantById(plant.id)
+            }
+        } catch (e: IllegalStateException) {
+            Log.e("Error message", "${e.message}")
         }
+        return  null
     }
 
     suspend fun deleteById(plantId: String) {

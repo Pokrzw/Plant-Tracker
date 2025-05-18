@@ -2,14 +2,11 @@ package com.example.planttrackerapp.model
 
 // LocalDateTime nie działa dla API 24, dlatego narazie używam Calendar
 // Może jeszcze zmienimy minimalne API na 26
-// import java.time.LocalDateTime
 import java.util.Calendar
 import androidx.room.*
 import java.util.UUID
 import com.example.planttrackerapp.backend.database.Converters
 import com.example.planttrackerapp.backend.database.generateQRCodeAsBase64
-import com.example.planttrackerapp.backend.database.generateQRCodeAsBase64
-
 
 @Entity(
     tableName = "user_plants",
@@ -30,7 +27,9 @@ data class Plant(
     @TypeConverters(Converters::class)
     @ColumnInfo(name = "species_name") val speciesName: String,
     @TypeConverters(Converters::class) val species: Species? = null,
-    @TypeConverters(Converters::class) val waterHistory: List<Map<String?,Calendar>>,
+    @ColumnInfo(name = "water_history")
+    @TypeConverters(Converters::class)
+    val waterHistory: List<Map<Fertilizer,Calendar>>,
     val created: Calendar,
     @TypeConverters(Converters::class) val diseaseHistory: List<Map<String,Calendar>>,
     @TypeConverters(Converters::class) var repotHistory: List<Map<String,Calendar>>,

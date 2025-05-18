@@ -24,6 +24,7 @@ import com.example.planttrackerapp.ui.theme.PlantTrackerAppTheme
 import com.example.planttrackerapp.ui.FormViewModel
 import com.example.planttrackerapp.ui.FormViewModelFactory
 import com.example.planttrackerapp.backend.database.DatabaseProvider
+import com.example.planttrackerapp.backend.repositories.FertilizerRepository
 import com.example.planttrackerapp.backend.repositories.SpeciesRepository
 import com.example.planttrackerapp.backend.repositories.UserPlantRepository
 import com.example.planttrackerapp.ui.ActionForm
@@ -65,8 +66,9 @@ fun PlantApp(
     val database = DatabaseProvider.getDatabase(context)
     val plantRepository = UserPlantRepository(database.userPlantDao(), database.speciesDao())
     val speciesRepository = SpeciesRepository(database.speciesDao())
+    val fertilizerRepository = FertilizerRepository(database.fertilizerDao())
     val formViewModel: FormViewModel = viewModel(
-        factory = FormViewModelFactory(plantRepository, speciesRepository)
+        factory = FormViewModelFactory(plantRepository, speciesRepository, fertilizerRepository)
     )
     //===================================================
 

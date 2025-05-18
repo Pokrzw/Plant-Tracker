@@ -20,6 +20,7 @@ import java.util.Calendar
 import java.util.UUID
 import com.example.planttrackerapp.backend.repositories.UserPlantRepository
 import androidx.lifecycle.viewModelScope
+import com.example.planttrackerapp.backend.repositories.FertilizerRepository
 import com.example.planttrackerapp.backend.repositories.SpeciesRepository
 import com.example.planttrackerapp.data.SelectUiState
 import kotlinx.coroutines.launch
@@ -32,7 +33,8 @@ import java.io.FileOutputStream
 
 class FormViewModel(
     private val plantsRepository: UserPlantRepository,
-    private val speciesRepository: SpeciesRepository
+    private val speciesRepository: SpeciesRepository,
+    private val fertilizerRepository: FertilizerRepository
     ): ViewModel() {
 
     private val _formUiState = MutableStateFlow(FormUiState())
@@ -121,6 +123,7 @@ class FormViewModel(
         viewModelScope.launch {
             val speciesList = withContext(Dispatchers.IO) { speciesRepository.getAllSpecies() }
             val plantList = withContext(Dispatchers.IO) { plantsRepository.allUserPlants() }
+            val fertilizerList = withContext((Dispatchers.IO)) {fertilizerRepository.getAllFertilizer()}
             val baseId = UUID.randomUUID().toString()
             _formUiState.value = FormUiState(id = baseId, speciesList = speciesList, plantsList = plantList)
             _plantUiState.value = PlantUiState(currentlyEditedPlant = null)
@@ -316,28 +319,35 @@ class FormViewModel(
 //    }
 
     // PODLEWANIE
-    fun addWateringDate(fertilizer: String) {
+    fun addWateringDate(fertilizerName: String) {
         val currentlyEditedPlant = _plantUiState.value.currentlyEditedPlant
-
         if (currentlyEditedPlant != null) {
-            val updatedPlant = currentlyEditedPlant.copy(
-                waterHistory = currentlyEditedPlant.waterHistory + mapOf(fertilizer to Calendar.getInstance())
-            )
-
-            val updatedPlantsList = _formUiState.value.plantsList.map {
-                if (it.id == updatedPlant.id) updatedPlant else it
-            }
             viewModelScope.launch {
-                plantsRepository.updateWateringHistory(currentlyEditedPlant.id, updatedPlant.waterHistory)
-            }
+                val fertilizer = fertilizerRepository.getFertilizerByName(fertilizerName)
+                if (fertilizer != null) {
+                    val updatedPlant = currentlyEditedPlant.copy(
+                        waterHistory = currentlyEditedPlant.waterHistory + mapOf(fertilizer to Calendar.getInstance())
+                    )
 
-            _formUiState.update { currentState ->
-                currentState.copy(plantsList = updatedPlantsList)
-            }
+                    val updatedPlantsList = _formUiState.value.plantsList.map {
+                        if (it.id == updatedPlant.id) updatedPlant else it
+                    }
+                    plantsRepository.updateWateringHistory(
+                        currentlyEditedPlant.id,
+                        updatedPlant.waterHistory
+                    )
 
-            _plantUiState.update { currentState ->
-                currentState.copy(currentlyEditedPlant = updatedPlant)
+                    _formUiState.update { currentState ->
+                        currentState.copy(plantsList = updatedPlantsList)
+                    }
+
+                    _plantUiState.update { currentState ->
+                        currentState.copy(currentlyEditedPlant = updatedPlant)
+                    }
+            } else {
+                    Log.e("Error","Nieznany nawóz, nie ma go w bazie danych")
             }
+        }
         } else {
             Log.d(TAG, "Brak edytowanej rośliny.")
         }

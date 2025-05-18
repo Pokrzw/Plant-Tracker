@@ -1,6 +1,7 @@
 package com.example.planttrackerapp.data
 
 import com.example.planttrackerapp.backend.database.DatabaseSeeder
+import com.example.planttrackerapp.model.Fertilizer
 import com.example.planttrackerapp.model.Plant
 import com.example.planttrackerapp.model.Species
 import java.util.Calendar
@@ -14,6 +15,8 @@ object Datasource {
 
     val speciesList = listOf(agleonema, monstera, filodendron, hoya, dracena)
 
+    val fertelizer = Fertilizer("Peace&Love")
+
     val plantList = listOf(
         Plant(
             id = "0",
@@ -21,11 +24,11 @@ object Datasource {
             speciesName = "Agleonema",
             species = agleonema,
             waterHistory = listOf(
-                mapOf("z nazwozem" to getDate(2024, 11, 25, 10, 0)),
-                mapOf("bez nawozu" to getDate(2024, 11, 20, 9, 0)),
-                mapOf("bez nawozu" to getDate(2024, 11, 15, 8, 0)),
-                mapOf("z nazwozem" to getDate(2024, 11, 10, 10, 30)),
-                mapOf("z nazwozem" to getDate(2024, 11, 5, 9, 45))
+                mapOf(fertelizer to getDate(2024, 11, 25, 10, 0)),
+                mapOf(fertelizer to getDate(2024, 11, 20, 9, 0)),
+                mapOf(fertelizer to getDate(2024, 11, 15, 8, 0)),
+                mapOf(fertelizer to getDate(2024, 11, 10, 10, 30)),
+                mapOf(fertelizer to getDate(2024, 11, 5, 9, 45))
             ),
             created = getDate(2024, 11, 14, 9, 0),
             diseaseHistory = listOf(
@@ -92,11 +95,11 @@ object Datasource {
             speciesName = "Monstera",
             species = monstera,
             waterHistory = listOf(
-                mapOf("z nazwozem" to getDate(2024, 11, 25, 10, 0)),
-                mapOf("bez nawozu" to getDate(2024, 11, 20, 9, 0)),
-                mapOf("bez nawozu" to getDate(2024, 11, 15, 8, 0)),
-                mapOf("z nazwozem" to getDate(2024, 11, 10, 10, 30)),
-                mapOf("z nazwozem" to getDate(2024, 11, 5, 9, 45))
+                mapOf(fertelizer to getDate(2024, 11, 25, 10, 0)),
+                mapOf(fertelizer to getDate(2024, 11, 20, 9, 0)),
+                mapOf(fertelizer to getDate(2024, 11, 15, 8, 0)),
+                mapOf(fertelizer to getDate(2024, 11, 10, 10, 30)),
+                mapOf(fertelizer to getDate(2024, 11, 5, 9, 45))
             ),
             created = getDate(2024, 10, 28, 8, 15),
             diseaseHistory = listOf(
@@ -164,11 +167,11 @@ object Datasource {
             speciesName = "Filodendron",
             species = filodendron,
             waterHistory = listOf(
-                mapOf("z nazwozem" to getDate(2024, 11, 25, 10, 0)),
-                mapOf("bez nawozu" to getDate(2024, 11, 20, 9, 0)),
-                mapOf("bez nawozu" to getDate(2024, 11, 15, 8, 0)),
-                mapOf("z nazwozem" to getDate(2024, 11, 10, 10, 30)),
-                mapOf("z nazwozem" to getDate(2024, 11, 5, 9, 45))
+                mapOf(fertelizer to getDate(2024, 11, 25, 10, 0)),
+                mapOf(fertelizer to getDate(2024, 11, 20, 9, 0)),
+                mapOf(fertelizer to getDate(2024, 11, 15, 8, 0)),
+                mapOf(fertelizer to getDate(2024, 11, 10, 10, 30)),
+                mapOf(fertelizer to getDate(2024, 11, 5, 9, 45))
             ),
             created = getDate(2024, 10, 15, 10, 30),
             diseaseHistory = listOf(
@@ -235,11 +238,11 @@ object Datasource {
             speciesName = "Hoya",
             species = hoya,
             waterHistory = listOf(
-                mapOf("z nazwozem" to getDate(2024, 11, 25, 10, 0)),
-                mapOf("bez nawozu" to getDate(2024, 11, 20, 9, 0)),
-                mapOf("bez nawozu" to getDate(2024, 11, 15, 8, 0)),
-                mapOf("z nazwozem" to getDate(2024, 11, 10, 10, 30)),
-                mapOf("z nazwozem" to getDate(2024, 11, 5, 9, 45))
+                mapOf(fertelizer to getDate(2024, 11, 25, 10, 0)),
+                mapOf(fertelizer to getDate(2024, 11, 20, 9, 0)),
+                mapOf(fertelizer to getDate(2024, 11, 15, 8, 0)),
+                mapOf(fertelizer to getDate(2024, 11, 10, 10, 30)),
+                mapOf(fertelizer to getDate(2024, 11, 5, 9, 45))
             ),
             created = getDate(2023, 11, 14, 9, 0),
             diseaseHistory = listOf(
@@ -306,11 +309,11 @@ object Datasource {
             speciesName = "Dracena",
             species = dracena,
             waterHistory = listOf(
-                mapOf("z nazwozem" to getDate(2024, 11, 25, 10, 0)),
-                mapOf("bez nawozu" to getDate(2024, 11, 20, 9, 0)),
-                mapOf("bez nawozu" to getDate(2024, 11, 15, 8, 0)),
-                mapOf("z nazwozem" to getDate(2024, 11, 10, 10, 30)),
-                mapOf("z nazwozem" to getDate(2024, 11, 5, 9, 45))
+                mapOf(fertelizer to getDate(2024, 11, 25, 10, 0)),
+                mapOf(fertelizer to getDate(2024, 11, 20, 9, 0)),
+                mapOf(fertelizer to getDate(2024, 11, 15, 8, 0)),
+                mapOf(fertelizer to getDate(2024, 11, 10, 10, 30)),
+                mapOf(fertelizer to getDate(2024, 11, 5, 9, 45))
             ),
             created = getDate(2023, 11, 14, 9, 0),
             diseaseHistory = listOf(

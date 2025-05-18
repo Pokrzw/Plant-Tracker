@@ -6,6 +6,9 @@ import androidx.room.TypeConverter
 import java.util.Calendar
 import com.example.planttrackerapp.model.Species
 import android.util.Log
+import com.example.planttrackerapp.model.Fertilizer
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class Converters{
 
@@ -72,6 +75,30 @@ class Converters{
                 map.mapValues { (_, timestamp) ->
                     Calendar.getInstance().apply { timeInMillis = timestamp }
                 }
+            }
+        }
+    }
+
+    @TypeConverter
+    fun fromMapListWithFertilizer(mapList: List<Map<Fertilizer, Calendar>>?): String? {
+            return mapList?.map { map ->
+                map.mapKeys { it.key.name }
+                map.mapValues { it.value.timeInMillis }
+            }?.let { gson.toJson(it) }
+    }
+
+    @TypeConverter
+    fun toMapListWithFertilizer(data: String?): List<Map<Fertilizer, Calendar>>? {
+        return data?.let {
+            val type = object : TypeToken<List<Map<String, Long>>>() {}.type
+            val listOfMaps: List<Map<String, Long>> = gson.fromJson(it, type)
+            listOfMaps.map { map ->
+                map
+                    .mapValues { (_, timestamp) ->
+                        Calendar.getInstance().apply { timeInMillis = timestamp } }
+                    .mapKeys { (fertizlizer, _) ->
+                        Fertilizer(fertizlizer)
+                    }
             }
         }
     }

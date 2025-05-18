@@ -7,6 +7,7 @@ import com.example.planttrackerapp.model.Species
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import android.util.Log
+import com.example.planttrackerapp.model.Fertilizer
 import java.util.Calendar
 
 
@@ -61,7 +62,7 @@ class UserPlantRepository(private val userPlantDao: UserPlantDao, private val sp
         }
     }
 
-    suspend fun updateWateringHistory(plantId: String, newWaterHistory: List<Map<String?,Calendar>>) {
+    suspend fun updateWateringHistory(plantId: String, newWaterHistory: List<Map<Fertilizer,Calendar>>) {
         userPlantDao.updateWaterHistory(plantId, newWaterHistory)
     }
 

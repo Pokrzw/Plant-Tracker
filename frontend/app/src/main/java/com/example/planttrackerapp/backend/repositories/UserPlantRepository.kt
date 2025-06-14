@@ -42,7 +42,7 @@ class UserPlantRepository(private val userPlantDao: UserPlantDao, private val sp
         }
     }
 
-    suspend fun getPlantById(id: String) {
+    suspend fun getPlantById(id: String): Plant {
         return withContext(Dispatchers.IO) {
             userPlantDao.getUserPlantById(id)
         }
@@ -50,7 +50,6 @@ class UserPlantRepository(private val userPlantDao: UserPlantDao, private val sp
 
     suspend fun updateById(id: String, name: String, speciesName: String?, imageUri: String?) {
         withContext(Dispatchers.IO) {
-            Log.d("CZY FUNKCJA DDZIAŁA?", "UPDATING ${name}")
             val species = speciesDao.getSpeciesByName(speciesName)
             if (species != null) {
                 userPlantDao.updateById(id, name, speciesName, species, imageUri)

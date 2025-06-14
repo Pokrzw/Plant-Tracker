@@ -20,15 +20,11 @@ import java.util.Calendar
 import java.util.UUID
 import com.example.planttrackerapp.backend.repositories.UserPlantRepository
 import androidx.lifecycle.viewModelScope
-import com.example.planttrackerapp.backend.database.generateQRCodeAsBase64
 import com.example.planttrackerapp.backend.repositories.SpeciesRepository
 import com.example.planttrackerapp.data.SelectUiState
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.*
-import java.io.File
-import java.io.FileOutputStream
 
 
 class FormViewModel(
@@ -282,7 +278,6 @@ class FormViewModel(
     }
 
     fun saveUriOnUpdate(uri: Uri?){
-        Log.d(TAG, "We are in saveUriOnUpdate. Value of uri: ${uri}")
         _formUiState.update { currentState ->
             currentState.copy(
                 imgUri = uri

@@ -13,7 +13,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mock
 import org.mockito.MockedStatic
 import org.mockito.Mockito
@@ -106,7 +105,6 @@ class UserPlantTest {
             `when`(userPlantDao.insert(plant)).thenReturn(Unit)
 
             val result: Plant? = userPlantRepository.insert(plant)
-
             assertThat(result).isNotNull()
             assertThat(result).isEqualTo(plant)
         }
@@ -267,7 +265,14 @@ class UserPlantTest {
 
     @Test
     fun deletePlantTest() {
+        runBlocking {
+            `when`(userPlantDao.deleteById(plant.id)).thenReturn(Unit)
+            `when`(userPlantDao.getUserPlantById(plant.id)).thenReturn(null)
 
+            userPlantRepository.deleteById(plant.id)
+            val result = userPlantRepository.getPlantById(plant.id)
+            assertThat(result).isNull()
+        }
     }
 
     @After

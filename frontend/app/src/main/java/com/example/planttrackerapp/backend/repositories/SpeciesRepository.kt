@@ -7,6 +7,12 @@ import kotlinx.coroutines.withContext
 
 
 class SpeciesRepository(private val speciesDao: SpeciesDao) {
+    suspend fun getAllSpecies(): List<Species> {
+        return withContext(Dispatchers.IO) {
+            speciesDao.getAll()
+        }
+    }
+
     suspend fun insertSpecies(species: Species) {
         return withContext(Dispatchers.IO) {
             speciesDao.insert(species)
@@ -16,12 +22,6 @@ class SpeciesRepository(private val speciesDao: SpeciesDao) {
     suspend fun getSpeciesByName(name: String): Species? {
         return withContext(Dispatchers.IO) {
             speciesDao.getSpeciesByName(name)
-        }
-    }
-
-    suspend fun getAllSpecies(): List<Species> {
-        return withContext(Dispatchers.IO) {
-           speciesDao.getAll()
         }
     }
 

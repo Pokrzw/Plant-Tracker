@@ -99,7 +99,12 @@ dependencies {
     implementation("androidx.compose.material:material-icons-core:1.7.5") // Core icons
     implementation("androidx.compose.material:material-icons-extended:1.7.5") // Extended icons (optional)
     implementation(libs.androidx.ui.text.google.fonts)
+
     testImplementation(libs.junit)
+    testImplementation ("androidx.arch.core:core-testing:2.1.0")
+    testImplementation("io.mockk:mockk:1.14.2")
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1")
+
     testImplementation("org.assertj:assertj-core:3.27.3")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -108,10 +113,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest);
 
-    //mockito framework
     testImplementation("org.mockito:mockito-core:5.18.0")
 
     implementation("io.coil-kt.coil3:coil-compose:3.1.0")
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.1.0")
-
 }

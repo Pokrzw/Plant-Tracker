@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.room.*
 import com.example.planttrackerapp.model.Plant;
 import androidx.lifecycle.LiveData
+import com.example.planttrackerapp.model.Fertilizer
 import com.example.planttrackerapp.model.Species
 import java.util.Calendar
 
@@ -52,8 +53,8 @@ interface UserPlantDao {
         name: String,
     )
 
-    @Query("UPDATE user_plants SET waterHistory = :newWaterHistory WHERE id = :plantId")
-    suspend fun updateWaterHistory(plantId: String, newWaterHistory: List<Map<String?,Calendar>>)
+    @Query("UPDATE user_plants SET water_history = :newWaterHistory WHERE id = :plantId")
+    suspend fun updateWaterHistory(plantId: String, newWaterHistory: List<Map<Fertilizer,Calendar>>)
 
     @Query("UPDATE user_plants SET diseaseHistory = :newDiseaseHistory WHERE id = :plantId")
     suspend fun updateDiseaseHistory(plantId: String, newDiseaseHistory: List<Map<String,Calendar>>)
@@ -63,6 +64,5 @@ interface UserPlantDao {
 
     @Query("UPDATE user_plants SET otherActivitiesHistory = :newOtherActivitiesHistory WHERE id = :plantId")
     suspend fun updateOtherActivitiesHistory(plantId: String, newOtherActivitiesHistory: List<Map<String,Calendar>>)
-
 }
 

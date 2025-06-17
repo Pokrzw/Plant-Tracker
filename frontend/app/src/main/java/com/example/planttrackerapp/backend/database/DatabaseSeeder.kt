@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import java.util.Calendar
 import android.util.Log
 import com.example.planttrackerapp.data.Datasource
+import com.example.planttrackerapp.model.Fertilizer
 import kotlinx.coroutines.withContext
 
 object DatabaseSeeder {
@@ -25,6 +26,7 @@ object DatabaseSeeder {
             val database = DatabaseProvider.getDatabase(context)
             val speciesDao = database.speciesDao()
             val userPlantDao = database.userPlantDao()
+            val fertilizerDao = database.fertilizerDao()
 
             CoroutineScope(Dispatchers.IO).launch {
                 try {
@@ -72,17 +74,43 @@ object DatabaseSeeder {
 
                     val speciesMap = speciesDao.getAll().associateBy { it.name }
 
+                    val fertilizerList = listOf(
+                        Fertilizer(name = "NPK:5:5:5"),
+                        Fertilizer(name = "NPK:4:2:3"),
+                        Fertilizer(name = "Popiół drzewny"),
+                        Fertilizer(name = "Fosforowy"),
+                        Fertilizer(name = "Wapno tlenkowe"),
+                        Fertilizer(name = "Popiół drzewny"),
+                        Fertilizer(name = "Peace&Love"),
+                        Fertilizer(name = "Siarka"),
+                        )
+
+                    fertilizerDao.insertAll(fertilizerList)
+                    fertilizerDao.insert(Fertilizer(name = "dolomit"))
+
+                    val check = fertilizerDao.getFertilizerByName("Siarka")
+                    Log.d("get Fert", "${check}")
+                    fertilizerDao.updateFertilizer("dolomit", "SUPERdolomit")
+
+                    val fertilizerMap = fertilizerDao.getAll().associateBy { it.name }
+
+                    val fertilizer: Fertilizer = fertilizerMap["NPK:4:2:3"]!!
+                    Log.d("get Fert2", "${fertilizer}")
+                    fertilizerMap["Wapno tlenkowe"]?.let { fertilizerDao.delete(it)}
+
+
+
                     val plantList = listOf(
                     Plant(
                         name = "Agleonema",
                         speciesName = "Agleonema",
                         species = speciesMap["Agleonema"],
                         waterHistory = listOf(
-                            mapOf("z nazwozem" to getDate(2024, 11, 25, 10, 0)),
-                            mapOf("bez nawozu" to getDate(2024, 11, 20, 9, 0)),
-                            mapOf("bez nawozu" to getDate(2024, 11, 15, 8, 0)),
-                            mapOf("z nazwozem" to getDate(2024, 11, 10, 10, 30)),
-                            mapOf("z nazwozem" to getDate(2024, 11, 5, 9, 45))
+                            mapOf(fertilizer to getDate(2024, 11, 25, 10, 0)),
+                            mapOf(fertilizer to getDate(2024, 11, 20, 9, 0)),
+                            mapOf(fertilizer to getDate(2024, 11, 15, 8, 0)),
+                            mapOf(fertilizer to getDate(2024, 11, 10, 10, 30)),
+                            mapOf(fertilizer to getDate(2024, 11, 5, 9, 45))
                         ),
                         created = getDate(2024, 11, 14, 9, 0),
                         diseaseHistory = listOf(
@@ -112,11 +140,11 @@ object DatabaseSeeder {
                         speciesName = "Monstera",
                         species = speciesMap["Monstera"],
                         waterHistory = listOf(
-                            mapOf("z nazwozem" to getDate(2024, 11, 25, 10, 0)),
-                            mapOf("bez nawozu" to getDate(2024, 11, 20, 9, 0)),
-                            mapOf("bez nawozu" to getDate(2024, 11, 15, 8, 0)),
-                            mapOf("z nazwozem" to getDate(2024, 11, 10, 10, 30)),
-                            mapOf("z nazwozem" to getDate(2024, 11, 5, 9, 45))
+                            mapOf(fertilizer to getDate(2024, 11, 25, 10, 0)),
+                            mapOf(fertilizer to getDate(2024, 11, 20, 9, 0)),
+                            mapOf(fertilizer to getDate(2024, 11, 15, 8, 0)),
+                            mapOf(fertilizer to getDate(2024, 11, 10, 10, 30)),
+                            mapOf(fertilizer to getDate(2024, 11, 5, 9, 45))
                         ),
                         created = getDate(2024, 10, 28, 8, 15),
                         diseaseHistory = listOf(
@@ -148,11 +176,11 @@ object DatabaseSeeder {
                         speciesName = "Filodendron",
                         species = speciesMap["Filodendron"],
                         waterHistory = listOf(
-                            mapOf("z nazwozem" to getDate(2024, 11, 25, 10, 0)),
-                            mapOf("bez nawozu" to getDate(2024, 11, 20, 9, 0)),
-                            mapOf("bez nawozu" to getDate(2024, 11, 15, 8, 0)),
-                            mapOf("z nazwozem" to getDate(2024, 11, 10, 10, 30)),
-                            mapOf("z nazwozem" to getDate(2024, 11, 5, 9, 45))
+                            mapOf(fertilizer to getDate(2024, 11, 25, 10, 0)),
+                            mapOf(fertilizer to getDate(2024, 11, 20, 9, 0)),
+                            mapOf(fertilizer to getDate(2024, 11, 15, 8, 0)),
+                            mapOf(fertilizer to getDate(2024, 11, 10, 10, 30)),
+                            mapOf(fertilizer to getDate(2024, 11, 5, 9, 45))
                         ),
                         created = getDate(2024, 10, 15, 10, 30),
                         diseaseHistory = listOf(
@@ -183,11 +211,11 @@ object DatabaseSeeder {
                         speciesName = "Hoya",
                         species = speciesMap["Hoya"],
                         waterHistory = listOf(
-                            mapOf("z nazwozem" to getDate(2024, 11, 25, 10, 0)),
-                            mapOf("bez nawozu" to getDate(2024, 11, 20, 9, 0)),
-                            mapOf("bez nawozu" to getDate(2024, 11, 15, 8, 0)),
-                            mapOf("z nazwozem" to getDate(2024, 11, 10, 10, 30)),
-                            mapOf("z nazwozem" to getDate(2024, 11, 5, 9, 45))
+                            mapOf(fertilizer to getDate(2024, 11, 25, 10, 0)),
+                            mapOf(fertilizer to getDate(2024, 11, 20, 9, 0)),
+                            mapOf(fertilizer to getDate(2024, 11, 15, 8, 0)),
+                            mapOf(fertilizer to getDate(2024, 11, 10, 10, 30)),
+                            mapOf(fertilizer to getDate(2024, 11, 5, 9, 45))
                         ),
                         created = getDate(2023, 11, 14, 9, 0),
                         diseaseHistory = listOf(
@@ -219,11 +247,11 @@ object DatabaseSeeder {
                         speciesName = "Dracena",
                         species = speciesMap["Dracena"],
                         waterHistory = listOf(
-                            mapOf("z nazwozem" to getDate(2024, 11, 25, 10, 0)),
-                            mapOf("bez nawozu" to getDate(2024, 11, 20, 9, 0)),
-                            mapOf("bez nawozu" to getDate(2024, 11, 15, 8, 0)),
-                            mapOf("z nazwozem" to getDate(2024, 11, 10, 10, 30)),
-                            mapOf("z nazwozem" to getDate(2024, 11, 5, 9, 45))
+                            mapOf(fertilizer to getDate(2024, 11, 25, 10, 0)),
+                            mapOf(fertilizer to getDate(2024, 11, 20, 9, 0)),
+                            mapOf(fertilizer to getDate(2024, 11, 15, 8, 0)),
+                            mapOf(fertilizer to getDate(2024, 11, 10, 10, 30)),
+                            mapOf(fertilizer to getDate(2024, 11, 5, 9, 45))
                         ),
                         created = getDate(2023, 11, 14, 9, 0),
                         diseaseHistory = listOf(

@@ -36,9 +36,9 @@ fun SpeciesForm(
     } else {
         "Add"
     }
-    var test by remember { mutableStateOf(false) }
+    val soilMoistToStr = if (species?.name == null) "" else species.name
     var text by remember{mutableStateOf(species?.name ?: "")}
-    var soilMoist by remember { mutableStateOf(species?.soilMoisture.toString() ?: "") }
+    var soilMoist by remember { mutableStateOf(soilMoistToStr) }
 
     Column(modifier = Modifier.
     fillMaxWidth(),
@@ -81,7 +81,6 @@ fun SpeciesForm(
                     onEdit(species?.id, text, soilFinal)
                 }else{
                     onAdd(text, soilFinal)
-
                 }
                 onGoBack()
             }

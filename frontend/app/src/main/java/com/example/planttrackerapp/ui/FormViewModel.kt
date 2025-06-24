@@ -191,7 +191,7 @@ class FormViewModel(
         
             viewModelScope.launch {
                 Log.d("BEFORE UPDATE IMAGE URI", "${searchedElementCopy.imageUri}, ${searchedElementCopy.id}")
-                plantsRepository.updateById(searchedElementCopy.id, name, formSpecies?.name, searchedElementCopy.imageUri)
+                plantsRepository.updateById(searchedElementCopy.id, name, formSpecies?.id, searchedElementCopy.imageUri)
                 val plantList = withContext(Dispatchers.IO) { plantsRepository.allUserPlants() }
                 plantList.forEach{plant -> Log.d("AFTER UPDATE IMAGE URI", "${plant.imageUri}")}
             }
@@ -223,7 +223,7 @@ class FormViewModel(
         if (species != null && name.trim().isNotEmpty()) {
             val plant = Plant(
                 name = name,
-                speciesName = species.name,
+                speciesId = species.id,
                 imageUri = curImg?.toString(),
                 species = species,
                 waterHistory = emptyList(),

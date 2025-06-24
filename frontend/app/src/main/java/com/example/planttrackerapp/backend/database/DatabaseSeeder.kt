@@ -30,42 +30,42 @@ object DatabaseSeeder {
                 try {
                     // Dane do tabeli Species
                     val speciesList = listOf(
-                        Species("Agleonema", 3),
-                        Species("Monstera", 3),
-                        Species("Filodendron", 3),
-                        Species("Hoya", 1),
-                        Species("Dracena", 1),
-                        Species("Sylvari", 2),
-                        Species("Croton", 3),
-                        Species("Sanseveria", 1),
-                        Species("Spiderwort", 1),
-                        Species("Rhipsalis", 2),
-                        Species("Ceropegia", 1),
-                        Species("Pilea", 3),
-                        Species("Spider plant", 3),
-                        Species("Fern", 4),
-                        Species("Epipremnum", 3),
-                        Species("Marantha", 4),
-                        Species("Orchidea", 3),
-                        Species("Aloe vera", 2),
-                        Species("Calatea", 4),
-                        Species("Peace lily", 3),
-                        Species("Banana", 3),
-                        Species("Zamioculcas", 1),
-                        Species("Stromanthe", 4),
-                        Species("Philodendron", 4),
-                        Species("Begonia", 4),
-                        Species("Ficus", 3),
-                        Species("Syngonium", 3),
-                        Species("Peperomia", 3),
-                        Species("Hoya", 2),
-                        Species("Bamboo", 4),
-                        Species("Palm", 3),
-                        Species("Scindapsus", 3),
-                        Species("Anturium", 3),
-                        Species("Yuca", 3),
-                        Species("Alocasia", 3),
-                        Species("Oxalis", 3)
+                        Species(name = "Agleonema", soilMoisture = 3),
+                        Species(name = "Monstera", soilMoisture = 3),
+                        Species(name = "Filodendron", soilMoisture = 3),
+                        Species(name = "Hoya", soilMoisture = 1),
+                        Species(name = "Dracena", soilMoisture = 1),
+                        Species(name = "Sylvari", soilMoisture = 2),
+                        Species(name = "Croton", soilMoisture = 3),
+                        Species(name = "Sanseveria", soilMoisture = 1),
+                        Species(name = "Spiderwort", soilMoisture = 1),
+                        Species(name = "Rhipsalis", soilMoisture = 2),
+                        Species(name = "Ceropegia", soilMoisture = 1),
+                        Species(name = "Pilea", soilMoisture = 3),
+                        Species(name = "Spider plant", soilMoisture = 3),
+                        Species(name = "Fern", soilMoisture = 4),
+                        Species(name = "Epipremnum", soilMoisture = 3),
+                        Species(name = "Marantha", soilMoisture = 4),
+                        Species(name = "Orchidea", soilMoisture = 3),
+                        Species(name = "Aloe vera", soilMoisture = 2),
+                        Species(name = "Calatea", soilMoisture = 4),
+                        Species(name = "Peace lily", soilMoisture = 3),
+                        Species(name = "Banana", soilMoisture = 3),
+                        Species(name = "Zamioculcas", soilMoisture = 1),
+                        Species(name = "Stromanthe", soilMoisture = 4),
+                        Species(name = "Philodendron", soilMoisture = 4),
+                        Species(name = "Begonia", soilMoisture = 4),
+                        Species(name = "Ficus", soilMoisture = 3),
+                        Species(name = "Syngonium", soilMoisture = 3),
+                        Species(name = "Peperomia", soilMoisture = 3),
+                        Species(name = "Hoya", soilMoisture = 2),
+                        Species(name = "Bamboo", soilMoisture = 4),
+                        Species(name = "Palm", soilMoisture = 3),
+                        Species(name = "Scindapsus", soilMoisture = 3),
+                        Species(name = "Anturium", soilMoisture = 3),
+                        Species(name = "Yuca", soilMoisture = 3),
+                        Species(name = "Alocasia", soilMoisture = 3),
+                        Species(name = "Oxalis", soilMoisture = 3)
                     )
 
                     speciesDao.insertAll(speciesList)
@@ -75,7 +75,7 @@ object DatabaseSeeder {
                     val plantList = listOf(
                     Plant(
                         name = "Agleonema",
-                        speciesName = "Agleonema",
+                        speciesId = speciesMap["Agleonema"]?.id ?: "default-id",
                         species = speciesMap["Agleonema"],
                         waterHistory = listOf(
                             mapOf("z nazwozem" to getDate(2024, 11, 25, 10, 0)),
@@ -109,7 +109,7 @@ object DatabaseSeeder {
                     ),
                     Plant(
                         name = "Monstera",
-                        speciesName = "Monstera",
+                        speciesId = speciesMap["Monstera"]?.id ?: "default-id",
                         species = speciesMap["Monstera"],
                         waterHistory = listOf(
                             mapOf("z nazwozem" to getDate(2024, 11, 25, 10, 0)),
@@ -145,7 +145,7 @@ object DatabaseSeeder {
                     ),
                     Plant(
                         name = "Filodendron",
-                        speciesName = "Filodendron",
+                        speciesId = speciesMap["Filodendron"]?.id ?: "default-id",
                         species = speciesMap["Filodendron"],
                         waterHistory = listOf(
                             mapOf("z nazwozem" to getDate(2024, 11, 25, 10, 0)),
@@ -180,7 +180,7 @@ object DatabaseSeeder {
                     ),
                     Plant(
                         name = "Hoya",
-                        speciesName = "Hoya",
+                        speciesId = speciesMap["Hoya"]?.id ?: "default-id",
                         species = speciesMap["Hoya"],
                         waterHistory = listOf(
                             mapOf("z nazwozem" to getDate(2024, 11, 25, 10, 0)),
@@ -216,7 +216,7 @@ object DatabaseSeeder {
                     ),
                     Plant(
                         name = "Dracena",
-                        speciesName = "Dracena",
+                        speciesId = speciesMap["Dracena"]?.id ?: "default-id",
                         species = speciesMap["Dracena"],
                         waterHistory = listOf(
                             mapOf("z nazwozem" to getDate(2024, 11, 25, 10, 0)),

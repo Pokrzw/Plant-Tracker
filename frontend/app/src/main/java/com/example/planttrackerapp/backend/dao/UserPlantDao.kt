@@ -28,7 +28,7 @@ interface UserPlantDao {
     UPDATE user_plants
     SET
     name = :name,
-    species_name = :speciesName,
+    species_id = :speciesId,
     species = :species,
     imageUri = :imageUri
     WHERE id = :id
@@ -36,7 +36,7 @@ interface UserPlantDao {
     suspend fun updateById(
         id: String,
         name: String,
-        speciesName: String?,
+        speciesId: String?,
         species: Species,
         imageUri: String?
     )

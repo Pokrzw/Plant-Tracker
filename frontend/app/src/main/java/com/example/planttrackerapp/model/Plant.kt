@@ -16,19 +16,19 @@ import com.example.planttrackerapp.backend.database.generateQRCodeAsBase64
     foreignKeys = [
         ForeignKey(
             entity = Species::class,
-            parentColumns = ["name"],
-            childColumns = ["species_name"],
+            parentColumns = ["id"],
+            childColumns = ["species_id"],
             onDelete = ForeignKey.CASCADE
         )
     ],
-    indices = [Index(value = ["species_name"])]
+    indices = [Index(value = ["species_id"])]
 )
 data class Plant(
     @PrimaryKey val id: String = UUID.randomUUID().toString(),
     val name: String,
     val imageUri: String? = null,
     @TypeConverters(Converters::class)
-    @ColumnInfo(name = "species_name") val speciesName: String,
+    @ColumnInfo(name = "species_id") val speciesId: String,
     @TypeConverters(Converters::class) val species: Species? = null,
     @TypeConverters(Converters::class) val waterHistory: List<Map<String?,Calendar>>,
     val created: Calendar,

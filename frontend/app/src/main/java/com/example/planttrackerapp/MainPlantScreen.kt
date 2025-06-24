@@ -31,6 +31,7 @@ import com.example.planttrackerapp.ui.ActivityJournal
 import com.example.planttrackerapp.ui.ChoosePlantsToSelect
 import com.example.planttrackerapp.ui.PlantQRList
 import com.example.planttrackerapp.ui.QRScannerScreen
+import com.example.planttrackerapp.ui.SpeciesList
 
 
 enum class PlantAppScreen {
@@ -38,6 +39,7 @@ enum class PlantAppScreen {
     ActivityJournal,
     PlantDetails,
     AllPlants,
+    AllSpecies,
     FormEdit,
     PlantJournal,
     QRScanner,
@@ -81,6 +83,7 @@ fun PlantApp(
     Scaffold(
         topBar = {
             val canNavigateBack = currentRoute != PlantAppScreen.AllPlants.name
+            val isOnSpeciesScreen = currentRoute == PlantAppScreen.AllSpecies.name
             TopBar(
                 title = when (currentRoute) {
                     PlantAppScreen.AllPlants.name -> "My Plants"
@@ -89,9 +92,12 @@ fun PlantApp(
                     PlantAppScreen.FormEdit.name -> "Edit Plant"
                     PlantAppScreen.PlantJournal.name -> "Plant Journal"
                     PlantAppScreen.ActivityJournal.name -> "${currentPlantState.currentlyEditedPlant?.name}'s journal"
+                    PlantAppScreen.AllSpecies.name -> "My Species"
                     else -> "Plant Tracker"
                 },
                 canNavigateBack = canNavigateBack,
+                onMenuClick = { navController.navigateIfNotCurrent(PlantAppScreen.AllSpecies.name) },
+                isOnSpeciesScreen = isOnSpeciesScreen,
                 navigateUp = { navController.popBackStack() }
             )
         }
@@ -216,12 +222,19 @@ fun PlantApp(
                 )
             }
 
-
             composable(route = PlantAppScreen.SelectPlants.name){
                 ChoosePlantsToSelect(
                     plantList = formUiState.plantsList,
                     onSelectPlants = formViewModel::saveSelection,
                     onClickSelect = { navController.navigateIfNotCurrent(PlantAppScreen.QRExport.name)}
+                )
+            }
+
+            composable(route = PlantAppScreen.AllSpecies.name) {
+                SpeciesList(
+                    speciesList = formUiState.speciesList,
+                    onClickAddNewSpecies = {},
+                    setSpeciesOnClick = {}
                 )
             }
         }

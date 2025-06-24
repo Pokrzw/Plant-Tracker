@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-
+import androidx.compose.material.icons.filled.Menu
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -18,31 +18,33 @@ fun TopBar(
     title: String,
     canNavigateBack: Boolean,
     navigateUp: () -> Unit = {},
+    onMenuClick: () -> Unit = {},
+    isOnSpeciesScreen: Boolean,
     actions: @Composable () -> Unit = {}
 ) {
-    if (canNavigateBack) {
-        TopAppBar(
-            title = {
-                Text(text = title)
-            },
-            actions = { actions() },
-            navigationIcon = {
+    TopAppBar(
+        title = { Text(text = title) },
+        navigationIcon = {
+            if (canNavigateBack) {
                 IconButton(onClick = navigateUp) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = "Back"
                     )
                 }
-            },
-            modifier = modifier
-        )
-    } else {
-        TopAppBar(
-            title = {
-                Text(text = title)
-            },
-            actions = { actions() },
-            modifier = modifier
-        )
-    }
+            }
+        },
+        actions = {
+            actions()
+            if (!isOnSpeciesScreen) {
+                IconButton(onClick = onMenuClick) {
+                    Icon(
+                        imageVector = Icons.Default.Menu,
+                        contentDescription = "Menu"
+                    )
+                }
+            }
+        },
+        modifier = modifier
+    )
 }

@@ -22,6 +22,7 @@ import com.example.planttrackerapp.backend.repositories.UserPlantRepository
 import androidx.lifecycle.viewModelScope
 import com.example.planttrackerapp.backend.repositories.SpeciesRepository
 import com.example.planttrackerapp.data.SelectUiState
+import com.example.planttrackerapp.data.SpeciesUiState
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -37,6 +38,9 @@ class FormViewModel(
 
     private val _plantUiState = MutableStateFlow(PlantUiState())
     val plantUiState: StateFlow<PlantUiState> = _plantUiState.asStateFlow()
+
+    private val _speciesUiState = MutableStateFlow(SpeciesUiState())
+    val speciesUiState: StateFlow<PlantUiState> = _plantUiState.asStateFlow()
 
     private val _selectUiState = MutableStateFlow(SelectUiState())
     val selectUiState: StateFlow<SelectUiState> = _selectUiState.asStateFlow()

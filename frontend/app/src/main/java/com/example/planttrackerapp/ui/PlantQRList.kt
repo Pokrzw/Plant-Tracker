@@ -94,7 +94,7 @@ fun exportToPDF(
     for (plant in plantList) {
 
         curPage.canvas.drawText(plant.name, curWidth+15f, curHeight, paint)
-        curPage.canvas.drawText(plant.speciesName, curWidth+15f, curHeight+15f, paint)
+        curPage.canvas.drawText(plant.species?.name ?: "Nieznany gatunek", curWidth+15f, curHeight+15f, paint)
         plant?.qrCodeImage?.let { qrCodeBase64 ->
             val qrBitmap = base64ToBitmap(qrCodeBase64)
             val scaledBitmap = qrBitmap.let {Bitmap.createScaledBitmap(qrBitmap, QR_CODE_SIZE, QR_CODE_SIZE, false) }

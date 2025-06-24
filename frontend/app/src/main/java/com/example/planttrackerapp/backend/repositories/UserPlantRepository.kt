@@ -53,11 +53,11 @@ class UserPlantRepository(private val userPlantDao: UserPlantDao, private val sp
             val species = speciesDao.getSpeciesByName(speciesName)
             if (species != null) {
                 userPlantDao.updateById(id, name, speciesName, species, imageUri)
-            } else if (userPlantDao.getUserPlantById(id)?.speciesName?.let {
+            } else if (userPlantDao.getUserPlantById(id)?.speciesId?.let {
                         speciesDao.getSpeciesByName(it) } != null) {
                 val plant = userPlantDao.getUserPlantById(id)
-                val plantSpecies = speciesDao.getSpeciesByName(plant.speciesName)
-                userPlantDao.updateById(id, name, plant.speciesName, plantSpecies, imageUri)
+                val plantSpecies = speciesDao.getSpeciesByName(plant.speciesId)
+                userPlantDao.updateById(id, name, plant.speciesId, plantSpecies, imageUri)
             } else {
                 Log.d("error-species", "species is null, updateById")
             }

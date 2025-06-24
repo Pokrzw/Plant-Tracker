@@ -245,7 +245,7 @@ fun PlantApp(
 
             composable(route = PlantAppScreen.SpeciesFormAdd.name) {
                 SpeciesForm(
-                    onGoBack = {navController.popBackStack() } ,  
+                    onGoBack = { } ,
                     onAdd = formViewModel::onClickAddSpecies,
                     isEdit = false
                 )
@@ -253,7 +253,7 @@ fun PlantApp(
 
             composable(route = PlantAppScreen.SpeciesFormEdit.name) {
                 SpeciesForm(
-                    onGoBack = {navController.popBackStack() } ,
+                    onGoBack = {navController.navigateIfNotCurrent(PlantAppScreen.AllPlants.name) } ,
                     onAdd = formViewModel::onClickAddSpecies,
                     species = selectedSpecies.currentlyEditedSpecies,
                     isEdit = true

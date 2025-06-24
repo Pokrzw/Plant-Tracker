@@ -1,5 +1,6 @@
 package com.example.planttrackerapp.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -11,6 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.KeyboardType
+import com.example.planttrackerapp.TAG
 import com.example.planttrackerapp.model.Species
 
 @Composable
@@ -26,6 +28,7 @@ fun SpeciesForm(
     } else {
         "Add"
     }
+    var test by remember { mutableStateOf(false) }
     var text by remember{mutableStateOf(species?.name ?: "")}
     var soilMoist by remember { mutableStateOf(species?.soilMoisture.toString() ?: "") }
 

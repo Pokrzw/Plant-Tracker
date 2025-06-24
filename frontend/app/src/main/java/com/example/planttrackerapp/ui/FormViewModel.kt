@@ -228,7 +228,6 @@ class FormViewModel(
                 name = name,
                 soilMoisture = water
             )
-
             viewModelScope.launch {
                 val speciesToInsert = speciesRepository.insertSpecies(species)
                 speciesToInsert?.let {
@@ -239,8 +238,8 @@ class FormViewModel(
                     }
                 }
             }
+            populateUiState()
         }
-
     }
 
     fun onClickAdd(onSuccess: () -> Unit) {

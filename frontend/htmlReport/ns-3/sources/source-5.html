@@ -1,0 +1,413 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > DatabaseSeeder</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.planttrackerapp.backend.database</a>
+</div>
+
+<h1>Coverage Summary for Class: DatabaseSeeder (com.example.planttrackerapp.backend.database)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DatabaseSeeder</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">DatabaseSeeder$seedDatabase$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">DatabaseSeeder$seedDatabase$2$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/188)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/197)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.planttrackerapp.backend.database
+&nbsp;
+&nbsp;import android.content.Context
+&nbsp;import com.example.planttrackerapp.model.Plant
+&nbsp;import com.example.planttrackerapp.model.Species
+&nbsp;import kotlinx.coroutines.CoroutineScope
+&nbsp;import kotlinx.coroutines.Dispatchers
+&nbsp;import kotlinx.coroutines.launch
+&nbsp;import java.util.Calendar
+&nbsp;import android.util.Log
+&nbsp;import com.example.planttrackerapp.data.Datasource
+&nbsp;import kotlinx.coroutines.withContext
+&nbsp;
+&nbsp;object DatabaseSeeder {
+&nbsp;
+&nbsp;    private fun getDate(year: Int, month: Int, day: Int, hour: Int, minute: Int): Calendar {
+<b class="nc">&nbsp;        return Calendar.getInstance().apply {</b>
+<b class="nc">&nbsp;            set(year, month - 1, day, hour, minute, 0) // Miesiące są od 0-indeksowane</b>
+<b class="nc">&nbsp;            set(Calendar.MILLISECOND, 0)</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    suspend fun seedDatabase(context: Context) {
+<b class="nc">&nbsp;        withContext(Dispatchers.IO) {</b>
+<b class="nc">&nbsp;            val database = DatabaseProvider.getDatabase(context)</b>
+<b class="nc">&nbsp;            val speciesDao = database.speciesDao()</b>
+<b class="nc">&nbsp;            val userPlantDao = database.userPlantDao()</b>
+&nbsp;
+<b class="nc">&nbsp;            CoroutineScope(Dispatchers.IO).launch {</b>
+&nbsp;                try {
+&nbsp;                    // Dane do tabeli Species
+<b class="nc">&nbsp;                    val speciesList = listOf(</b>
+<b class="nc">&nbsp;                        Species(&quot;Agleonema&quot;, 3),</b>
+<b class="nc">&nbsp;                        Species(&quot;Monstera&quot;, 3),</b>
+<b class="nc">&nbsp;                        Species(&quot;Filodendron&quot;, 3),</b>
+<b class="nc">&nbsp;                        Species(&quot;Hoya&quot;, 1),</b>
+<b class="nc">&nbsp;                        Species(&quot;Dracena&quot;, 1),</b>
+<b class="nc">&nbsp;                        Species(&quot;Sylvari&quot;, 2),</b>
+<b class="nc">&nbsp;                        Species(&quot;Croton&quot;, 3),</b>
+<b class="nc">&nbsp;                        Species(&quot;Sanseveria&quot;, 1),</b>
+<b class="nc">&nbsp;                        Species(&quot;Spiderwort&quot;, 1),</b>
+<b class="nc">&nbsp;                        Species(&quot;Rhipsalis&quot;, 2),</b>
+<b class="nc">&nbsp;                        Species(&quot;Ceropegia&quot;, 1),</b>
+<b class="nc">&nbsp;                        Species(&quot;Pilea&quot;, 3),</b>
+<b class="nc">&nbsp;                        Species(&quot;Spider plant&quot;, 3),</b>
+<b class="nc">&nbsp;                        Species(&quot;Fern&quot;, 4),</b>
+<b class="nc">&nbsp;                        Species(&quot;Epipremnum&quot;, 3),</b>
+<b class="nc">&nbsp;                        Species(&quot;Marantha&quot;, 4),</b>
+<b class="nc">&nbsp;                        Species(&quot;Orchidea&quot;, 3),</b>
+<b class="nc">&nbsp;                        Species(&quot;Aloe vera&quot;, 2),</b>
+<b class="nc">&nbsp;                        Species(&quot;Calatea&quot;, 4),</b>
+<b class="nc">&nbsp;                        Species(&quot;Peace lily&quot;, 3),</b>
+<b class="nc">&nbsp;                        Species(&quot;Banana&quot;, 3),</b>
+<b class="nc">&nbsp;                        Species(&quot;Zamioculcas&quot;, 1),</b>
+<b class="nc">&nbsp;                        Species(&quot;Stromanthe&quot;, 4),</b>
+<b class="nc">&nbsp;                        Species(&quot;Philodendron&quot;, 4),</b>
+<b class="nc">&nbsp;                        Species(&quot;Begonia&quot;, 4),</b>
+<b class="nc">&nbsp;                        Species(&quot;Ficus&quot;, 3),</b>
+<b class="nc">&nbsp;                        Species(&quot;Syngonium&quot;, 3),</b>
+<b class="nc">&nbsp;                        Species(&quot;Peperomia&quot;, 3),</b>
+<b class="nc">&nbsp;                        Species(&quot;Hoya&quot;, 2),</b>
+<b class="nc">&nbsp;                        Species(&quot;Bamboo&quot;, 4),</b>
+<b class="nc">&nbsp;                        Species(&quot;Palm&quot;, 3),</b>
+<b class="nc">&nbsp;                        Species(&quot;Scindapsus&quot;, 3),</b>
+<b class="nc">&nbsp;                        Species(&quot;Anturium&quot;, 3),</b>
+<b class="nc">&nbsp;                        Species(&quot;Yuca&quot;, 3),</b>
+<b class="nc">&nbsp;                        Species(&quot;Alocasia&quot;, 3),</b>
+<b class="nc">&nbsp;                        Species(&quot;Oxalis&quot;, 3)</b>
+&nbsp;                    )
+&nbsp;
+<b class="nc">&nbsp;                    speciesDao.insertAll(speciesList)</b>
+&nbsp;
+<b class="nc">&nbsp;                    val speciesMap = speciesDao.getAll().associateBy { it.name }</b>
+&nbsp;
+<b class="nc">&nbsp;                    val plantList = listOf(</b>
+<b class="nc">&nbsp;                    Plant(</b>
+<b class="nc">&nbsp;                        name = &quot;Agleonema&quot;,</b>
+<b class="nc">&nbsp;                        speciesName = &quot;Agleonema&quot;,</b>
+<b class="nc">&nbsp;                        species = speciesMap[&quot;Agleonema&quot;],</b>
+<b class="nc">&nbsp;                        waterHistory = listOf(</b>
+<b class="nc">&nbsp;                            mapOf(&quot;z nazwozem&quot; to getDate(2024, 11, 25, 10, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;bez nawozu&quot; to getDate(2024, 11, 20, 9, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;bez nawozu&quot; to getDate(2024, 11, 15, 8, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;z nazwozem&quot; to getDate(2024, 11, 10, 10, 30)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;z nazwozem&quot; to getDate(2024, 11, 5, 9, 45))</b>
+&nbsp;                        ),
+<b class="nc">&nbsp;                        created = getDate(2024, 11, 14, 9, 0),</b>
+<b class="nc">&nbsp;                        diseaseHistory = listOf(</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Poczerniałe liście&quot; to getDate(2024, 11, 25, 10, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Mszyce&quot; to getDate(2024, 11, 20, 9, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Poczerniałe liście&quot; to getDate(2024, 11, 15, 8, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Usychające liście&quot; to getDate(2024, 11, 10, 10, 30)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Ślimaki&quot; to getDate(2024, 11, 5, 9, 45))</b>
+&nbsp;                        ),
+<b class="nc">&nbsp;                        repotHistory = listOf(</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przesadzenie w większą doniczkę&quot; to getDate(2024, 11, 25, 10, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przesadzenie w ddoniczkę z 3 innymi kwiatkami&quot; to getDate(2024, 11, 20, 9, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przesadzenie w czarniejszą glebę&quot; to getDate(2024, 11, 15, 8, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przesadzenie w mniejszą doniczkę&quot; to getDate(2024, 11, 10, 10, 30)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przesadzenie w większą doniczkę&quot; to getDate(2024, 11, 5, 9, 45))</b>
+&nbsp;                        ),
+<b class="nc">&nbsp;                        otherActivitiesHistory = listOf(</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przycinanie&quot; to getDate(2024, 11, 25, 10, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przeprowadzka&quot; to getDate(2024, 11, 20, 9, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Nawożenie&quot; to getDate(2024, 11, 15, 8, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przycinanie&quot; to getDate(2024, 11, 10, 10, 30)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Oprysk&quot; to getDate(2024, 11, 5, 9, 45))</b>
+&nbsp;                    ),
+&nbsp;                    ),
+<b class="nc">&nbsp;                    Plant(</b>
+<b class="nc">&nbsp;                        name = &quot;Monstera&quot;,</b>
+<b class="nc">&nbsp;                        speciesName = &quot;Monstera&quot;,</b>
+<b class="nc">&nbsp;                        species = speciesMap[&quot;Monstera&quot;],</b>
+<b class="nc">&nbsp;                        waterHistory = listOf(</b>
+<b class="nc">&nbsp;                            mapOf(&quot;z nazwozem&quot; to getDate(2024, 11, 25, 10, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;bez nawozu&quot; to getDate(2024, 11, 20, 9, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;bez nawozu&quot; to getDate(2024, 11, 15, 8, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;z nazwozem&quot; to getDate(2024, 11, 10, 10, 30)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;z nazwozem&quot; to getDate(2024, 11, 5, 9, 45))</b>
+&nbsp;                        ),
+<b class="nc">&nbsp;                        created = getDate(2024, 10, 28, 8, 15),</b>
+<b class="nc">&nbsp;                        diseaseHistory = listOf(</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Poczerniałe liście&quot; to getDate(2024, 11, 25, 10, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Mszyce&quot; to getDate(2024, 11, 20, 9, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Poczerniałe liście&quot; to getDate(2024, 11, 15, 8, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Usychające liście&quot; to getDate(2024, 11, 10, 10, 30)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Ślimaki&quot; to getDate(2024, 11, 5, 9, 45))</b>
+&nbsp;                        ),
+<b class="nc">&nbsp;                        repotHistory = listOf(</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przesadzenie w większą doniczkę&quot; to getDate(2024, 11, 25, 10, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przesadzenie w ddoniczkę z 3 innymi kwiatkami&quot; to getDate(2024, 11, 20, 9, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przesadzenie w czarniejszą glebę&quot; to getDate(2024, 11, 15, 8, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przesadzenie w mniejszą doniczkę&quot; to getDate(2024, 11, 10, 10, 30)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przesadzenie w większą doniczkę&quot; to getDate(2024, 11, 5, 9, 45))</b>
+&nbsp;                        ),
+<b class="nc">&nbsp;                        otherActivitiesHistory = listOf(</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przycinanie&quot; to getDate(2024, 11, 25, 10, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przeprowadzka&quot; to getDate(2024, 11, 20, 9, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Nawożenie&quot; to getDate(2024, 11, 15, 8, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przycinanie&quot; to getDate(2024, 11, 10, 10, 30)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Oprysk&quot; to getDate(2024, 11, 5, 9, 45))</b>
+&nbsp;
+&nbsp;
+&nbsp;                        ),
+&nbsp;                    ),
+<b class="nc">&nbsp;                    Plant(</b>
+<b class="nc">&nbsp;                        name = &quot;Filodendron&quot;,</b>
+<b class="nc">&nbsp;                        speciesName = &quot;Filodendron&quot;,</b>
+<b class="nc">&nbsp;                        species = speciesMap[&quot;Filodendron&quot;],</b>
+<b class="nc">&nbsp;                        waterHistory = listOf(</b>
+<b class="nc">&nbsp;                            mapOf(&quot;z nazwozem&quot; to getDate(2024, 11, 25, 10, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;bez nawozu&quot; to getDate(2024, 11, 20, 9, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;bez nawozu&quot; to getDate(2024, 11, 15, 8, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;z nazwozem&quot; to getDate(2024, 11, 10, 10, 30)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;z nazwozem&quot; to getDate(2024, 11, 5, 9, 45))</b>
+&nbsp;                        ),
+<b class="nc">&nbsp;                        created = getDate(2024, 10, 15, 10, 30),</b>
+<b class="nc">&nbsp;                        diseaseHistory = listOf(</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Poczerniałe liście&quot; to getDate(2024, 11, 25, 10, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Mszyce&quot; to getDate(2024, 11, 20, 9, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Poczerniałe liście&quot; to getDate(2024, 11, 15, 8, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Usychające liście&quot; to getDate(2024, 11, 10, 10, 30)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Ślimaki&quot; to getDate(2024, 11, 5, 9, 45))</b>
+&nbsp;                        ),
+<b class="nc">&nbsp;                        repotHistory = listOf(</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przesadzenie w większą doniczkę&quot; to getDate(2024, 11, 25, 10, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przesadzenie w ddoniczkę z 3 innymi kwiatkami&quot; to getDate(2024, 11, 20, 9, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przesadzenie w czarniejszą glebę&quot; to getDate(2024, 11, 15, 8, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przesadzenie w mniejszą doniczkę&quot; to getDate(2024, 11, 10, 10, 30)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przesadzenie w większą doniczkę&quot; to getDate(2024, 11, 5, 9, 45))</b>
+&nbsp;                        ),
+<b class="nc">&nbsp;                        otherActivitiesHistory = listOf(</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przycinanie&quot; to getDate(2024, 11, 25, 10, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przeprowadzka&quot; to getDate(2024, 11, 20, 9, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Nawożenie&quot; to getDate(2024, 11, 15, 8, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przycinanie&quot; to getDate(2024, 11, 10, 10, 30)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Oprysk&quot; to getDate(2024, 11, 5, 9, 45))</b>
+&nbsp;
+&nbsp;                        ),
+&nbsp;                    ),
+<b class="nc">&nbsp;                    Plant(</b>
+<b class="nc">&nbsp;                        name = &quot;Hoya&quot;,</b>
+<b class="nc">&nbsp;                        speciesName = &quot;Hoya&quot;,</b>
+<b class="nc">&nbsp;                        species = speciesMap[&quot;Hoya&quot;],</b>
+<b class="nc">&nbsp;                        waterHistory = listOf(</b>
+<b class="nc">&nbsp;                            mapOf(&quot;z nazwozem&quot; to getDate(2024, 11, 25, 10, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;bez nawozu&quot; to getDate(2024, 11, 20, 9, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;bez nawozu&quot; to getDate(2024, 11, 15, 8, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;z nazwozem&quot; to getDate(2024, 11, 10, 10, 30)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;z nazwozem&quot; to getDate(2024, 11, 5, 9, 45))</b>
+&nbsp;                        ),
+<b class="nc">&nbsp;                        created = getDate(2023, 11, 14, 9, 0),</b>
+<b class="nc">&nbsp;                        diseaseHistory = listOf(</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Poczerniałe liście&quot; to getDate(2024, 11, 25, 10, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Mszyce&quot; to getDate(2024, 11, 20, 9, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Poczerniałe liście&quot; to getDate(2024, 11, 15, 8, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Usychające liście&quot; to getDate(2024, 11, 10, 10, 30)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Ślimaki&quot; to getDate(2024, 11, 5, 9, 45))</b>
+&nbsp;                        ),
+<b class="nc">&nbsp;                        repotHistory = listOf(</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przesadzenie w większą doniczkę&quot; to getDate(2024, 11, 25, 10, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przesadzenie w ddoniczkę z 3 innymi kwiatkami&quot; to getDate(2024, 11, 20, 9, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przesadzenie w czarniejszą glebę&quot; to getDate(2024, 11, 15, 8, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przesadzenie w mniejszą doniczkę&quot; to getDate(2024, 11, 10, 10, 30)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przesadzenie w większą doniczkę&quot; to getDate(2024, 11, 5, 9, 45))</b>
+&nbsp;                        ),
+<b class="nc">&nbsp;                        otherActivitiesHistory = listOf(</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przycinanie&quot; to getDate(2024, 11, 25, 10, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przeprowadzka&quot; to getDate(2024, 11, 20, 9, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Nawożenie&quot; to getDate(2024, 11, 15, 8, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przycinanie&quot; to getDate(2024, 11, 10, 10, 30)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Oprysk&quot; to getDate(2024, 11, 5, 9, 45))</b>
+&nbsp;
+&nbsp;                        ),
+&nbsp;
+&nbsp;                    ),
+<b class="nc">&nbsp;                    Plant(</b>
+<b class="nc">&nbsp;                        name = &quot;Dracena&quot;,</b>
+<b class="nc">&nbsp;                        speciesName = &quot;Dracena&quot;,</b>
+<b class="nc">&nbsp;                        species = speciesMap[&quot;Dracena&quot;],</b>
+<b class="nc">&nbsp;                        waterHistory = listOf(</b>
+<b class="nc">&nbsp;                            mapOf(&quot;z nazwozem&quot; to getDate(2024, 11, 25, 10, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;bez nawozu&quot; to getDate(2024, 11, 20, 9, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;bez nawozu&quot; to getDate(2024, 11, 15, 8, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;z nazwozem&quot; to getDate(2024, 11, 10, 10, 30)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;z nazwozem&quot; to getDate(2024, 11, 5, 9, 45))</b>
+&nbsp;                        ),
+<b class="nc">&nbsp;                        created = getDate(2023, 11, 14, 9, 0),</b>
+<b class="nc">&nbsp;                        diseaseHistory = listOf(</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Poczerniałe liście&quot; to getDate(2024, 11, 25, 10, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Mszyce&quot; to getDate(2024, 11, 20, 9, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Poczerniałe liście&quot; to getDate(2024, 11, 15, 8, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Usychające liście&quot; to getDate(2024, 11, 10, 10, 30)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Ślimaki&quot; to getDate(2024, 11, 5, 9, 45))</b>
+&nbsp;                        ),
+<b class="nc">&nbsp;                        repotHistory = listOf(</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przesadzenie w większą doniczkę&quot; to getDate(2024, 11, 25, 10, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przesadzenie w ddoniczkę z 3 innymi kwiatkami&quot; to getDate(2024, 11, 20, 9, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przesadzenie w czarniejszą glebę&quot; to getDate(2024, 11, 15, 8, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przesadzenie w mniejszą doniczkę&quot; to getDate(2024, 11, 10, 10, 30)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przesadzenie w większą doniczkę&quot; to getDate(2024, 11, 5, 9, 45))</b>
+&nbsp;                        ),
+<b class="nc">&nbsp;                        otherActivitiesHistory = listOf(</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przycinanie&quot; to getDate(2024, 11, 25, 10, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przeprowadzka&quot; to getDate(2024, 11, 20, 9, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Nawożenie&quot; to getDate(2024, 11, 15, 8, 0)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Przycinanie&quot; to getDate(2024, 11, 10, 10, 30)),</b>
+<b class="nc">&nbsp;                            mapOf(&quot;Oprysk&quot; to getDate(2024, 11, 5, 9, 45))</b>
+&nbsp;
+&nbsp;                        ),
+&nbsp;                    ),
+&nbsp;
+&nbsp;                )
+&nbsp;
+<b class="nc">&nbsp;               userPlantDao.insertAll(plantList)</b>
+&nbsp;
+<b class="nc">&nbsp;                    Log.d(&quot;DatabaseSeeder&quot;, &quot;Baza danych została wypełniona!&quot;)</b>
+&nbsp;                } catch (e: Exception) {
+<b class="nc">&nbsp;                    Log.e(&quot;DatabaseSeeder&quot;, &quot;Błąd podczas wypełniania bazy danych: ${e.message}&quot;, e)</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-06-16 17:53</div>
+</div>
+</body>
+</html>

@@ -40,7 +40,7 @@ class FormViewModel(
     val plantUiState: StateFlow<PlantUiState> = _plantUiState.asStateFlow()
 
     private val _speciesUiState = MutableStateFlow(SpeciesUiState())
-    val speciesUiState: StateFlow<PlantUiState> = _plantUiState.asStateFlow()
+    val speciesUiState: StateFlow<SpeciesUiState> = _speciesUiState.asStateFlow()
 
     private val _selectUiState = MutableStateFlow(SelectUiState())
     val selectUiState: StateFlow<SelectUiState> = _selectUiState.asStateFlow()
@@ -125,9 +125,17 @@ class FormViewModel(
             val baseId = UUID.randomUUID().toString()
             _formUiState.value = FormUiState(id = baseId, speciesList = speciesList, plantsList = plantList)
             _plantUiState.value = PlantUiState(currentlyEditedPlant = null)
+            _speciesUiState.value = SpeciesUiState(currentlyEditedSpecies = null)
         }
     }
 
+    fun onSetEditedSpecies(species: Species){
+        _speciesUiState.update { currentState ->
+            currentState.copy(
+                currentlyEditedSpecies = species
+            )
+        }
+    }
     fun onSetPlant(plant: Plant){
         _plantUiState.update { currentState ->
             currentState.copy(
@@ -211,6 +219,27 @@ class FormViewModel(
             }
 //        }
 
+
+    }
+
+    fun onClickAddSpecies(name: String, water: Int){
+        if (name!=null && water!=null){
+            val species = Species(
+                name = name,
+                soilMoisture = water
+            )
+
+            viewModelScope.launch {
+                val speciesToInsert = speciesRepository.insertSpecies(species)
+                speciesToInsert?.let {
+                    _speciesUiState.update { currentState ->
+                        currentState.copy(
+                            currentlyEditedSpecies = null
+                        )
+                    }
+                }
+            }
+        }
 
     }
 

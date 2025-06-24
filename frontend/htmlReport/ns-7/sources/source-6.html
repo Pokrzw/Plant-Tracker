@@ -1,0 +1,349 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PlantFormKt</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.planttrackerapp.ui</a>
+</div>
+
+<h1>Coverage Summary for Class: PlantFormKt (com.example.planttrackerapp.ui)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PlantFormKt</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/96)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/55)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">PlantFormKt$PlantForm$5$1$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/38)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/102)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/93)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.planttrackerapp.ui
+&nbsp;
+&nbsp;import android.net.Uri
+&nbsp;import android.util.Log
+&nbsp;import androidx.compose.foundation.layout.Column
+&nbsp;import androidx.compose.foundation.layout.Row
+&nbsp;import androidx.compose.foundation.layout.fillMaxWidth
+&nbsp;import androidx.compose.foundation.layout.padding
+&nbsp;import androidx.compose.foundation.lazy.LazyColumn
+&nbsp;import androidx.compose.foundation.shape.RoundedCornerShape
+&nbsp;import androidx.compose.material3.Button
+&nbsp;import androidx.compose.material3.Text
+&nbsp;import androidx.compose.material3.TextField
+&nbsp;import androidx.compose.material3.TextFieldDefaults
+&nbsp;import androidx.compose.runtime.Composable
+&nbsp;import androidx.compose.runtime.collectAsState
+&nbsp;import androidx.compose.runtime.getValue
+&nbsp;import androidx.compose.runtime.mutableStateOf
+&nbsp;import androidx.compose.runtime.remember
+&nbsp;import androidx.compose.runtime.setValue
+&nbsp;import androidx.compose.ui.Alignment
+&nbsp;import androidx.compose.ui.Modifier
+&nbsp;import androidx.compose.ui.graphics.Color
+&nbsp;import androidx.compose.ui.text.font.FontWeight
+&nbsp;import androidx.compose.ui.tooling.preview.Preview
+&nbsp;import androidx.compose.ui.unit.dp
+&nbsp;import androidx.compose.ui.unit.sp
+&nbsp;import androidx.lifecycle.viewmodel.compose.viewModel
+&nbsp;import com.example.planttrackerapp.TAG
+&nbsp;import com.example.planttrackerapp.data.Datasource
+&nbsp;import com.example.planttrackerapp.model.Plant
+&nbsp;import com.example.planttrackerapp.model.Species
+&nbsp;import com.example.planttrackerapp.ui.components.DropDownWrapper
+&nbsp;import androidx.lifecycle.viewModelScope
+&nbsp;import com.example.planttrackerapp.ui.FormViewModel
+&nbsp;import com.example.planttrackerapp.ui.components.ImageField
+&nbsp;
+&nbsp;@Composable
+&nbsp;fun PlantForm(
+&nbsp;    resetForm: () -&gt; Unit,
+<b class="nc">&nbsp;    formViewModel: FormViewModel? = null,</b>
+&nbsp;    onClickEdit: () -&gt; Unit,
+<b class="nc">&nbsp;    currentPlantData: Plant? = null,</b>
+<b class="nc">&nbsp;    onClickAdd: () -&gt; Unit = {},</b>
+<b class="nc">&nbsp;    speciesList: List&lt;Species&gt; = emptyList(),</b>
+<b class="nc">&nbsp;    onGoBack: () -&gt; Unit = {},</b>
+&nbsp;    onEditNameValue: (String?) -&gt; Unit,
+&nbsp;    onUploadImage: (Uri?) -&gt; Unit,
+&nbsp;    onEditSpeciesValue: (Species?) -&gt; Unit,
+<b class="nc">&nbsp;    onUpdateNameValue: (String?) -&gt; Unit = {},</b>
+<b class="nc">&nbsp;    onUpdateSpeciesValue: (Species?) -&gt; Unit = {},</b>
+<b class="nc">&nbsp;    isEdit: Boolean = false,</b>
+<b class="nc">&nbsp;    modifier: Modifier = Modifier</b>
+<b class="nc">&nbsp;){</b>
+<b class="nc">&nbsp;    resetForm()</b>
+<b class="nc">&nbsp;    Log.d(TAG, &quot;Current Plant Data: ${currentPlantData}&quot;)</b>
+<b class="nc">&nbsp;   LazyColumn (</b>
+<b class="nc">&nbsp;       modifier = Modifier.fillMaxWidth(),</b>
+<b class="nc">&nbsp;       horizontalAlignment = Alignment.CenterHorizontally</b>
+<b class="nc">&nbsp;   ){</b>
+<b class="nc">&nbsp;    item {</b>
+<b class="nc">&nbsp;        if (isEdit){</b>
+<b class="nc">&nbsp;            Text(</b>
+<b class="nc">&nbsp;                modifier = Modifier.padding(16.dp),</b>
+<b class="nc">&nbsp;                fontWeight = FontWeight.Bold,</b>
+<b class="nc">&nbsp;                fontSize = 24.sp,</b>
+<b class="nc">&nbsp;                text = &quot;Edit specimen&quot;</b>
+&nbsp;            )
+<b class="nc">&nbsp;        } else{</b>
+<b class="nc">&nbsp;            Text(</b>
+<b class="nc">&nbsp;                modifier = Modifier.padding(16.dp),</b>
+<b class="nc">&nbsp;                fontWeight = FontWeight.Bold,</b>
+<b class="nc">&nbsp;                fontSize = 24.sp,</b>
+<b class="nc">&nbsp;                text = &quot;Add specimen&quot;</b>
+&nbsp;            )
+&nbsp;        }
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        FormBody(</b>
+<b class="nc">&nbsp;            isEdit = isEdit,</b>
+<b class="nc">&nbsp;            currentPlantData = currentPlantData,</b>
+<b class="nc">&nbsp;            speciesList = speciesList,</b>
+<b class="nc">&nbsp;            onEditSpeciesValue = onEditSpeciesValue,</b>
+<b class="nc">&nbsp;            onUploadImage = onUploadImage,</b>
+<b class="nc">&nbsp;            onEditNameValue = onEditNameValue,</b>
+<b class="nc">&nbsp;            onUpdateNameValue = onUpdateNameValue,</b>
+<b class="nc">&nbsp;            onUpdateSpeciesValue = onUpdateSpeciesValue,</b>
+<b class="nc">&nbsp;            modifier = modifier</b>
+&nbsp;        )
+&nbsp;
+<b class="nc">&nbsp;        Row{</b>
+<b class="nc">&nbsp;            if(isEdit){</b>
+<b class="nc">&nbsp;                Button(</b>
+<b class="nc">&nbsp;                    modifier = Modifier.padding(top = 16.dp),</b>
+<b class="nc">&nbsp;                    onClick = {</b>
+<b class="nc">&nbsp;                        onClickEdit()</b>
+<b class="nc">&nbsp;                        onGoBack()</b>
+&nbsp;                    }
+&nbsp;                ) {
+&nbsp;                    Text(
+&nbsp;                        text = &quot;Edit&quot;
+&nbsp;                    )
+&nbsp;                }
+<b class="nc">&nbsp;            } else {</b>
+<b class="nc">&nbsp;                Button(</b>
+<b class="nc">&nbsp;                    modifier = Modifier.padding(top = 16.dp),</b>
+<b class="nc">&nbsp;                    onClick = {</b>
+<b class="nc">&nbsp;                        Log.d(&quot;add&quot;, &quot;formViewModel: $formViewModel&quot;)</b>
+<b class="nc">&nbsp;                        formViewModel?.onClickAdd {</b>
+<b class="nc">&nbsp;                            Log.d(&quot;add&quot;, &quot;onadd&quot;)</b>
+<b class="nc">&nbsp;                            onGoBack()</b>
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;                ) {
+&nbsp;                    Text(
+&nbsp;                        text = &quot;Add&quot;
+&nbsp;                    )
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;   }
+<b class="nc">&nbsp;}</b>
+&nbsp;
+&nbsp;@Composable
+&nbsp;fun FormBody(
+&nbsp;    isEdit: Boolean,
+<b class="nc">&nbsp;    currentPlantData: Plant? = null,</b>
+&nbsp;    speciesList: List&lt;Species&gt;,
+&nbsp;    onEditNameValue: (String?) -&gt; Unit,
+&nbsp;    onEditSpeciesValue: (Species?) -&gt; Unit,
+&nbsp;    onUploadImage: (Uri?) -&gt; Unit,
+<b class="nc">&nbsp;    onUpdateNameValue: (String?) -&gt; Unit = {},</b>
+<b class="nc">&nbsp;    onUpdateSpeciesValue: (Species?) -&gt; Unit = {},</b>
+<b class="nc">&nbsp;    modifier: Modifier = Modifier</b>
+<b class="nc">&nbsp;){</b>
+<b class="nc">&nbsp;    val name = currentPlantData?.name ?: &quot;&quot;</b>
+<b class="nc">&nbsp;    var plantName by remember { mutableStateOf(name) }</b>
+<b class="nc">&nbsp;    val funToBePassed =</b>
+<b class="nc">&nbsp;        if (isEdit) onEditSpeciesValue</b>
+<b class="nc">&nbsp;        else onUpdateSpeciesValue</b>
+&nbsp;
+<b class="nc">&nbsp;    Column (</b>
+<b class="nc">&nbsp;        modifier = Modifier.fillMaxWidth(),</b>
+<b class="nc">&nbsp;        horizontalAlignment = Alignment.CenterHorizontally,</b>
+&nbsp;
+&nbsp;    ){
+<b class="nc">&nbsp;            ImageField(</b>
+<b class="nc">&nbsp;                onUploadImage = onUploadImage,</b>
+<b class="nc">&nbsp;                plant = currentPlantData</b>
+&nbsp;            )
+<b class="nc">&nbsp;            TextField(</b>
+<b class="nc">&nbsp;                value = plantName,</b>
+<b class="nc">&nbsp;                onValueChange = {</b>
+<b class="nc">&nbsp;                    plantName = it</b>
+<b class="nc">&nbsp;                    if (isEdit){</b>
+<b class="nc">&nbsp;                        onEditNameValue(it)</b>
+&nbsp;                    } else {
+<b class="nc">&nbsp;                        onUpdateNameValue(it)</b>
+&nbsp;                    }
+&nbsp;                },
+&nbsp;                label = {Text(&quot;Name of plant&quot;)},
+<b class="nc">&nbsp;                colors = TextFieldDefaults.colors(</b>
+<b class="nc">&nbsp;                    unfocusedIndicatorColor = Color.Transparent,</b>
+<b class="nc">&nbsp;                    focusedIndicatorColor = Color.Transparent</b>
+&nbsp;                ),
+<b class="nc">&nbsp;                shape = RoundedCornerShape(16.dp),</b>
+<b class="nc">&nbsp;                modifier = Modifier.padding(bottom = 8.dp)</b>
+&nbsp;            )
+&nbsp;
+<b class="nc">&nbsp;            DropDownWrapper(</b>
+<b class="nc">&nbsp;                items = speciesList,</b>
+<b class="nc">&nbsp;                onUpdateValue = funToBePassed,</b>
+<b class="nc">&nbsp;                label = &quot;Species&quot;</b>
+&nbsp;            )
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;}</b>
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;@Preview(showBackground = true)
+&nbsp;@Composable
+<b class="nc">&nbsp;fun FormPreview(modifier: Modifier = Modifier) {</b>
+<b class="nc">&nbsp;    PlantForm(onEditSpeciesValue = {}, onEditNameValue = {}, onClickEdit = {}, resetForm = {}, onUploadImage = {})</b>
+<b class="nc">&nbsp;}</b>
+&nbsp;
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-06-16 17:53</div>
+</div>
+</body>
+</html>

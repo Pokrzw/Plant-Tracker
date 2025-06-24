@@ -1,0 +1,350 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PlantAppScreen</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.planttrackerapp</a>
+</div>
+
+<h1>Coverage Summary for Class: PlantAppScreen (com.example.planttrackerapp)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PlantAppScreen</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.planttrackerapp
+&nbsp;
+&nbsp;import android.util.Log
+&nbsp;
+&nbsp;import androidx.compose.foundation.layout.padding
+&nbsp;import androidx.compose.material3.Scaffold
+&nbsp;import androidx.compose.runtime.Composable
+&nbsp;import androidx.compose.runtime.collectAsState
+&nbsp;import androidx.compose.runtime.getValue
+&nbsp;import androidx.compose.ui.Modifier
+&nbsp;import androidx.compose.ui.platform.LocalContext
+&nbsp;import androidx.compose.ui.tooling.preview.Preview
+&nbsp;import androidx.lifecycle.viewmodel.compose.viewModel
+&nbsp;import androidx.navigation.NavHostController
+&nbsp;import androidx.navigation.compose.NavHost
+&nbsp;import androidx.navigation.compose.composable
+&nbsp;import androidx.navigation.compose.currentBackStackEntryAsState
+&nbsp;import androidx.navigation.compose.rememberNavController
+&nbsp;import com.example.planttrackerapp.ui.PlantForm
+&nbsp;import com.example.planttrackerapp.ui.PlantList
+&nbsp;import com.example.planttrackerapp.ui.SinglePlantView
+&nbsp;import com.example.planttrackerapp.ui.components.TopBar
+&nbsp;import com.example.planttrackerapp.ui.theme.PlantTrackerAppTheme
+&nbsp;import com.example.planttrackerapp.ui.FormViewModel
+&nbsp;import com.example.planttrackerapp.ui.FormViewModelFactory
+&nbsp;import com.example.planttrackerapp.backend.database.DatabaseProvider
+&nbsp;import com.example.planttrackerapp.backend.repositories.SpeciesRepository
+&nbsp;import com.example.planttrackerapp.backend.repositories.UserPlantRepository
+&nbsp;import com.example.planttrackerapp.ui.ActionForm
+&nbsp;import com.example.planttrackerapp.ui.ActivityJournal
+&nbsp;import com.example.planttrackerapp.ui.ChoosePlantsToSelect
+&nbsp;import com.example.planttrackerapp.ui.PlantQRList
+&nbsp;import com.example.planttrackerapp.ui.QRScannerScreen
+&nbsp;
+&nbsp;
+&nbsp;enum class PlantAppScreen {
+<b class="nc">&nbsp;    Form,</b>
+<b class="nc">&nbsp;    ActivityJournal,</b>
+<b class="nc">&nbsp;    PlantDetails,</b>
+<b class="nc">&nbsp;    AllPlants,</b>
+<b class="nc">&nbsp;    FormEdit,</b>
+<b class="nc">&nbsp;    PlantJournal,</b>
+<b class="nc">&nbsp;    QRScanner,</b>
+<b class="nc">&nbsp;    SelectPlants,</b>
+<b class="nc">&nbsp;    QRExport,</b>
+<b class="nc">&nbsp;    AddRepot,</b>
+<b class="nc">&nbsp;    AddDisease,</b>
+<b class="nc">&nbsp;    AddOther</b>
+&nbsp;}
+&nbsp;
+&nbsp;// Funkcja sprawdzająca czy w BackStack nie ma już aktualnego route&#39;a
+&nbsp;fun NavHostController.navigateIfNotCurrent(route: String) {
+&nbsp;    if (this.currentBackStackEntry?.destination?.route != route) {
+&nbsp;        this.navigate(route)
+&nbsp;    }
+&nbsp;}
+&nbsp;
+&nbsp;@Composable
+&nbsp;fun PlantApp(
+&nbsp;    modifier: Modifier = Modifier,
+&nbsp;    navController: NavHostController = rememberNavController(),
+&nbsp;) {
+&nbsp;    //================================================
+&nbsp;    val context = LocalContext.current
+&nbsp;    val database = DatabaseProvider.getDatabase(context)
+&nbsp;    val plantRepository = UserPlantRepository(database.userPlantDao(), database.speciesDao())
+&nbsp;    val speciesRepository = SpeciesRepository(database.speciesDao())
+&nbsp;    val formViewModel: FormViewModel = viewModel(
+&nbsp;        factory = FormViewModelFactory(plantRepository, speciesRepository)
+&nbsp;    )
+&nbsp;    //===================================================
+&nbsp;
+&nbsp;    val formUiState by formViewModel.formUiState.collectAsState()
+&nbsp;    val currentPlantState by formViewModel.plantUiState.collectAsState()
+&nbsp;    val selectedPlantsState by formViewModel.selectUiState.collectAsState()
+&nbsp;
+&nbsp;    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+&nbsp;    val currentRoute = currentBackStackEntry?.destination?.route
+&nbsp;
+&nbsp;    Log.d(TAG, &quot;FormUiState: ${formUiState.name}, ${formUiState.species}&quot;)
+&nbsp;    Scaffold(
+&nbsp;        topBar = {
+&nbsp;            val canNavigateBack = currentRoute != PlantAppScreen.AllPlants.name
+&nbsp;            TopBar(
+&nbsp;                title = when (currentRoute) {
+&nbsp;                    PlantAppScreen.AllPlants.name -&gt; &quot;My Plants&quot;
+&nbsp;                    PlantAppScreen.PlantDetails.name -&gt; &quot;Plant Details&quot;
+&nbsp;                    PlantAppScreen.Form.name -&gt; &quot;Add A New Plant&quot;
+&nbsp;                    PlantAppScreen.FormEdit.name -&gt; &quot;Edit Plant&quot;
+&nbsp;                    PlantAppScreen.PlantJournal.name -&gt; &quot;Plant Journal&quot;
+&nbsp;                    PlantAppScreen.ActivityJournal.name -&gt; &quot;${currentPlantState.currentlyEditedPlant?.name}&#39;s journal&quot;
+&nbsp;                    else -&gt; &quot;Plant Tracker&quot;
+&nbsp;                },
+&nbsp;                canNavigateBack = canNavigateBack,
+&nbsp;                navigateUp = { navController.popBackStack() }
+&nbsp;            )
+&nbsp;        }
+&nbsp;    ) { innerPadding -&gt;
+&nbsp;        NavHost(
+&nbsp;            navController = navController,
+&nbsp;            startDestination = PlantAppScreen.AllPlants.name,
+&nbsp;            modifier = Modifier.padding(innerPadding)
+&nbsp;        ) {
+&nbsp;            composable(route = PlantAppScreen.AddRepot.name){
+&nbsp;                ActionForm(
+&nbsp;                    isRepot = true,
+&nbsp;                    isDisease = false,
+&nbsp;                    onSubmit = formViewModel::saveActionForm,
+&nbsp;                    onGoBack = { navController.popBackStack() }
+&nbsp;                )
+&nbsp;            }
+&nbsp;            composable(route = PlantAppScreen.AddDisease.name){
+&nbsp;                ActionForm(
+&nbsp;                    isRepot = false,
+&nbsp;                    isDisease = true,
+&nbsp;                    onSubmit = formViewModel::saveActionForm,
+&nbsp;                    onGoBack = { navController.popBackStack() }
+&nbsp;                )
+&nbsp;            }
+&nbsp;            composable(route = PlantAppScreen.AddOther.name){
+&nbsp;                ActionForm(
+&nbsp;                    isRepot = false,
+&nbsp;                    isDisease = false,
+&nbsp;                    onSubmit = formViewModel::saveActionForm,
+&nbsp;                    onGoBack = { navController.popBackStack() }
+&nbsp;                )
+&nbsp;            }
+&nbsp;            composable(route = PlantAppScreen.AllPlants.name) {
+&nbsp;                PlantList(
+&nbsp;                    plantList = formUiState.plantsList,
+&nbsp;                    onClickAddNewPlant = { navController.navigateIfNotCurrent(PlantAppScreen.Form.name) },
+&nbsp;                    onClickDetails = { navController.navigateIfNotCurrent(PlantAppScreen.PlantDetails.name) },
+&nbsp;                    onClickSelectPlants = { navController.navigateIfNotCurrent(PlantAppScreen.SelectPlants.name) },
+&nbsp;                    setPlantOnClick = formViewModel::onSetPlant,
+&nbsp;                    onClickOpenQRScanner = { navController.navigateIfNotCurrent(PlantAppScreen.QRScanner.name) }
+&nbsp;                )
+&nbsp;            }
+&nbsp;
+&nbsp;            composable(route = PlantAppScreen.ActivityJournal.name){
+&nbsp;                ActivityJournal(
+&nbsp;                    currentPlant = currentPlantState.currentlyEditedPlant,
+&nbsp;                    onGoBack = { navController.popBackStack() }
+&nbsp;                )
+&nbsp;            }
+&nbsp;
+&nbsp;            composable(route = PlantAppScreen.QRExport.name) {
+&nbsp;                PlantQRList(
+&nbsp;                    plantList = selectedPlantsState.selectedPlantList,
+&nbsp;                    onGoBack = {navController.navigateIfNotCurrent(PlantAppScreen.AllPlants.name)}
+&nbsp;                )
+&nbsp;            }
+&nbsp;            composable(route = PlantAppScreen.PlantDetails.name) {
+&nbsp;                SinglePlantView(
+&nbsp;                    plant = currentPlantState.currentlyEditedPlant,
+&nbsp;                    onClickYes = formViewModel::onDeletePlant,
+&nbsp;                    onWater = formViewModel::addWateringDate,
+&nbsp;                    onGoToActivityJournal = { onGoToToActivityJournal(navController) },
+&nbsp;                    onGoToForm = { onGoToForm(navController) },
+&nbsp;                    onGoBack = { navController.popBackStack() },
+&nbsp;                    onGoToRepot = { navController.navigateIfNotCurrent(PlantAppScreen.AddRepot.name) },
+&nbsp;                    onGoToDisease = { navController.navigateIfNotCurrent(PlantAppScreen.AddDisease.name) },
+&nbsp;                    onGoToOther = { navController.navigateIfNotCurrent(PlantAppScreen.AddOther.name) }
+&nbsp;
+&nbsp;                )
+&nbsp;            }
+&nbsp;
+&nbsp;            composable(route = PlantAppScreen.Form.name) {
+&nbsp;                PlantForm(
+&nbsp;                    resetForm = formViewModel::resetForm,
+&nbsp;                    speciesList = formUiState.speciesList,
+&nbsp;                    onClickEdit = formViewModel::onClickUpdate,
+&nbsp;                    onClickAdd = {
+&nbsp;                        formViewModel.onClickAdd{
+&nbsp;                            navController.popBackStack()
+&nbsp;                        }
+&nbsp;
+&nbsp;                    },
+&nbsp;                    formViewModel = formViewModel,
+&nbsp;                    onUploadImage = formViewModel::saveUriOnUpdate,
+&nbsp;                    onEditSpeciesValue = formViewModel::saveSpeciesOnUpdate,
+&nbsp;                    onEditNameValue = formViewModel::saveNameOnUpdate,
+&nbsp;                    onUpdateNameValue = formViewModel::saveNameOnUpdate,
+&nbsp;                    onUpdateSpeciesValue = formViewModel::saveSpeciesOnUpdate,
+&nbsp;                    onGoBack = { navController.popBackStack() }
+&nbsp;                )
+&nbsp;            }
+&nbsp;
+&nbsp;            composable(route = PlantAppScreen.FormEdit.name) {
+&nbsp;                PlantForm(
+&nbsp;                    resetForm = formViewModel::resetForm,
+&nbsp;                    currentPlantData = currentPlantState.currentlyEditedPlant,
+&nbsp;                    isEdit = true,
+&nbsp;                    speciesList = formUiState.speciesList,
+&nbsp;                    onClickEdit = formViewModel::onClickUpdate,
+&nbsp;                    onClickAdd =  {
+&nbsp;                        formViewModel.onClickAdd {
+&nbsp;                            navController.popBackStack()
+&nbsp;                        }
+&nbsp;                    },
+&nbsp;
+&nbsp;                    onEditSpeciesValue = formViewModel::saveSpeciesOnUpdate,
+&nbsp;                    onEditNameValue = formViewModel::saveNameOnUpdate,
+&nbsp;                    onUploadImage = formViewModel::saveUriOnUpdate,
+&nbsp;                    onUpdateNameValue = formViewModel::saveNameOnUpdate,
+&nbsp;                    onUpdateSpeciesValue = formViewModel::saveSpeciesOnUpdate,
+&nbsp;                    onGoBack = { navController.popBackStack() }
+&nbsp;                )
+&nbsp;            }
+&nbsp;
+&nbsp;            composable(route = PlantAppScreen.QRScanner.name) {
+&nbsp;                QRScannerScreen(
+&nbsp;                    setPlantOnScan = formViewModel::onSetPlant,
+&nbsp;                    onWater = formViewModel::addWateringDate,
+&nbsp;                    onClickDetails = { navController.navigateIfNotCurrent(PlantAppScreen.PlantDetails.name) },
+&nbsp;                    formViewModel = formViewModel // Pass the ViewModel for plant lookup
+&nbsp;                )
+&nbsp;            }
+&nbsp;
+&nbsp;
+&nbsp;            composable(route = PlantAppScreen.SelectPlants.name){
+&nbsp;                ChoosePlantsToSelect(
+&nbsp;                    plantList = formUiState.plantsList,
+&nbsp;                    onSelectPlants = formViewModel::saveSelection,
+&nbsp;                    onClickSelect = { navController.navigateIfNotCurrent(PlantAppScreen.QRExport.name)}
+&nbsp;                )
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+&nbsp;
+&nbsp;@Preview(showBackground = true)
+&nbsp;@Composable
+&nbsp;fun PlantAppPreview(modifier: Modifier = Modifier) {
+&nbsp;    PlantTrackerAppTheme {
+&nbsp;        PlantApp(modifier = Modifier)
+&nbsp;    }
+&nbsp;}
+&nbsp;
+&nbsp;
+&nbsp;private fun onGoToForm(navController: NavHostController) {
+&nbsp;    navController.navigateIfNotCurrent(PlantAppScreen.FormEdit.name)
+&nbsp;}
+&nbsp;
+&nbsp;private fun onGoToToActivityJournal(navController: NavHostController){
+&nbsp;    navController.navigateIfNotCurrent(PlantAppScreen.ActivityJournal.name)
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-06-16 17:53</div>
+</div>
+</body>
+</html>

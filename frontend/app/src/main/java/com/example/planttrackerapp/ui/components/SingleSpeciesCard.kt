@@ -24,7 +24,8 @@ import com.example.planttrackerapp.model.Species
 @Composable
 fun SingleSpeciesCard(
     species: Species,
-    onSetSpecies: (Species) -> Unit
+    onSetSpecies: (Species) -> Unit,
+    onClickEdit: () -> Unit = {}
 ) {
     var isExpanded by remember { mutableStateOf(false) }
 
@@ -54,7 +55,7 @@ fun SingleSpeciesCard(
                     Spacer(modifier = Modifier.height(8.dp))
                     Button(
                         onClick = {
-                            // Handle edit logic
+                           onClickEdit()
                         }
                     ) {
                         Text("Edit")

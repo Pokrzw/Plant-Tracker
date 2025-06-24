@@ -1,0 +1,265 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ChoosePlantsToSelectKt</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.planttrackerapp.ui</a>
+</div>
+
+<h1>Coverage Summary for Class: ChoosePlantsToSelectKt (com.example.planttrackerapp.ui)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ChoosePlantsToSelectKt</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/34)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ChoosePlantsToSelectKt$ChoosePlantsToSelect$1$1$2$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/40)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.planttrackerapp.ui
+&nbsp;
+&nbsp;import android.annotation.SuppressLint
+&nbsp;import android.util.Log
+&nbsp;import androidx.compose.foundation.layout.Arrangement
+&nbsp;import androidx.compose.foundation.layout.Box
+&nbsp;import androidx.compose.foundation.layout.Column
+&nbsp;import androidx.compose.foundation.layout.Row
+&nbsp;import androidx.compose.foundation.layout.fillMaxSize
+&nbsp;import androidx.compose.foundation.layout.fillMaxWidth
+&nbsp;import androidx.compose.foundation.layout.padding
+&nbsp;import androidx.compose.foundation.lazy.LazyColumn
+&nbsp;import androidx.compose.foundation.shape.RoundedCornerShape
+&nbsp;import androidx.compose.material.icons.Icons
+&nbsp;import androidx.compose.material.icons.rounded.Search
+&nbsp;import androidx.compose.material3.Button
+&nbsp;import androidx.compose.material3.Icon
+&nbsp;import androidx.compose.material3.Text
+&nbsp;import androidx.compose.material3.TextField
+&nbsp;import androidx.compose.material3.TextFieldDefaults
+&nbsp;import androidx.compose.runtime.Composable
+&nbsp;import androidx.compose.runtime.getValue
+&nbsp;import androidx.compose.runtime.mutableStateOf
+&nbsp;import androidx.compose.runtime.remember
+&nbsp;import androidx.compose.runtime.setValue
+&nbsp;import androidx.compose.ui.Alignment
+&nbsp;import androidx.compose.ui.Modifier
+&nbsp;import androidx.compose.ui.graphics.Color
+&nbsp;import androidx.compose.ui.tooling.preview.Preview
+&nbsp;import androidx.compose.ui.unit.dp
+&nbsp;import com.example.planttrackerapp.TAG
+&nbsp;import com.example.planttrackerapp.data.Datasource
+&nbsp;import com.example.planttrackerapp.model.Plant
+&nbsp;import com.example.planttrackerapp.ui.components.SinglePlantCardSelectable
+&nbsp;
+&nbsp;@SuppressLint(&quot;UnrememberedMutableState&quot;)
+&nbsp;@Composable
+&nbsp;fun ChoosePlantsToSelect(
+&nbsp;    plantList: List&lt;Plant&gt;,
+&nbsp;    onSelectPlants: (List&lt;Plant&gt;) -&gt; Unit,
+&nbsp;    onClickSelect: () -&gt; Unit
+<b class="nc">&nbsp;){</b>
+<b class="nc">&nbsp;    var selectedPlantList: ArrayList&lt;Plant&gt; = arrayListOf()</b>
+<b class="nc">&nbsp;    var searchedName by remember { mutableStateOf(&quot;&quot;) }</b>
+&nbsp;
+<b class="nc">&nbsp;    val displayedPlants = remember(searchedName, plantList) {</b>
+<b class="nc">&nbsp;        if (searchedName.isEmpty()) plantList</b>
+<b class="nc">&nbsp;        else plantList.filter { it.name.contains(searchedName, ignoreCase = true) }</b>
+&nbsp;    }
+<b class="nc">&nbsp;        Box(modifier = Modifier.fillMaxSize()) {</b>
+<b class="nc">&nbsp;            Column(modifier = Modifier.fillMaxSize()) {</b>
+<b class="nc">&nbsp;                Row(</b>
+<b class="nc">&nbsp;                    modifier = Modifier</b>
+<b class="nc">&nbsp;                        .fillMaxWidth()</b>
+<b class="nc">&nbsp;                        .padding(8.dp),</b>
+<b class="nc">&nbsp;                    horizontalArrangement = Arrangement.SpaceAround,</b>
+<b class="nc">&nbsp;                    verticalAlignment = Alignment.CenterVertically</b>
+&nbsp;                ) {
+<b class="nc">&nbsp;                    TextField(</b>
+<b class="nc">&nbsp;                        value = searchedName,</b>
+<b class="nc">&nbsp;                        onValueChange = { searchedName = it },</b>
+&nbsp;                        label = { Text(&quot;Search by name&quot;) },
+<b class="nc">&nbsp;                        colors = TextFieldDefaults.colors(</b>
+<b class="nc">&nbsp;                            unfocusedIndicatorColor = Color.Transparent,</b>
+<b class="nc">&nbsp;                            focusedIndicatorColor = Color.Transparent</b>
+&nbsp;                        ),
+<b class="nc">&nbsp;                        shape = RoundedCornerShape(16.dp),</b>
+&nbsp;                        leadingIcon = { Icon(Icons.Rounded.Search, contentDescription = null) }
+&nbsp;                    )
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                LazyColumn(</b>
+<b class="nc">&nbsp;                    modifier = Modifier.weight(1f)</b>
+&nbsp;                ) {
+<b class="nc">&nbsp;                    items(displayedPlants.size) { index -&gt;</b>
+<b class="nc">&nbsp;                        SinglePlantCardSelectable(</b>
+<b class="nc">&nbsp;                            plant = displayedPlants[index],</b>
+&nbsp;                            onCheckPlant =  { b: Boolean, plant: Plant -&gt;
+<b class="nc">&nbsp;                                if (b){</b>
+<b class="nc">&nbsp;                                    selectedPlantList.add(plant)</b>
+&nbsp;                                } else {
+<b class="nc">&nbsp;                                    if (selectedPlantList.contains(plant)){</b>
+<b class="nc">&nbsp;                                        selectedPlantList.remove(plant)</b>
+&nbsp;                                    }
+&nbsp;                                }
+&nbsp;                            }
+&nbsp;                        )
+&nbsp;                    }
+&nbsp;                }
+<b class="nc">&nbsp;                Button(</b>
+&nbsp;                    onClick = {
+<b class="nc">&nbsp;                        onSelectPlants(selectedPlantList)</b>
+<b class="nc">&nbsp;                        onClickSelect()</b>
+&nbsp;                    }
+&nbsp;                ) {
+&nbsp;                    Text(&quot;Select&quot;)
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;
+&nbsp;@Preview(showBackground = true)
+&nbsp;@Composable
+<b class="nc">&nbsp;fun ChoosePlantToSelectPreview(modifier: Modifier = Modifier){</b>
+<b class="nc">&nbsp;    ChoosePlantsToSelect(plantList = listOf(Datasource.plantList[0], Datasource.plantList[1]), onSelectPlants = {}, onClickSelect = {})</b>
+<b class="nc">&nbsp;}</b>
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-06-16 17:53</div>
+</div>
+</body>
+</html>

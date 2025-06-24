@@ -2,16 +2,24 @@ package com.example.planttrackerapp.ui
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
 import com.example.planttrackerapp.TAG
 import com.example.planttrackerapp.model.Species
 
@@ -32,12 +40,20 @@ fun SpeciesForm(
     var text by remember{mutableStateOf(species?.name ?: "")}
     var soilMoist by remember { mutableStateOf(species?.soilMoisture.toString() ?: "") }
 
-    Column {
+    Column(modifier = Modifier.
+    fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally){
         Text("${label} species")
         TextField(
             value = text,
             onValueChange = {text = it},
-            label = {Text("Change name")}
+            label = {Text("Change name")},
+            colors = TextFieldDefaults.colors(
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent
+            ),
+            shape = RoundedCornerShape(16.dp),
+            modifier = Modifier.padding(bottom = 8.dp)
         )
 
         TextField(
@@ -46,7 +62,13 @@ fun SpeciesForm(
                 soilMoist = it
             },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-            label = {Text("Change soil moisture")}
+            label = {Text("Change soil moisture")},
+            colors = TextFieldDefaults.colors(
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent
+            ),
+            shape = RoundedCornerShape(16.dp),
+            modifier = Modifier.padding(bottom = 8.dp)
         )
 
         Button(

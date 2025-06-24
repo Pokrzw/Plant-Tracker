@@ -6,11 +6,11 @@ import com.example.planttrackerapp.model.Species
 import java.util.Calendar
 
 object Datasource {
-    val agleonema = Species("Agleonema", 3)
-    val monstera = Species("Monstera", 3)
-    val filodendron = Species("Filodendron", 3)
-    val hoya = Species("Hoya", 1)
-    val dracena = Species("Dracena", 1)
+    val agleonema = Species(name = "Agleonema", soilMoisture = 3)
+    val monstera = Species(name = "Monstera", soilMoisture = 3)
+    val filodendron = Species(name = "Filodendron", soilMoisture =3)
+    val hoya = Species(name = "Hoya", soilMoisture =1)
+    val dracena = Species(name = "Dracena", soilMoisture =1)
 
     val speciesList = listOf(agleonema, monstera, filodendron, hoya, dracena)
 
@@ -18,7 +18,7 @@ object Datasource {
         Plant(
             id = "0",
             name = "Agleonema",
-            speciesName = "Agleonema",
+            speciesId = agleonema.id,
             species = agleonema,
             waterHistory = listOf(
                 mapOf("z nazwozem" to getDate(2024, 11, 25, 10, 0)),
@@ -89,7 +89,7 @@ object Datasource {
         Plant(
             id = "1",
             name = "Monstera",
-            speciesName = "Monstera",
+            speciesId = monstera.id,
             species = monstera,
             waterHistory = listOf(
                 mapOf("z nazwozem" to getDate(2024, 11, 25, 10, 0)),
@@ -161,7 +161,7 @@ object Datasource {
         Plant(
             id = "2",
             name = "Filodendron",
-            speciesName = "Filodendron",
+            speciesId = filodendron.id,
             species = filodendron,
             waterHistory = listOf(
                 mapOf("z nazwozem" to getDate(2024, 11, 25, 10, 0)),
@@ -232,7 +232,7 @@ object Datasource {
         Plant(
             id = "3",
             name = "Hoya",
-            speciesName = "Hoya",
+            speciesId = hoya.id,
             species = hoya,
             waterHistory = listOf(
                 mapOf("z nazwozem" to getDate(2024, 11, 25, 10, 0)),
@@ -303,7 +303,7 @@ object Datasource {
         Plant(
             id = "4",
             name = "Dracena",
-            speciesName = "Dracena",
+            speciesId = dracena.id,
             species = dracena,
             waterHistory = listOf(
                 mapOf("z nazwozem" to getDate(2024, 11, 25, 10, 0)),

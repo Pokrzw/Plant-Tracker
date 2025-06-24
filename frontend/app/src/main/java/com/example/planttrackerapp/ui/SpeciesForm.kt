@@ -27,7 +27,7 @@ import com.example.planttrackerapp.model.Species
 fun SpeciesForm(
     onGoBack: () -> Unit,
     onAdd: (String, Int)-> Unit,
-    onEdit: () -> Unit = {},
+    onEdit: (String?, String, Int) -> Unit,
     species: Species? = null,
     isEdit: Boolean
 ){
@@ -77,7 +77,12 @@ fun SpeciesForm(
                     if(soilMoist.toInt()<0){1}
                     else if(soilMoist.toInt()>10){10}
                     else{soilMoist.toInt()}
-                onAdd(text, soilFinal)
+                if (isEdit){
+                    onEdit(species?.id, text, soilFinal)
+                }else{
+                    onAdd(text, soilFinal)
+
+                }
                 onGoBack()
             }
         ) {

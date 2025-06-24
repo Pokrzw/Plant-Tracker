@@ -222,6 +222,26 @@ class FormViewModel(
 
     }
 
+    fun onClickEditSpecies(id: String?, name: String, water: Int){
+        if (id!=null){
+            val species = Species(
+                id = id,
+                name = name,
+                soilMoisture = water
+            )
+            viewModelScope.launch {
+                val speciesToInsert = speciesRepository.insertSpecies(species)
+                speciesToInsert?.let {
+                    _speciesUiState.update { currentState ->
+                        currentState.copy(
+                            currentlyEditedSpecies = null
+                        )
+                    }
+                }
+            }
+            populateUiState()
+        }
+    }
     fun onClickAddSpecies(name: String, water: Int){
         if (name!=null && water!=null){
             val species = Species(

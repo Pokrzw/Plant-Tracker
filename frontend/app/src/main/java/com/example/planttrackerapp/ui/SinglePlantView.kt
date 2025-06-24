@@ -31,18 +31,23 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import com.example.planttrackerapp.backend.database.base64ToBitmap
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import coil3.compose.AsyncImage
 import com.example.planttrackerapp.R
 import kotlin.reflect.KFunction1
+import androidx.core.net.toUri
 
 
 @Composable
@@ -72,44 +77,72 @@ fun SinglePlantView(
             .verticalScroll(rememberScrollState())
     ) {
 
-        val plantImage = painterResource(R.drawable.imgbig)
-        if(plant?.imageUri != null){
-            AsyncImage(
-                model = Uri.parse(plant.imageUri),
-                contentDescription = plant.imageUri,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .width(82.dp)
-                    .height(117.dp)
-            )
-        }
-        else{
-            Image(
-                painter = plantImage,
-                contentDescription = null
-            )
-        }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            val plantImage = painterResource(R.drawable.imgbig)
+            if (plant?.imageUri != null) {
+                AsyncImage(
+                    model = plant.imageUri.toUri(),
+                    contentDescription = plant.imageUri,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .width(100.dp)
+                        .height(140.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                )
+            } else {
+                Image(
+                    painter = plantImage,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .width(100.dp)
+                        .height(140.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                )
+            }
 
-        Text(
-            text = plant?.name ?: "",
-            style = androidx.compose.material3.MaterialTheme.typography.titleLarge
-        )
+            Spacer(modifier = Modifier.width(16.dp))
 
-        Button(onClick = onGoToActivityJournal) {
-            Text(text = "See plant journal")
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = plant?.name ?: "",
+                    style = MaterialTheme.typography.titleLarge
+                )
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Text(
+                    text = plant?.species?.name ?: "",
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontStyle = FontStyle.Italic
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Row {
+                    Button(onClick = onGoToActivityJournal) {
+                        Text("Journal")
+                    }
+
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                    Button(onClick = onGoToForm) {
+                        Text("Edit")
+                    }
+                }
+            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = "Species: ${plant?.species?.name ?: ""}",
-            style = androidx.compose.material3.MaterialTheme.typography.bodyMedium
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Text(
-            text = "Soil Moisture Level: ${plant?.species?.soilMoisture ?: ""}",
+            text = "Recommended soil moisture level: ${plant?.species?.soilMoisture ?: ""}",
             style = androidx.compose.material3.MaterialTheme.typography.bodyMedium
         )
 
@@ -122,40 +155,18 @@ fun SinglePlantView(
 
         if (date != null) {
             Text(
-                text = "Created On: ${formatDate(date)}",
+                text = "Created: ${formatDate(date)}",
                 style = androidx.compose.material3.MaterialTheme.typography.bodyMedium
             )
             Spacer(modifier = Modifier.height(8.dp))
         }
         if (watered != null) {
             Text(
-                text = "Last Watered: ${formatDate(watered)}",
+                text = "Last watered: ${formatDate(watered)}",
                 style = androidx.compose.material3.MaterialTheme.typography.bodyMedium
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
-
-        // QR Code section
-        plant?.qrCodeImage?.let { qrCodeBase64 ->
-            val qrBitmap = remember { base64ToBitmap(qrCodeBase64) }
-
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "QR Code:",
-                style = androidx.compose.material3.MaterialTheme.typography.bodyMedium
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Display the QR code bitmap
-            Image(
-                bitmap = qrBitmap.asImageBitmap(),
-                contentDescription = "QR Code for ${plant.name}",
-                modifier = Modifier
-                    .size(200.dp)
-
-            )
-        }
 
         Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
             TextField(
@@ -163,14 +174,14 @@ fun SinglePlantView(
                 onValueChange = {
                     fertilizer = it
                 },
-                label = {Text("fertilizer")},
+                label = {Text("Add fertilizer")},
                 colors = TextFieldDefaults.colors(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent
                 ),
                 shape = RoundedCornerShape(16.dp),
                 modifier = Modifier
-                    .padding(bottom = 8.dp, end = 4.dp, top = 8.dp)
+                    .padding(bottom = 8.dp, end = 16.dp)
                     .fillMaxWidth(0.4f)
             )
             Button(onClick = {
@@ -205,24 +216,17 @@ fun SinglePlantView(
             Button(
                 onClick = {onGoToRepot()}
             ) {
-                Text("Repot")
+                Text("Note repot")
             }
             Button(
                 onClick = {onGoToDisease()}
             ) {
-                Text("Disease")
+                Text("Note disease")
             }
             Button(
                 onClick = {onGoToOther()}
             ) {
-                Text("Other")
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-
-            Button(onClick = onGoToForm) {
-                Text(text = "Edit plant")
+                Text("Note other event")
             }
 
             Button(onClick = { showPopUp = !showPopUp }) {
@@ -253,21 +257,12 @@ fun SinglePlantView(
                 }
             )
         }
+
     }
 
 
 
 fun formatDate(calendar: java.util.Calendar): String {
-    val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+    val formatter = SimpleDateFormat("HH:mm, MMM dd yyyy", Locale.getDefault())
     return formatter.format(calendar.time)
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun SinglePlantPreview(modifier: Modifier = Modifier) {
-//    PlantTrackerAppTheme {
-//        SinglePlantView(
-//            plant = Datasource.plantList[1], onGoBack = {}, onGoToActivityJournal = {},
-//            onWater = , onGoToForm = {}, onClickYes = {})
-//    }
-//}

@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -56,16 +57,17 @@ fun SinglePlantCard(
                 )
 
             }
-
-            Column(modifier = Modifier.padding(start = 4.dp)) {
+            Column(modifier = Modifier.padding(start = 16.dp)) {
                 Text(
                     text = plant.name,
                     style = MaterialTheme.typography.titleMedium
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "Species: ${plant.species?.name ?: "unknown"}",
-                    style = MaterialTheme.typography.bodyMedium,
+                    text = plant.species?.name ?: "unknown",
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontStyle = FontStyle.Italic
+                    ),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )

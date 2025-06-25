@@ -91,8 +91,11 @@ fun PlantApp(
                     PlantAppScreen.Form.name -> "Add A New Plant"
                     PlantAppScreen.FormEdit.name -> "Edit Plant"
                     PlantAppScreen.PlantJournal.name -> "Plant Journal"
-                    PlantAppScreen.ActivityJournal.name -> "${currentPlantState.currentlyEditedPlant?.name}'s journal"
+                    PlantAppScreen.ActivityJournal.name -> "${currentPlantState.currentlyEditedPlant?.name}'s Journal"
                     PlantAppScreen.AllSpecies.name -> "My Species"
+                    PlantAppScreen.AddDisease.name -> "Document Event"
+                    PlantAppScreen.AddRepot.name -> "Document Event"
+                    PlantAppScreen.AddOther.name -> "Document Event"
                     else -> "Plant Tracker"
                 },
                 canNavigateBack = canNavigateBack,

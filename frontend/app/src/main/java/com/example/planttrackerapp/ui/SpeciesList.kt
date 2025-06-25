@@ -35,6 +35,7 @@ fun SpeciesList(
     speciesList: List<Species>,
     onClickAddNewSpecies: () -> Unit = {},
     setSpeciesOnClick: (Species) -> Unit,
+    onClickEdit: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
 
@@ -72,7 +73,8 @@ fun SpeciesList(
                 items(displayedSpecies.size) { index ->
                     SingleSpeciesCard(
                         species = displayedSpecies[index],
-                        onSetSpecies = setSpeciesOnClick
+                        onSetSpecies = setSpeciesOnClick,
+                        onClickEdit = onClickEdit
                     )
                 }
             }

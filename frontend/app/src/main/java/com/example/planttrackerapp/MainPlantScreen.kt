@@ -31,6 +31,7 @@ import com.example.planttrackerapp.ui.ActivityJournal
 import com.example.planttrackerapp.ui.ChoosePlantsToSelect
 import com.example.planttrackerapp.ui.PlantQRList
 import com.example.planttrackerapp.ui.QRScannerScreen
+import com.example.planttrackerapp.ui.SpeciesForm
 import com.example.planttrackerapp.ui.SpeciesList
 
 
@@ -47,7 +48,9 @@ enum class PlantAppScreen {
     QRExport,
     AddRepot,
     AddDisease,
-    AddOther
+    AddOther,
+    SpeciesFormAdd,
+    SpeciesFormEdit
 }
 
 // Funkcja sprawdzająca czy w BackStack nie ma już aktualnego route'a
@@ -73,6 +76,7 @@ fun PlantApp(
     //===================================================
 
     val formUiState by formViewModel.formUiState.collectAsState()
+    val selectedSpecies by formViewModel.speciesUiState.collectAsState()
     val currentPlantState by formViewModel.plantUiState.collectAsState()
     val selectedPlantsState by formViewModel.selectUiState.collectAsState()
 
@@ -236,8 +240,28 @@ fun PlantApp(
             composable(route = PlantAppScreen.AllSpecies.name) {
                 SpeciesList(
                     speciesList = formUiState.speciesList,
-                    onClickAddNewSpecies = {},
-                    setSpeciesOnClick = {}
+                    onClickAddNewSpecies = {navController.navigateIfNotCurrent(PlantAppScreen.SpeciesFormAdd.name)},
+                    setSpeciesOnClick = formViewModel::onSetEditedSpecies,
+                    onClickEdit = {navController.navigateIfNotCurrent(PlantAppScreen.SpeciesFormEdit.name)}
+                )
+            }
+
+            composable(route = PlantAppScreen.SpeciesFormAdd.name) {
+                SpeciesForm(
+                    onGoBack = {navController.navigateIfNotCurrent(PlantAppScreen.AllPlants.name) } ,
+                    onEdit = formViewModel::onClickEditSpecies,
+                    onAdd = formViewModel::onClickAddSpecies,
+                    isEdit = false
+                )
+            }
+
+            composable(route = PlantAppScreen.SpeciesFormEdit.name) {
+                SpeciesForm(
+                    onGoBack = {navController.navigateIfNotCurrent(PlantAppScreen.AllPlants.name) } ,
+                    onAdd = formViewModel::onClickAddSpecies,
+                    onEdit = formViewModel::onClickEditSpecies,
+                    species = selectedSpecies.currentlyEditedSpecies,
+                    isEdit = true
                 )
             }
         }

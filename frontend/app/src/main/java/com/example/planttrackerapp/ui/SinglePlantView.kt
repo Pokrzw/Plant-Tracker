@@ -280,7 +280,7 @@ fun SinglePlantView(
                         .fillMaxWidth(0.8f)
                         .padding(vertical = 4.dp)
                 ) {
-                    Text("Note other event")
+                    Text("Note something else")
                 }
             }
         }

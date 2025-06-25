@@ -7,8 +7,10 @@ import android.graphics.pdf.PdfDocument
 import android.os.Environment
 import android.provider.MediaStore
 import android.widget.Toast
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -40,7 +42,10 @@ fun PlantQRList(
             Column(
                 modifier = Modifier.padding(16.dp)
             ) {
-                Row {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
                     Button(
                         onClick = {
                             coroutineScope.launch {
@@ -48,20 +53,14 @@ fun PlantQRList(
                                 focusManager.clearFocus()
                                 onGoBack()
                             }
-
                         }
                     ) {
                         Text("Export")
                     }
-                    Button(
-                        onClick = {onGoBack()}
-                    ) {
-                        Text("Back to main page")
-                    }
                 }
 
                 LazyVerticalGrid(
-                    columns = GridCells.Adaptive(100.dp)
+                    columns = GridCells.Adaptive(120.dp)
                 )  {
                     items(plantList.size) { index ->
                         PlantQRComponent(

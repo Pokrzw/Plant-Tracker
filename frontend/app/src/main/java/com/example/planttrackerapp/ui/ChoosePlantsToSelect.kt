@@ -12,8 +12,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.Button
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -39,7 +42,7 @@ fun ChoosePlantsToSelect(
     plantList: List<Plant>,
     onSelectPlants: (List<Plant>) -> Unit,
     onClickSelect: () -> Unit
-){
+) {
     var selectedPlantList: ArrayList<Plant> = arrayListOf()
     var searchedName by remember { mutableStateOf("") }
 
@@ -47,56 +50,63 @@ fun ChoosePlantsToSelect(
         if (searchedName.isEmpty()) plantList
         else plantList.filter { it.name.contains(searchedName, ignoreCase = true) }
     }
-        Box(modifier = Modifier.fillMaxSize()) {
-            Column(modifier = Modifier.fillMaxSize()) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp),
-                    horizontalArrangement = Arrangement.SpaceAround,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    TextField(
-                        value = searchedName,
-                        onValueChange = { searchedName = it },
-                        label = { Text("Search by name") },
-                        colors = TextFieldDefaults.colors(
-                            unfocusedIndicatorColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent
-                        ),
-                        shape = RoundedCornerShape(16.dp),
-                        leadingIcon = { Icon(Icons.Rounded.Search, contentDescription = null) }
-                    )
-                }
-                LazyColumn(
-                    modifier = Modifier.weight(1f)
-                ) {
-                    items(displayedPlants.size) { index ->
-                        SinglePlantCardSelectable(
-                            plant = displayedPlants[index],
-                            onCheckPlant =  { b: Boolean, plant: Plant ->
-                                if (b){
-                                    selectedPlantList.add(plant)
-                                } else {
-                                    if (selectedPlantList.contains(plant)){
-                                        selectedPlantList.remove(plant)
-                                    }
-                                }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                TextField(
+                    value = searchedName,
+                    onValueChange = { searchedName = it },
+                    label = { Text("Search by name") },
+                    colors = TextFieldDefaults.colors(
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent
+                    ),
+                    shape = RoundedCornerShape(16.dp),
+                    leadingIcon = { Icon(Icons.Rounded.Search, contentDescription = null) }
+                )
+            }
+
+            LazyColumn(
+                modifier = Modifier.weight(1f)
+            ) {
+                items(displayedPlants.size) { index ->
+                    SinglePlantCardSelectable(
+                        plant = displayedPlants[index],
+                        onCheckPlant = { b: Boolean, plant: Plant ->
+                            if (b) {
+                                selectedPlantList.add(plant)
+                            } else {
+                                selectedPlantList.remove(plant)
                             }
-                        )
-                    }
-                }
-                Button(
-                    onClick = {
-                        onSelectPlants(selectedPlantList)
-                        onClickSelect()
-                    }
-                ) {
-                    Text("Select")
+                        }
+                    )
                 }
             }
         }
+
+        FloatingActionButton(
+            onClick = {
+                onSelectPlants(selectedPlantList)
+                onClickSelect()
+            },
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.ArrowForward,
+                contentDescription = "Select"
+            )
+        }
     }
+}
 
 
 @Preview(showBackground = true)

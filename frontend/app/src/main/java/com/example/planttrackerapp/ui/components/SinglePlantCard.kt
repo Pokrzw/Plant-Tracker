@@ -79,7 +79,10 @@ fun SinglePlantCard(
 
             }
 
-            Column(modifier = Modifier.padding(start = 16.dp)) {
+            Column(modifier = Modifier
+                .weight(1f)
+                .padding(start = 16.dp)
+            ) {
                 Text(
                     text = plant.name,
                     style = MaterialTheme.typography.titleMedium

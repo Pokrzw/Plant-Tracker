@@ -6,7 +6,9 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -35,6 +37,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.ui.Alignment
@@ -151,7 +156,7 @@ fun SinglePlantView(
         val date = plant?.created
         val watered = plant?.waterHistory
             ?.flatMap { it.values }
-            ?.maxByOrNull { it.timeInMillis}
+            ?.maxByOrNull { it.timeInMillis }
 
         if (date != null) {
             Text(
@@ -167,73 +172,132 @@ fun SinglePlantView(
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
-
-        Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
             TextField(
                 value = fertilizer,
                 onValueChange = {
                     fertilizer = it
                 },
-                label = {Text("Add fertilizer")},
+                label = { Text("Fertilizer (optional)") },
                 colors = TextFieldDefaults.colors(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent
                 ),
                 shape = RoundedCornerShape(16.dp),
                 modifier = Modifier
-                    .padding(bottom = 8.dp, end = 16.dp)
-                    .fillMaxWidth(0.4f)
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
             )
-            Button(onClick = {
-                showWateredMessage = true
-                onWater(fertilizer)
-                fertilizer = ""
-            }) {
+
+            Button(
+                onClick = {
+                    showWateredMessage = true
+                    onWater(fertilizer)
+                    fertilizer = ""
+                },
+                modifier = Modifier
+                    .wrapContentWidth()
+            ) {
                 Text(text = "Water plant")
             }
 
-                Spacer(modifier = Modifier.width(8.dp))
-
-                AnimatedVisibility(
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(28.dp) // reserve space
+                    .padding(top = 8.dp),
+                contentAlignment = Alignment.TopCenter
+            ) {
+                androidx.compose.animation.AnimatedVisibility(
                     visible = showWateredMessage,
-                    enter = fadeIn() + slideInHorizontally(initialOffsetX = { -it / 8 }),
-                    exit = fadeOut() + slideOutHorizontally(targetOffsetX = { -it / 8 })
+                    enter = slideInVertically(initialOffsetY = { -it / 2 }) + fadeIn(),
+                    exit = slideOutVertically(targetOffsetY = { -it / 2 }) + fadeOut()
                 ) {
                     Text(
                         text = "Plant watered!",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.secondary,
+                        color = MaterialTheme.colorScheme.secondary
                     )
                 }
+            }
 
-                if (showWateredMessage) {
-                    LaunchedEffect(Unit) {
-                        delay(2000) // 2 seconds
-                        showWateredMessage = false
-                    }
+
+            if (showWateredMessage) {
+                LaunchedEffect(Unit) {
+                    delay(2000)
+                    showWateredMessage = false
                 }
             }
-            Button(
-                onClick = {onGoToRepot()}
-            ) {
-                Text("Note repot")
-            }
-            Button(
-                onClick = {onGoToDisease()}
-            ) {
-                Text("Note disease")
-            }
-            Button(
-                onClick = {onGoToOther()}
-            ) {
-                Text("Note other event")
-            }
 
-            Button(onClick = { showPopUp = !showPopUp }) {
-                Text(text = "Delete plant")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Card(
+            shape = RoundedCornerShape(16.dp),
+            modifier = Modifier
+                .fillMaxWidth(),
+            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = "${plant?.name}'s events",
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(bottom = 12.dp)
+                )
+
+                Button(
+                    onClick = { onGoToRepot() },
+                    modifier = Modifier
+                        .fillMaxWidth(0.8f)
+                        .padding(vertical = 4.dp)
+                ) {
+                    Text("Note repot")
+                }
+
+                Button(
+                    onClick = { onGoToDisease() },
+                    modifier = Modifier
+                        .fillMaxWidth(0.8f)
+                        .padding(vertical = 4.dp)
+                ) {
+                    Text("Note disease")
+                }
+
+                Button(
+                    onClick = { onGoToOther() },
+                    modifier = Modifier
+                        .fillMaxWidth(0.8f)
+                        .padding(vertical = 4.dp)
+                ) {
+                    Text("Note other event")
+                }
             }
         }
 
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = { showPopUp = !showPopUp },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.error,
+                contentColor = MaterialTheme.colorScheme.onError
+            ),
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+        ) {
+            Text("Delete plant")
+        }
 
 
         if (showPopUp) {
@@ -257,7 +321,7 @@ fun SinglePlantView(
                 }
             )
         }
-
+    }
     }
 
 

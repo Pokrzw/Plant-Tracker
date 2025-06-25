@@ -6,6 +6,8 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +17,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Button
@@ -37,6 +41,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.planttrackerapp.model.Plant
@@ -141,18 +146,8 @@ fun QRScannerScreen(
 
 @Composable
 fun BottomSheetContent(plant: Plant, onWater: KFunction1<String, Unit>, onClickDetails: (Plant) -> Unit) {
-    var watered by remember { mutableStateOf(false) }
-    var showConfirmation by remember { mutableStateOf(false) }
     var fertilizer by remember { mutableStateOf("") }
-
-    LaunchedEffect(watered) {
-        if (watered) {
-            showConfirmation = true
-            delay(1500)
-            showConfirmation = false
-            watered = false
-        }
-    }
+    var showWateredMessage by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -160,53 +155,100 @@ fun BottomSheetContent(plant: Plant, onWater: KFunction1<String, Unit>, onClickD
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = plant.name, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-        Text(text = "Species: ${plant.species?.name}", fontSize = 16.sp)
-        Spacer(modifier = Modifier.height(16.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = plant.name,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    text = "Species: ${plant.species?.name ?: "unknown"}",
+                    fontSize = 16.sp
+                )
+            }
 
-        Row {
+            Spacer(modifier = Modifier.width(16.dp))
+
+            Button(onClick = { onClickDetails(plant) }) {
+                Text("Details")
+            }
+        }
+
+
+        Spacer(modifier = Modifier.height(16.dp))
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
             TextField(
                 value = fertilizer,
                 onValueChange = {
                     fertilizer = it
                 },
-                label = {Text("fertilizer")},
+                label = { Text("Fertilizer (optional)") },
                 colors = TextFieldDefaults.colors(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent
                 ),
                 shape = RoundedCornerShape(16.dp),
                 modifier = Modifier
+                    .fillMaxWidth()
                     .padding(bottom = 8.dp)
-                    .fillMaxWidth(0.4f)
             )
+
             Button(
                 onClick = {
+                    showWateredMessage = true
                     onWater(fertilizer)
-                    watered = true
+                    fertilizer = ""
                 },
                 modifier = Modifier
-                    .padding(start = 4.dp)
-                    .animateContentSize()
+                    .wrapContentWidth()
             ) {
-                Text("Water plant")
+                Text(text = "Water plant")
             }
 
-        }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(28.dp) // reserve space
+                    .padding(top = 8.dp),
+                contentAlignment = Alignment.TopCenter
+            ) {
+                androidx.compose.animation.AnimatedVisibility(
+                    visible = showWateredMessage,
+                    enter = slideInVertically(initialOffsetY = { -it / 2 }) + fadeIn(),
+                    exit = slideOutVertically(targetOffsetY = { -it / 2 }) + fadeOut()
+                ) {
+                    Text(
+                        text = "Plant watered!",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                }
+            }
 
-        // Display confirmation message briefly after watering
-        AnimatedVisibility(visible = showConfirmation) {
-            Text(
-                text = "Plant watered!",
-                modifier = Modifier.padding(top = 8.dp),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.secondary
-            )
-        }
 
-        Spacer(modifier = Modifier.height(8.dp))
-        Button(onClick = { onClickDetails(plant) }) {
-            Text("Details")
+            if (showWateredMessage) {
+                LaunchedEffect(Unit) {
+                    delay(2000)
+                    showWateredMessage = false
+                }
+            }
+
         }
     }
 }

@@ -114,7 +114,7 @@ class UserPlantTest {
     fun updateByIdTest() {
         runBlocking {
             afterUpdatePlant = Plant(
-                id = "1234567890",
+                id = plant.id,
                 name = "Ficus",
                 species = afterUpdateSpecies,
                 speciesId = afterUpdateSpecies.id,
@@ -122,9 +122,10 @@ class UserPlantTest {
                 waterHistory = waterHistory,
                 diseaseHistory = diseaseHistory,
                 repotHistory = repotHistory,
-                otherActivitiesHistory = otherActivitiesHistory
+                otherActivitiesHistory = otherActivitiesHistory,
+                qrCodeImage = plant.qrCodeImage
             )
-            `when`(speciesDao.getSpeciesByName(afterUpdatePlant.speciesId)).thenReturn(afterUpdateSpecies)
+            `when`(speciesDao.getSpeciesById(afterUpdatePlant.speciesId)).thenReturn(afterUpdateSpecies)
             `when`(userPlantDao.getUserPlantById(plant.id)).thenReturn(afterUpdatePlant)
             userPlantRepository.updateById(
                 plant.id,
@@ -135,12 +136,7 @@ class UserPlantTest {
 
             val result = userPlantRepository.getPlantById(plant.id)
             assertThat(result).isEqualTo(afterUpdatePlant)
-            verify(userPlantDao).updateById(
-                plant.id,
-                afterUpdatePlant.name,
-                afterUpdatePlant.speciesId,
-                afterUpdateSpecies,
-                null)
+            verify(userPlantDao).updatePlant(afterUpdatePlant)
         }
     }
 

@@ -11,6 +11,9 @@ interface SpeciesDao {
     @Query("SELECT * FROM species WHERE name = :name")
     suspend fun getSpeciesByName(name: String?): Species
 
+    @Query("SELECT * FROM species WHERE id = :id")
+    suspend fun getSpeciesById(id: String?): Species
+
     @Query("SELECT * FROM species")
     suspend fun getAll(): List<Species>
 

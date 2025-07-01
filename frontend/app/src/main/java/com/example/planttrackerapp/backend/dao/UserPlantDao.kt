@@ -24,22 +24,8 @@ interface UserPlantDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(plants: List<Plant>)
 
-    @Query("""
-    UPDATE user_plants
-    SET
-    name = :name,
-    species_id = :speciesId,
-    species = :species,
-    imageUri = :imageUri
-    WHERE id = :id
-    """)
-    suspend fun updateById(
-        id: String,
-        name: String,
-        speciesId: String?,
-        species: Species,
-        imageUri: String?
-    )
+    @Update
+    suspend fun updatePlant(plant: Plant)
 
     @Query("""
     UPDATE user_plants 

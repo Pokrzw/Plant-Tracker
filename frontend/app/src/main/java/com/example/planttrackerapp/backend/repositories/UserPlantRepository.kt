@@ -50,15 +50,15 @@ class UserPlantRepository(private val userPlantDao: UserPlantDao, private val sp
 
     suspend fun updateById(id: String,
                            name: String,
-                           speciesName: String?,
+                           speciesId: String?,
                            imageUri: String?) {
         try {
             withContext(Dispatchers.IO) {
                 val plant = userPlantDao.getUserPlantById(id)
-                val resolvedSpeciesName = speciesName ?:
-                plant.speciesId
-                val species = speciesDao.getSpeciesByName(
-                    resolvedSpeciesName)
+                val resolvedSpeciesId = speciesId ?:
+                    plant.speciesId
+                val species = speciesDao.getSpeciesById(
+                    resolvedSpeciesId)
                 if (species == null) {
                     throw IllegalStateException(
                         "No species given nor in database")
@@ -68,11 +68,20 @@ class UserPlantRepository(private val userPlantDao: UserPlantDao, private val sp
                     imageUri == "ClearImage" -> null
                     else -> imageUri
                 }
-                userPlantDao.updateById(id,
-                    name,
-                    plant.speciesId,
-                    species,
-                    resolvedImageUri)
+                val updatedPlant = Plant(
+                    id = plant.id,
+                    name = name,
+                    imageUri = resolvedImageUri,
+                    speciesId = resolvedSpeciesId,
+                    species = species,
+                    waterHistory = plant.waterHistory,
+                    created = plant.created,
+                    diseaseHistory = plant.diseaseHistory,
+                    repotHistory = plant.repotHistory,
+                    otherActivitiesHistory = plant.otherActivitiesHistory,
+                    qrCodeImage = plant.qrCodeImage
+                )
+                userPlantDao.updatePlant(updatedPlant)
             }
         } catch (e:IllegalStateException) {
             Log.e("error message","${e}")

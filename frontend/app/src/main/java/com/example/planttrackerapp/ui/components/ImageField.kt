@@ -146,8 +146,8 @@ fun ImageField(
 
             OutlinedButton(
                 onClick = {
-                    selectedImageUri = null
-                    onUploadImage(null)
+                    selectedImageUri = Uri.parse("Clear image")
+                    onUploadImage(selectedImageUri)
                 },
                 modifier = Modifier.weight(1f)
             ) {

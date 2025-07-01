@@ -54,7 +54,7 @@ class ViewModelTest {
     private var mockPlant1: Plant = Plant(
         id = "1",
         name = "mockPlant1",
-        speciesName = "mockSpecies1",
+        speciesId = mockSpecies1.id,
         species = mockSpecies1,
         waterHistory = listOf(),
         imageUri = null,
@@ -68,7 +68,7 @@ class ViewModelTest {
     private var mockPlant2: Plant = Plant(
         id = "2",
         name = "mockPlant2",
-        speciesName = "mockSpecies1",
+        speciesId = mockSpecies1.id,
         species = mockSpecies1,
         waterHistory = listOf(),
         imageUri = null,
@@ -82,7 +82,7 @@ class ViewModelTest {
     private var mockPlant3: Plant = Plant(
         id = "3",
         name = "mockPlant3",
-        speciesName = "mockSpecies2",
+        speciesId = mockSpecies2.id,
         species = mockSpecies2,
         waterHistory = listOf(),
         imageUri = null,

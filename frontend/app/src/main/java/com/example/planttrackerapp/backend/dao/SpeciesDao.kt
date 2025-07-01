@@ -22,4 +22,17 @@ interface SpeciesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(species: List<Species>)
+
+    @Query("""
+    UPDATE species
+    SET
+    name = :name,
+    soilMoisture = :soilMoisture
+    WHERE id = :id
+    """)
+    suspend fun updateById(
+        id: String,
+        name: String,
+        soilMoisture: Int
+    )
 }

@@ -31,7 +31,7 @@ fun SpeciesForm(
     onEdit: (String?, String, Int) -> Unit,
     species: Species? = null,
     isEdit: Boolean
-) {
+){
     val label = if (isEdit) "Edit" else "Add"
     var name by remember { mutableStateOf(species?.name ?: "") }
     var soilMoist by remember { mutableStateOf(species?.soilMoisture?.toString() ?: "") }

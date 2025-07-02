@@ -195,11 +195,12 @@ class FormViewModel(
         val searchedElementId = searchedElement.id
 //        val searchedElementId = plantList.indexOf(searchedElement)
 //        if (searchedElementId!=-1){
-            val searchedElementCopy = searchedElement.copy(name = name, species = species, imageUri = uri?.toString())
+        val resolvedImageUri = uri?.toString() ?: searchedElement.imageUri
+            val searchedElementCopy = searchedElement.copy(name = name, species = species, imageUri = resolvedImageUri)
         
             viewModelScope.launch {
                 Log.d("BEFORE UPDATE IMAGE URI", "${searchedElementCopy.imageUri}, ${searchedElementCopy.id}")
-                plantsRepository.updateById(searchedElementCopy.id, name, formSpecies?.id, searchedElementCopy.imageUri)
+                plantsRepository.updateById(searchedElementCopy.id, name, species?.id, searchedElementCopy.imageUri)
                 val plantList = withContext(Dispatchers.IO) { plantsRepository.allUserPlants() }
                 plantList.forEach{plant -> Log.d("AFTER UPDATE IMAGE URI", "${plant.imageUri}")}
             }
@@ -224,13 +225,8 @@ class FormViewModel(
 
     fun onClickEditSpecies(id: String?, name: String, water: Int){
         if (id!=null){
-            val species = Species(
-                id = id,
-                name = name,
-                soilMoisture = water
-            )
             viewModelScope.launch {
-                val speciesToInsert = speciesRepository.insertSpecies(species)
+                val speciesToInsert = speciesRepository.updateById(id, name, water)
                 speciesToInsert?.let {
                     _speciesUiState.update { currentState ->
                         currentState.copy(

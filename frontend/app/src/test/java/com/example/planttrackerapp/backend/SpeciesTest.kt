@@ -3,6 +3,7 @@ package com.example.planttrackerapp.backend
 import android.util.Log
 import com.example.planttrackerapp.backend.dao.SpeciesDao
 import com.example.planttrackerapp.backend.repositories.SpeciesRepository
+import com.example.planttrackerapp.model.Plant
 import org.mockito.Mockito.`when`
 import com.example.planttrackerapp.model.Species
 import kotlinx.coroutines.runBlocking
@@ -15,6 +16,7 @@ import org.mockito.Mock
 import org.mockito.MockedStatic
 import org.mockito.Mockito
 import org.mockito.Mockito.mockStatic
+import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 
@@ -35,7 +37,7 @@ class SpeciesTest {
         mockedLog.`when`<Int> {
             Log.e(Mockito.anyString(), Mockito.anyString())
         }.thenReturn(0)
-        species = Species("Ficus", 3)
+        species = Species(name = "Ficus", soilMoisture = 3)
     }
 
     @Test
@@ -71,6 +73,31 @@ class SpeciesTest {
             speciesRepository.deleteSpecies(species)
             val result = speciesRepository.getSpeciesByName(species.name)
             assertThat(result).isNull()
+        }
+    }
+
+    @Test
+    fun updateByIdTest() {
+        runBlocking {
+            val afterUpdateSpecies = Species(
+                id = "1234567890",
+                name = "Ficus",
+                soilMoisture = 2
+            )
+            `when`(speciesDao.getSpeciesByName(afterUpdateSpecies.name)).thenReturn(afterUpdateSpecies)
+
+            speciesRepository.updateById(
+                species.id,
+                afterUpdateSpecies.name,
+                afterUpdateSpecies.soilMoisture
+            )
+
+            val result = speciesRepository.getSpeciesByName(afterUpdateSpecies.name)
+            assertThat(result).isEqualTo(afterUpdateSpecies)
+            verify(speciesDao).updateById(
+                species.id,
+                afterUpdateSpecies.name,
+                afterUpdateSpecies.soilMoisture)
         }
     }
 

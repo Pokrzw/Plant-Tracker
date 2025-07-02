@@ -1,5 +1,6 @@
 package com.example.planttrackerapp.backend.repositories
 
+import android.util.Log
 import com.example.planttrackerapp.backend.dao.SpeciesDao
 import com.example.planttrackerapp.model.Species
 import kotlinx.coroutines.Dispatchers
@@ -28,6 +29,19 @@ class SpeciesRepository(private val speciesDao: SpeciesDao) {
     suspend fun deleteSpecies(species: Species) {
         return withContext(Dispatchers.IO) {
             speciesDao.delete(species)
+        }
+    }
+
+    suspend fun updateById(id: String,
+                           name: String,
+                           soilMoisture: Int) {
+        try {
+            withContext(Dispatchers.IO) {
+                speciesDao.updateById(id, name, soilMoisture)
+            }
+        }
+        catch (e:IllegalStateException) {
+            Log.e("error message","${e}")
         }
     }
 }

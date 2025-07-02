@@ -11,6 +11,9 @@ interface SpeciesDao {
     @Query("SELECT * FROM species WHERE name = :name")
     suspend fun getSpeciesByName(name: String?): Species
 
+    @Query("SELECT * FROM species WHERE id = :id")
+    suspend fun getSpeciesById(id: String?): Species
+
     @Query("SELECT * FROM species")
     suspend fun getAll(): List<Species>
 
@@ -22,4 +25,17 @@ interface SpeciesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(species: List<Species>)
+
+    @Query("""
+    UPDATE species
+    SET
+    name = :name,
+    soilMoisture = :soilMoisture
+    WHERE id = :id
+    """)
+    suspend fun updateById(
+        id: String,
+        name: String,
+        soilMoisture: Int
+    )
 }

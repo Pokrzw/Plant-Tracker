@@ -36,7 +36,7 @@ fun SpeciesForm(
     } else {
         "Add"
     }
-    val soilMoistToStr = if (species?.name == null) "" else species.name
+    val soilMoistToStr = if (species?.id == null) "" else species.soilMoisture.toString()
     var text by remember{mutableStateOf(species?.name ?: "")}
     var soilMoist by remember { mutableStateOf(soilMoistToStr) }
 

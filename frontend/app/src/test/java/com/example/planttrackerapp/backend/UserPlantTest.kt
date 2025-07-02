@@ -52,8 +52,8 @@ class UserPlantTest {
             Log.e(Mockito.anyString(), Mockito.anyString())
         }.thenReturn(0)
 
-        ficus = Species("Ficus", 3)
-        afterUpdateSpecies = Species("Pilea", 3)
+        ficus = Species(name = "Ficus", soilMoisture = 3)
+        afterUpdateSpecies = Species(name ="Pilea", soilMoisture = 3)
         date = Calendar.getInstance()
         date.set(2025, Calendar.MAY, 25)
 
@@ -79,7 +79,7 @@ class UserPlantTest {
             id = "1234567890",
             name = "Bartus",
             species = ficus,
-            speciesName = "Ficus",
+            speciesId = ficus.id,
             created = date,
             waterHistory = waterHistory,
             diseaseHistory = diseaseHistory,
@@ -114,34 +114,29 @@ class UserPlantTest {
     fun updateByIdTest() {
         runBlocking {
             afterUpdatePlant = Plant(
-                id = "1234567890",
+                id = plant.id,
                 name = "Ficus",
                 species = afterUpdateSpecies,
-                speciesName = "Pilea",
+                speciesId = afterUpdateSpecies.id,
                 created = date,
                 waterHistory = waterHistory,
                 diseaseHistory = diseaseHistory,
                 repotHistory = repotHistory,
-                otherActivitiesHistory = otherActivitiesHistory
+                otherActivitiesHistory = otherActivitiesHistory,
+                qrCodeImage = plant.qrCodeImage
             )
-            `when`(speciesDao.getSpeciesByName(afterUpdatePlant.speciesName)).thenReturn(afterUpdateSpecies)
-
+            `when`(speciesDao.getSpeciesById(afterUpdatePlant.speciesId)).thenReturn(afterUpdateSpecies)
+            `when`(userPlantDao.getUserPlantById(plant.id)).thenReturn(afterUpdatePlant)
             userPlantRepository.updateById(
                 plant.id,
                 afterUpdatePlant.name,
-                afterUpdatePlant.speciesName,
+                afterUpdatePlant.speciesId,
                 null
             )
-            `when`(userPlantDao.getUserPlantById(plant.id)).thenReturn(afterUpdatePlant)
 
             val result = userPlantRepository.getPlantById(plant.id)
             assertThat(result).isEqualTo(afterUpdatePlant)
-            verify(userPlantDao).updateById(
-                plant.id,
-                afterUpdatePlant.name,
-                afterUpdatePlant.speciesName,
-                afterUpdateSpecies,
-                null)
+            verify(userPlantDao).updatePlant(afterUpdatePlant)
         }
     }
 
@@ -156,7 +151,7 @@ class UserPlantTest {
                 id = "1234567890",
                 name = "Bartus",
                 species = ficus,
-                speciesName = "Ficus",
+                speciesId = ficus.id,
                 created = date,
                 waterHistory = waterHistoryAfterUpdate,
                 diseaseHistory = diseaseHistory,
@@ -186,7 +181,7 @@ class UserPlantTest {
                 id = "1234567890",
                 name = "Bartus",
                 species = ficus,
-                speciesName = "Ficus",
+                speciesId = ficus.id,
                 created = date,
                 waterHistory = waterHistory,
                 diseaseHistory = diseaseHistoryAfterUpdate,
@@ -215,7 +210,7 @@ class UserPlantTest {
                 id = "1234567890",
                 name = "Bartus",
                 species = ficus,
-                speciesName = "Ficus",
+                speciesId = ficus.id,
                 created = date,
                 waterHistory = waterHistory,
                 diseaseHistory = diseaseHistory,
@@ -244,7 +239,7 @@ class UserPlantTest {
                 id = "1234567890",
                 name = "Bartus",
                 species = ficus,
-                speciesName = "Ficus",
+                speciesId = ficus.id,
                 created = date,
                 waterHistory = waterHistory,
                 diseaseHistory = diseaseHistory,

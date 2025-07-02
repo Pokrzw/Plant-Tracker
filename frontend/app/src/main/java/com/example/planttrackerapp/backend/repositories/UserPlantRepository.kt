@@ -48,19 +48,43 @@ class UserPlantRepository(private val userPlantDao: UserPlantDao, private val sp
         }
     }
 
-    suspend fun updateById(id: String, name: String, speciesName: String?, imageUri: String?) {
-        withContext(Dispatchers.IO) {
-            val species = speciesDao.getSpeciesByName(speciesName)
-            if (species != null) {
-                userPlantDao.updateById(id, name, speciesName, species, imageUri)
-            } else if (userPlantDao.getUserPlantById(id)?.speciesId?.let {
-                        speciesDao.getSpeciesByName(it) } != null) {
+    suspend fun updateById(id: String,
+                           name: String,
+                           speciesId: String?,
+                           imageUri: String?) {
+        try {
+            withContext(Dispatchers.IO) {
                 val plant = userPlantDao.getUserPlantById(id)
-                val plantSpecies = speciesDao.getSpeciesByName(plant.speciesId)
-                userPlantDao.updateById(id, name, plant.speciesId, plantSpecies, imageUri)
-            } else {
-                Log.d("error-species", "species is null, updateById")
+                val resolvedSpeciesId = speciesId ?:
+                    plant.speciesId
+                val species = speciesDao.getSpeciesById(
+                    resolvedSpeciesId)
+                if (species == null) {
+                    throw IllegalStateException(
+                        "No species given nor in database")
+                }
+                val resolvedImageUri = when {
+                    imageUri.isNullOrEmpty() -> plant.imageUri
+                    imageUri == "ClearImage" -> null
+                    else -> imageUri
+                }
+                val updatedPlant = Plant(
+                    id = plant.id,
+                    name = name,
+                    imageUri = resolvedImageUri,
+                    speciesId = resolvedSpeciesId,
+                    species = species,
+                    waterHistory = plant.waterHistory,
+                    created = plant.created,
+                    diseaseHistory = plant.diseaseHistory,
+                    repotHistory = plant.repotHistory,
+                    otherActivitiesHistory = plant.otherActivitiesHistory,
+                    qrCodeImage = plant.qrCodeImage
+                )
+                userPlantDao.updatePlant(updatedPlant)
             }
+        } catch (e:IllegalStateException) {
+            Log.e("error message","${e}")
         }
     }
 

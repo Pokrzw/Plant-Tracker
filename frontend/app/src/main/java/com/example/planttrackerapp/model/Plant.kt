@@ -1,13 +1,10 @@
 package com.example.planttrackerapp.model
 
-// LocalDateTime nie działa dla API 24, dlatego narazie używam Calendar
-// Może jeszcze zmienimy minimalne API na 26
-// import java.time.LocalDateTime
+
 import java.util.Calendar
 import androidx.room.*
 import java.util.UUID
 import com.example.planttrackerapp.backend.database.Converters
-import com.example.planttrackerapp.backend.database.generateQRCodeAsBase64
 import com.example.planttrackerapp.backend.database.generateQRCodeAsBase64
 
 

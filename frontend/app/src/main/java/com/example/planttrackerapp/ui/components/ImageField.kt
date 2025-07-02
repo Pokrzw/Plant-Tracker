@@ -2,13 +2,11 @@ package com.example.planttrackerapp.ui.components
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,8 +20,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,6 +40,7 @@ import com.example.planttrackerapp.TAG
 import java.io.File
 import java.io.FileOutputStream
 
+
 fun copyImageToInternalStorage(context: Context, sourceUri: Uri, filename: String): String? {
 
     return try {
@@ -59,6 +56,7 @@ fun copyImageToInternalStorage(context: Context, sourceUri: Uri, filename: Strin
         null
     }
 }
+
 @SuppressLint("SuspiciousIndentation")
 @Composable
 fun ImageField(

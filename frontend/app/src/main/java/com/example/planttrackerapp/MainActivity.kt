@@ -1,8 +1,6 @@
 package com.example.planttrackerapp
 
-import androidx.room.Room
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,28 +8,16 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.planttrackerapp.ui.theme.PlantTrackerAppTheme
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
+import com.example.planttrackerapp.backend.database.DatabaseProvider
+import com.example.planttrackerapp.backend.database.DatabaseSeeder
+import com.example.planttrackerapp.ui.theme.PlantTrackerAppTheme
 import kotlinx.coroutines.launch
 
-//splash screen
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
-//logi w konsoli
-import android.util.Log
-import com.example.planttrackerapp.backend.database.AppDatabase
-import com.example.planttrackerapp.backend.database.DatabaseProvider
-
-//wstrzykuje dane
-import com.example.planttrackerapp.backend.database.DatabaseSeeder;
-
-//Tag for logging
 const val TAG = "MainActivity"
-
 
 
 fun wasMigrationPerformed(context: Context,): Boolean {
@@ -57,9 +43,6 @@ class MainActivity : ComponentActivity() {
                 DatabaseSeeder.seedDatabase(this@MainActivity)
             }
         }
-
-
-
 
         enableEdgeToEdge()
         setContent {

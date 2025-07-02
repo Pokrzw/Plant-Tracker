@@ -53,7 +53,6 @@ enum class PlantAppScreen {
     SpeciesFormEdit
 }
 
-// Funkcja sprawdzająca czy w BackStack nie ma już aktualnego route'a
 fun NavHostController.navigateIfNotCurrent(route: String) {
     if (this.currentBackStackEntry?.destination?.route != route) {
         this.navigate(route)
@@ -65,7 +64,6 @@ fun PlantApp(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ) {
-    //================================================
     val context = LocalContext.current
     val database = DatabaseProvider.getDatabase(context)
     val plantRepository = UserPlantRepository(database.userPlantDao(), database.speciesDao())
@@ -73,7 +71,6 @@ fun PlantApp(
     val formViewModel: FormViewModel = viewModel(
         factory = FormViewModelFactory(plantRepository, speciesRepository)
     )
-    //===================================================
 
     val formUiState by formViewModel.formUiState.collectAsState()
     val selectedSpecies by formViewModel.speciesUiState.collectAsState()
@@ -275,7 +272,6 @@ fun PlantAppPreview(modifier: Modifier = Modifier) {
         PlantApp(modifier = Modifier)
     }
 }
-
 
 private fun onGoToForm(navController: NavHostController) {
     navController.navigateIfNotCurrent(PlantAppScreen.FormEdit.name)

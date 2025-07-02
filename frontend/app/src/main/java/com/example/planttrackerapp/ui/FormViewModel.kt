@@ -1,10 +1,8 @@
 package com.example.planttrackerapp.ui
 
 
-import android.content.Context
 import android.net.Uri
 import android.util.Log
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import com.example.planttrackerapp.TAG
 import com.example.planttrackerapp.data.Datasource
@@ -178,13 +176,9 @@ class FormViewModel(
 
         Log.d(TAG, "ONCLICKUPDATE formUri: ${formUri}")
         Log.d(TAG, "ONCLICKUPDATE plantUri: ${plantUri}")
-//        val uri =
-//            if (plantUri != null && formUri==null) plantUri
-//            else if (formUri!=null ) formUri.toString()
-//            else null
+
 
         val uri = formUri
-        //!!!! DO ZMIANY!!!!
         val species =
             if(plantSpecies!=null && formSpecies==null) plantSpecies
             else if (formSpecies!= null) formSpecies
@@ -193,8 +187,7 @@ class FormViewModel(
         val plantList = _formUiState.value.plantsList
         val searchedElement = plantList.filter { it.id == id}[0]
         val searchedElementId = searchedElement.id
-//        val searchedElementId = plantList.indexOf(searchedElement)
-//        if (searchedElementId!=-1){
+
             val searchedElementCopy = searchedElement.copy(name = name, species = species, imageUri = uri?.toString())
         
             viewModelScope.launch {
@@ -213,13 +206,9 @@ class FormViewModel(
                 )
             }
 
-            // ustawienie currentlyEditedPlant na tę z nowyymi danymi
             _plantUiState.update { currentState ->
                 currentState.copy(currentlyEditedPlant = searchedElementCopy)
             }
-//        }
-
-
     }
 
     fun onClickEditSpecies(id: String?, name: String, water: Int){
@@ -293,7 +282,6 @@ class FormViewModel(
                     }
                 }
                 resetForm()
-                // Wywołaj callback po zakończeniu operacji
                 onSuccess()
                 populateUiState()
             }
@@ -355,15 +343,7 @@ class FormViewModel(
         }
     }
 
-//    fun setLastWatered(date: Calendar){
-//        _formUiState.update { currentState ->
-//            currentState.copy(
-//                lastWatered = date
-//            )
-//        }
-//    }
 
-    // PODLEWANIE
     fun addWateringDate(fertilizer: String) {
         val currentlyEditedPlant = _plantUiState.value.currentlyEditedPlant
 
@@ -405,7 +385,6 @@ class FormViewModel(
         _formUiState.update { currentState ->
             currentState.copy(
                 id = "",
-//                id = currentState.id.inc(),
                 name = "",
                 species = null
             )

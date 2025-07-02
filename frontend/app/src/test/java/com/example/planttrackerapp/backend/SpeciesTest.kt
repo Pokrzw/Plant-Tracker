@@ -3,7 +3,6 @@ package com.example.planttrackerapp.backend
 import android.util.Log
 import com.example.planttrackerapp.backend.dao.SpeciesDao
 import com.example.planttrackerapp.backend.repositories.SpeciesRepository
-import com.example.planttrackerapp.model.Plant
 import org.mockito.Mockito.`when`
 import com.example.planttrackerapp.model.Species
 import kotlinx.coroutines.runBlocking

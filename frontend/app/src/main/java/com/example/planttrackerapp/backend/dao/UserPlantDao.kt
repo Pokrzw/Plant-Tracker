@@ -1,11 +1,9 @@
 package com.example.planttrackerapp.backend.dao;
 
-import android.util.Log
 import androidx.room.*
 import com.example.planttrackerapp.model.Plant;
-import androidx.lifecycle.LiveData
-import com.example.planttrackerapp.model.Species
 import java.util.Calendar
+
 
 @Dao
 interface UserPlantDao {

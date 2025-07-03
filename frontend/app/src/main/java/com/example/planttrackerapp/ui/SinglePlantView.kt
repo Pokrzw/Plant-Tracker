@@ -58,7 +58,7 @@ import kotlin.reflect.KFunction1
 fun SinglePlantView(
     plant: Plant?,
     onClickYes: (String) -> Unit,
-    onWater: KFunction1<String, Unit>,
+    onWater: (String) -> Unit,
     onGoToActivityJournal: () -> Unit,
     onGoToForm: () -> Unit,
     onGoBack: () -> Unit,

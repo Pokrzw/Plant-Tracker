@@ -28,6 +28,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import com.example.planttrackerapp.model.Plant
 
 
@@ -63,6 +64,7 @@ fun SinglePlantCard(
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .matchParentSize()
+                            .testTag("plant-image")
                     )
                 } else {
                     Image(
@@ -71,6 +73,7 @@ fun SinglePlantCard(
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .matchParentSize()
+                            .testTag("plant-image")
                     )
                 }
 

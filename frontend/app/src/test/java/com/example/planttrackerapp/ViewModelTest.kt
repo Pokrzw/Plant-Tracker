@@ -159,42 +159,6 @@ class ViewModelTest {
         assertEquals(formViewModel.formUiState.value.imgUri, mockPlant1.imageUri)
     }
 
-//    @OptIn(ExperimentalCoroutinesApi::class)
-//    @Test
-//    fun formViewModel_addPlant_listIncByOne() {
-//        val testDispatcher = UnconfinedTestDispatcher()
-//        Dispatchers.setMain(testDispatcher)
-//
-//        try {
-//            formViewModel.saveNameOnUpdate(mockPlant1.name)
-//            formViewModel.saveSpeciesOnUpdate(mockPlant1.species)
-//            formViewModel.saveUriOnUpdate(mockPlant1.imageUri as Uri?)
-//
-//            val bitmapMock = mockkClass(Bitmap::class)
-//            every {
-//                bitmapMock.setPixel(any(), any(), any())
-//            } returns Unit
-//            every {
-//                bitmapMock.compress(any(), any(), any())
-//            } returns false
-//
-//            mockkStatic(Base64::class)
-//            every { Base64.encodeToString(any(), any()) } returns ""
-//
-//            mockkStatic(Bitmap::class)
-//            every { createBitmap(
-//                width = 512,
-//                height = 512,
-//                config = Bitmap.Config.RGB_565
-//            ) } returns bitmapMock
-//
-//            formViewModel.onClickAdd {  }
-//            assertEquals(1, formViewModel.formUiState.value.plantsList.size)
-//        } finally {
-//            Dispatchers.resetMain()
-//        }
-//    }
-
     @Test
     fun formViewModel_resetForm_success(){
         formViewModel.saveNameOnUpdate(mockPlant1.name)

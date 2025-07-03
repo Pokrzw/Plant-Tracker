@@ -107,7 +107,7 @@ fun ImageField(
         selectedImageUri?.let { uri ->
             Box(
                 modifier = Modifier
-                    .fillMaxWidth(), // allow centering
+                    .fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
                 AsyncImage(

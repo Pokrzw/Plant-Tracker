@@ -1,44 +1,34 @@
 package com.example.planttrackerapp.ui
 
 import android.graphics.Rect
-import android.util.Log
 import androidx.camera.core.ImageAnalysis
-import androidx.camera.view.PreviewView
 import androidx.camera.mlkit.vision.MlKitAnalyzer
 import androidx.camera.view.LifecycleCameraController
+import androidx.camera.view.PreviewView
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.toComposeRect
-import androidx.compose.ui.viewinterop.AndroidView
-import com.google.mlkit.vision.barcode.BarcodeScanning
-import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContextCompat
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
+import com.google.mlkit.vision.barcode.BarcodeScannerOptions
+import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
-import kotlinx.coroutines.delay
 
 
 @Composable
-fun QRCodeScanner(onQrCodeDetected: (String?) -> Unit) {  // Allow null as valid input
+fun QRCodeScanner(onQrCodeDetected: (String?) -> Unit) {
     var barcode by remember { mutableStateOf<String?>(null) }
     var boundingBox by remember { mutableStateOf<Rect?>(null) }
     val context = LocalContext.current
@@ -82,7 +72,6 @@ fun QRCodeScanner(onQrCodeDetected: (String?) -> Unit) {  // Allow null as valid
             }
         )
 
-        // Overlay the bounding box on top of the camera preview
         boundingBox?.let { box ->
             Canvas(modifier = Modifier.fillMaxSize()) {
                 val scaleX = size.width / this.size.width

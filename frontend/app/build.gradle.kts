@@ -56,7 +56,9 @@ dependencies {
 dependencies {
 
     implementation(libs.androidx.camera.lifecycle)
-    implementation(libs.androidx.camera.view)// Room dependencies
+    implementation(libs.androidx.camera.view)
+    implementation(libs.androidx.ui.test.junit4.android)
+    // Room dependencies
     val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")
     ksp("androidx.room:room-compiler:2.6.1")

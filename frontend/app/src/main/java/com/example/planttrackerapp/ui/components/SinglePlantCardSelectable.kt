@@ -1,6 +1,5 @@
 package com.example.planttrackerapp.ui.components
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -15,9 +14,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.planttrackerapp.R
-import com.example.planttrackerapp.TAG
 import com.example.planttrackerapp.data.Datasource
 import com.example.planttrackerapp.model.Plant
+
 
 @Composable
 fun SinglePlantCardSelectable(

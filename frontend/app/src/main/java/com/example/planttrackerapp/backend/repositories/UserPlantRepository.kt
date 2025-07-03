@@ -3,7 +3,6 @@ package com.example.planttrackerapp.backend.repositories
 import com.example.planttrackerapp.backend.dao.UserPlantDao
 import com.example.planttrackerapp.backend.dao.SpeciesDao
 import com.example.planttrackerapp.model.Plant
-import com.example.planttrackerapp.model.Species
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import android.util.Log
@@ -11,7 +10,6 @@ import java.util.Calendar
 
 
 class UserPlantRepository(private val userPlantDao: UserPlantDao, private val speciesDao: SpeciesDao) {
-//    val allUserPlants: List<Plant> = userPlantDao.getAll()
 
     suspend fun allUserPlants(): List<Plant> {
         return withContext(Dispatchers.IO) {

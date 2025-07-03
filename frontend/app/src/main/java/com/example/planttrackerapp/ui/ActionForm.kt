@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import kotlin.reflect.KFunction2
 
+
 @Composable
 fun ActionForm(
     isRepot: Boolean,

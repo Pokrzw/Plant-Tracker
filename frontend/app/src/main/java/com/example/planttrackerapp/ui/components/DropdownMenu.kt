@@ -1,9 +1,7 @@
 package com.example.planttrackerapp.ui.components
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
@@ -25,10 +23,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.planttrackerapp.TAG
 import com.example.planttrackerapp.data.Datasource
 import com.example.planttrackerapp.model.Species
 import com.example.planttrackerapp.ui.theme.PlantTrackerAppTheme
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -31,6 +30,9 @@ import com.example.planttrackerapp.ui.components.SinglePlantCard
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.DoneAll
 import androidx.compose.material.icons.filled.QrCodeScanner
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 
 
 @Composable
@@ -70,7 +72,9 @@ fun PlantList(
                         focusedIndicatorColor = Color.Transparent
                     ),
                     shape = RoundedCornerShape(16.dp),
-                    leadingIcon = { Icon(Icons.Rounded.Search, contentDescription = null) }
+                    leadingIcon = { Icon(Icons.Rounded.Search, contentDescription = null) },
+                    modifier = Modifier.testTag("search-field")
+                        .semantics { contentDescription = "Search by name" }
                 )
             }
             LazyColumn(

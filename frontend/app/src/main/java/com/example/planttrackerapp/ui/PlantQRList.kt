@@ -28,120 +28,122 @@ import com.example.planttrackerapp.model.Plant
 import com.example.planttrackerapp.ui.components.PlantQRComponent
 import kotlinx.coroutines.launch
 
+
 @Composable
 fun PlantQRList(
     plantList: List<Plant>,
     onGoBack: () -> Unit
-){
+) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val focusManager = LocalFocusManager.current
 
-            Column(
-                modifier = Modifier.padding(16.dp)
+    Column(
+        modifier = Modifier.padding(16.dp)
+    ) {
+        Row {
+            Button(
+                onClick = {
+                    coroutineScope.launch {
+                        exportToPDF(context, plantList)
+                        focusManager.clearFocus()
+                        onGoBack()
+                    }
+                }
             ) {
-                Row {
-                    Button(
-                        onClick = {
-                            coroutineScope.launch {
-                                exportToPDF(context, plantList)
-                                focusManager.clearFocus()
-                                onGoBack()
-                            }
-
-                        }
-                    ) {
-                        Text("Export")
-                    }
-                    Button(
-                        onClick = {onGoBack()}
-                    ) {
-                        Text("Back to main page")
-                    }
-                }
-
-                LazyVerticalGrid(
-                    columns = GridCells.Adaptive(100.dp)
-                )  {
-                    items(plantList.size) { index ->
-                        PlantQRComponent(
-                            plant = plantList[index]
-                        )
-                    }
-                }
-
+                Text("Export")
             }
+
+            Button(
+                onClick = { onGoBack() }
+            ) {
+                Text("Back to main page")
+            }
+        }
+
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(100.dp)
+        ) {
+            items(plantList.size) { index ->
+                PlantQRComponent(
+                    plant = plantList[index]
+                )
+            }
+        }
+    }
 }
 
 fun exportToPDF(
     context: Context,
     plantList: List<Plant>
-){
+) {
     val QR_CODE_SIZE = 150
     val PAGE_WIDTH = 595
     val PAGE_HEIGHT = 842
     var pageNumber = 1
     val pdfDocument = PdfDocument()
-    val pageInfo = {
-            n : Int -> PdfDocument.PageInfo.Builder(PAGE_WIDTH, PAGE_HEIGHT, n).create()
+    val pageInfo = { n: Int ->
+        PdfDocument.PageInfo.Builder(PAGE_WIDTH, PAGE_HEIGHT, n).create()
     }
-    val page = pdfDocument.startPage(pageInfo(pageNumber))
-    var curPage = page
+
+    var curPage = pdfDocument.startPage(pageInfo(pageNumber))
     val paint = Paint()
 
     var curHeight = 20f
     var curWidth = 1f
-    for (plant in plantList) {
 
-        curPage.canvas.drawText(plant.name, curWidth+15f, curHeight, paint)
-        curPage.canvas.drawText(plant.species?.name ?: "Nieznany gatunek", curWidth+15f, curHeight+15f, paint)
-        plant?.qrCodeImage?.let { qrCodeBase64 ->
+    for (plant in plantList) {
+        curPage.canvas.drawText(plant.name, curWidth + 15f, curHeight, paint)
+        curPage.canvas.drawText(plant.species?.name ?: "Nieznany gatunek", curWidth + 15f, curHeight + 15f, paint)
+
+        plant.qrCodeImage?.let { qrCodeBase64 ->
             val qrBitmap = base64ToBitmap(qrCodeBase64)
-            val scaledBitmap = qrBitmap.let {Bitmap.createScaledBitmap(qrBitmap, QR_CODE_SIZE, QR_CODE_SIZE, false) }
+            val scaledBitmap = Bitmap.createScaledBitmap(qrBitmap, QR_CODE_SIZE, QR_CODE_SIZE, false)
             curPage.canvas.drawBitmap(scaledBitmap, curWidth, curHeight + 20f, paint)
         }
 
-        curWidth+= 150f
-        if (curWidth>=460f){
+        curWidth += 150f
+        if (curWidth >= 460f) {
             curWidth = 1f
-            curHeight+=180f
+            curHeight += 180f
         }
 
-
-        if (curHeight >= 600){
+        if (curHeight >= 600) {
             pdfDocument.finishPage(curPage)
-            pageNumber = pageNumber + 1
+            pageNumber += 1
             curPage = pdfDocument.startPage(pageInfo(pageNumber))
             curHeight = 20f
             curWidth = 1f
         }
-}
+    }
+
     pdfDocument.finishPage(curPage)
 
     val pdfFileName = "Plant_QR_Codes_${System.currentTimeMillis()}.pdf"
     val resolver = context.contentResolver
     val contentValues = ContentValues().apply {
-        put(MediaStore.MediaColumns.DISPLAY_NAME,pdfFileName)
+        put(MediaStore.MediaColumns.DISPLAY_NAME, pdfFileName)
         put(MediaStore.MediaColumns.MIME_TYPE, "application/pdf")
         put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOCUMENTS)
     }
+
     val pdfUri = resolver.insert(MediaStore.Files.getContentUri("external"), contentValues)
 
-    if (pdfUri != null){
+    if (pdfUri != null) {
         resolver.openOutputStream(pdfUri).use {
             pdfDocument.writeTo(it)
-            Toast.makeText(context, "PDF saved as ${pdfFileName}", Toast.LENGTH_LONG).show()
-
+            Toast.makeText(context, "PDF saved as $pdfFileName", Toast.LENGTH_LONG).show()
         }
     }
+
     pdfDocument.close()
 }
 
-@Preview(showBackground=true)
+@Preview(showBackground = true)
 @Composable
-fun PreviewPlantQRList(){
+fun PreviewPlantQRList() {
     PlantQRList(
-        plantList = listOf(Datasource.plantList[0],Datasource.plantList[1]),
+        plantList = listOf(Datasource.plantList[0], Datasource.plantList[1]),
         onGoBack = {}
     )
 }
